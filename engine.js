@@ -10,10 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.getElementById('overrideToggle').addEventListener('change', updateUI);
     
+    
     // Export & Clear listeners
     document.getElementById('btnClearList').addEventListener('click', clearArmy);
     document.getElementById('btnCopySimple').addEventListener('click', () => copyToClipboard(generateSimpleText()));
     document.getElementById('btnCopyDetailed').addEventListener('click', () => copyToClipboard(generateDetailedText()));
+    document.getElementById('btnCopyCode').addEventListener('click', generateShareCode);
+    document.getElementById('btnLoadCode').addEventListener('click', () => {
+        const code = document.getElementById('shareCodeInput').value.trim();
+        if (code) loadFromShareCode(code);
+    });
 
     initializeHomeScreen();
 });
@@ -49,15 +55,19 @@ function initializeHomeScreen() {
     });
 }
 
-function loadBuilderView(factionId) {
+function loadBuilderView(factionId, listData = null) {
     selectedFactionId = factionId;
     document.getElementById('factionSelect').value = factionId;
-    currentList = {}; // Clear list when switching factions
     
-    // Toggle UI views
+    if (listData) {
+        currentList = listData;
+    } else {
+        currentList = {}; 
+    }
+    
     document.getElementById('homeView').style.display = 'none';
     document.getElementById('builderControls').style.display = 'flex';
-    document.getElementById('builderView').style.display = 'grid'; // Grid matches the CSS for app-container
+    document.getElementById('builderView').style.display = 'grid';
 
     renderRoster();
 }
@@ -89,6 +99,17 @@ function renderRoster() {
     const otsContainer = document.getElementById('otsList');
     const sortType = document.getElementById('sortSelect').value;
     const faction = REGIMENT_DATA.factions.find(f => f.id === selectedFactionId);
+    
+    // Dynamically update the roster title with icon and faction name
+    document.getElementById('rosterTitle').innerHTML = `
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <img src="icons/${faction.id}.svg" class="title-icon" onerror="this.style.display='none'">
+            ${faction.name} Unit Roster
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px; text-transform: none;">
+            Command Value: ${faction.command_value}
+        </div>
+    `;
     
     let units = [...faction.units];
     
@@ -350,4 +371,40 @@ function copyToClipboard(text) {
     }).catch(err => {
         console.error("Failed to copy text: ", err);
     });
+}
+
+function generateShareCode() {
+    const cap = document.getElementById('armyCap').value;
+    const listState = {
+        f: selectedFactionId,
+        c: cap,
+        l: currentList
+    };
+    
+    // Convert object to JSON string, then encode to Base64
+    const jsonStr = JSON.stringify(listState);
+    const base64Code = btoa(jsonStr);
+    
+    copyToClipboard(base64Code);
+}
+
+function loadFromShareCode(base64Code) {
+    try {
+        // Decode Base64 back to JSON string, then parse object
+        const jsonStr = atob(base64Code);
+        const listState = JSON.parse(jsonStr);
+        
+        // Apply the loaded state
+        document.getElementById('armyCap').value = listState.c || 1000;
+        
+        // Pass the faction and the unit list to the view loader
+        loadBuilderView(listState.f, listState.l);
+        
+        // Clear the input field for next time
+        document.getElementById('shareCodeInput').value = '';
+        
+    } catch (e) {
+        alert("Invalid share code. Please check the code and try again.");
+        console.error("Failed to parse share code:", e);
+    }
 }
