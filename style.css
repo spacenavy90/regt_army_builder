@@ -1,0 +1,375 @@
+:root {
+    --bg-base: #0f1115;
+    --bg-surface: #1a1d24;
+    --bg-surface-hover: #242830;
+    --border-color: #2a2e38;
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --accent: #3b82f6;
+    --danger: #ef4444;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+}
+
+/* Header & Controls */
+.top-nav {
+    background-color: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.global-controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.control-group label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.control-group input[type="number"],
+.control-group select {
+    background-color: var(--bg-base);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+/* Main Layout Grid */
+.app-container {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 30px;
+    padding: 30px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.panel-title {
+    font-size: 1.2rem;
+    color: var(--text-main);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+/* Left Column: Roster */
+.roster-panel {
+    min-width: 0;
+}
+
+.roster-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.roster-row:hover {
+    background-color: var(--bg-surface-hover);
+}
+
+.roster-row.illegal {
+    border-color: var(--danger);
+    box-shadow: inset 4px 0 0 var(--danger);
+}
+
+.row-info {
+    flex: 1;
+}
+
+.unit-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.unit-type {
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+
+.unit-stats {
+    font-size: 0.9rem;
+    color: var(--text-main);
+    background-color: var(--bg-base);
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+.unit-keywords {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.row-controls {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.cost-limit {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+
+.cost {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.limit {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.stepper {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-base);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.btn-step {
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.btn-step:disabled {
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+.stepper .qty {
+    padding: 0 15px;
+    font-weight: bold;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* Right Column: Manifest */
+.sticky-wrapper {
+    position: sticky;
+    top: 30px;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.manifest-item {
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px 0;
+}
+
+.manifest-item:last-child {
+    border-bottom: none;
+}
+
+.manifest-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.manifest-details {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.manifest-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid var(--border-color);
+}
+
+.totals-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.total-value.over-limit {
+    color: var(--danger);
+}
+
+/* Mobile Compatibility */
+@media (max-width: 992px) {
+    .app-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .sticky-wrapper {
+        position: static;
+    }
+}
+
+@media (max-width: 600px) {
+    .roster-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .row-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+.export-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-export {
+    flex: 1;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-export:hover {
+    background-color: #2563eb;
+}
+
+.export-section {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid var(--border-color);
+}
+
+.export-title {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.export-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-export {
+    flex: 1;
+    background-color: var(--bg-surface-hover);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-export:hover {
+    background-color: var(--accent);
+    border-color: var(--accent);
+}
+
+/* Clear Army Button */
+.btn-clear {
+    width: 100%;
+    margin-top: 15px;
+    background-color: transparent;
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    padding: 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-clear:hover {
+    background-color: var(--danger);
+    color: white;
+}
+
+/* Manifest Item Header Layout */
+.manifest-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.manifest-title {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 15px;
+}
+
+.btn-remove {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 5px;
+}
+
+.btn-remove:hover {
+    color: var(--danger);
+}

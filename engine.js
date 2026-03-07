@@ -1,0 +1,301 @@
+let currentList = {};
+let selectedFactionId = "reb_all";
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('armyCap').addEventListener('input', updateUI);
+    document.getElementById('sortSelect').addEventListener('change', renderRoster);
+    document.getElementById('factionSelect').addEventListener('change', (e) => {
+        selectedFactionId = e.target.value;
+        currentList = {}; 
+        renderRoster();
+    });
+    document.getElementById('overrideToggle').addEventListener('change', updateUI);
+    document.getElementById('btnClearList').addEventListener('click', clearArmy);
+    document.getElementById('btnCopySimple').addEventListener('click', () => copyToClipboard(generateSimpleText()));
+    document.getElementById('btnCopyDetailed').addEventListener('click', () => copyToClipboard(generateDetailedText()));
+
+    renderRoster();
+});
+
+function formatStat(val1, val2, unitSuffix = "") {
+    if (val1 === null && val2 === null) return "-";
+    const s1 = val1 !== null ? val1 + unitSuffix : "-";
+    const s2 = val2 !== null ? val2 + unitSuffix : "-";
+    return val2 !== null ? `${s1}/${s2}` : s1;
+}
+
+function calculateLimits(unit, cap) {
+    const ceil = Math.ceil(cap * ((unit.max_pct || 100) / 100));
+    const floor = Math.ceil(cap * ((unit.min_pct || 0) / 100));
+    const maxUnits = unit.cost > ceil ? 0 : Math.floor(ceil / unit.cost);
+    const minUnits = Math.floor(floor / unit.cost);
+    return { min: minUnits, max: maxUnits };
+}
+
+function renderRoster() {
+    const container = document.getElementById('unitList');
+    const otsContainer = document.getElementById('otsList');
+    const sortType = document.getElementById('sortSelect').value;
+    const faction = REGIMENT_DATA.factions.find(f => f.id === selectedFactionId);
+    
+    let units = [...faction.units];
+    
+    if (sortType === "alpha") units.sort((a,b) => a.name.localeCompare(b.name));
+    if (sortType === "cost-high") units.sort((a,b) => b.cost - a.cost);
+
+    container.innerHTML = units.map(u => `
+        <div class="roster-row" id="row-${u.id}">
+            <div class="row-info">
+                <div class="unit-name">${u.name} (${u.unit_size})</div>
+                <div class="unit-type">${u.class}${u.subclass ? ' - ' + u.subclass : ''}</div>
+                <div class="unit-stats">
+                    Mv: ${formatStat(u.mv, u.mv_max, '"')} | Atk: ${formatStat(u.atk_ranged, u.atk_melee)} | Rng: ${formatStat(u.rng_short, u.rng_long, '"')} | Wnd: ${u.wnd} | Sv: ${u.sv}
+                </div>
+                <div class="unit-keywords">${u.keywords.join(', ')}</div>
+            </div>
+            <div class="row-controls">
+                <div class="cost-limit">
+                    <span class="cost">${u.cost} pts</span>
+                    <span class="limit" id="limit-text-${u.id}">Limit: 0-0</span>
+                </div>
+                <div class="stepper">
+                    <button class="btn-step" onclick="adjust('${u.id}', -1)">-</button>
+                    <span class="qty" id="qty-${u.id}">0</span>
+                    <button class="btn-step" id="add-${u.id}" onclick="adjust('${u.id}', 1)">+</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    otsContainer.innerHTML = REGIMENT_DATA.ots.map(o => `
+        <div class="roster-row" id="row-${o.id}">
+            <div class="row-info">
+                <div class="unit-name">${o.name}</div>
+                <div class="unit-type">Support Asset</div>
+                <div class="unit-stats">Avail: ${o.availability} | Atk: ${o.attack_dice} | Template: ${o.template}</div>
+                <div class="unit-keywords">${o.keywords && o.keywords.length > 0 ? o.keywords.join(', ') : ''}</div>
+            </div>
+            <div class="row-controls">
+                <div class="cost-limit"><span class="cost">${o.cost} pts</span></div>
+                <div class="stepper">
+                    <button class="btn-step" onclick="adjust('${o.id}', -1)">-</button>
+                    <span class="qty" id="qty-${o.id}">0</span>
+                    <button class="btn-step" id="add-${o.id}" onclick="adjust('${o.id}', 1)">+</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    updateUI();
+}
+
+function updateUI() {
+    const cap = parseInt(document.getElementById('armyCap').value) || 0;
+    const isOverride = document.getElementById('overrideToggle').checked;
+    const faction = REGIMENT_DATA.factions.find(f => f.id === selectedFactionId);
+    
+    let totalSpent = 0;
+    let otsSpent = 0;
+    let otsCards = 0;
+    
+    const maxOtsPoints = Math.floor(cap * 0.15);
+    const maxOtsCards = Math.floor(cap / 250);
+
+    const manifestContainer = document.getElementById('manifestList');
+    const manifestOtsContainer = document.getElementById('manifestOtsList');
+    manifestContainer.innerHTML = '';
+    manifestOtsContainer.innerHTML = '';
+    
+    let hasUnits = false;
+    let hasOts = false;
+
+    // Process Combat Units
+    faction.units.forEach(u => {
+        const qty = currentList[u.id] || 0;
+        const limits = calculateLimits(u, cap);
+        
+        document.getElementById(`limit-text-${u.id}`).textContent = `Limit: ${limits.min}-${limits.max}`;
+        document.getElementById(`qty-${u.id}`).textContent = qty;
+        document.getElementById(`add-${u.id}`).disabled = !isOverride && (qty >= limits.max);
+        
+        const isIllegal = (qty < limits.min && qty > 0) || (qty > limits.max);
+        document.getElementById(`row-${u.id}`).classList.toggle('illegal', isIllegal);
+
+        if (qty > 0) {
+            hasUnits = true;
+            totalSpent += (qty * u.cost);
+            manifestContainer.innerHTML += buildManifestItem(u.id, u.name, qty, u.cost, `Allowed: ${limits.min} to ${limits.max}`);
+        }
+    });
+
+    // Process OTS Logic
+    REGIMENT_DATA.ots.forEach(o => {
+        const qty = currentList[o.id] || 0;
+        
+        if (qty > 0) {
+            hasOts = true;
+            otsSpent += (qty * o.cost);
+            otsCards += qty;
+            totalSpent += (qty * o.cost);
+            manifestOtsContainer.innerHTML += buildManifestItem(o.id, o.name, qty, o.cost, `Support Asset`);
+        }
+    });
+    
+    // Process OTS UI Locks
+    REGIMENT_DATA.ots.forEach(o => {
+        const qty = currentList[o.id] || 0;
+        document.getElementById(`qty-${o.id}`).textContent = qty;
+        
+        const canAffordPoints = (otsSpent + o.cost) <= maxOtsPoints;
+        const canAffordCards = (otsCards + 1) <= maxOtsCards;
+        
+        document.getElementById(`add-${o.id}`).disabled = !isOverride && (!canAffordPoints || !canAffordCards);
+    });
+
+    if (hasUnits) manifestContainer.insertAdjacentHTML('afterbegin', '<div style="color:var(--accent); font-weight:bold; margin-bottom:8px;">COMBAT UNITS</div>');
+    if (hasOts) manifestOtsContainer.insertAdjacentHTML('afterbegin', '<div style="color:var(--accent); font-weight:bold; margin-bottom:8px; border-top:1px solid var(--border-color); padding-top:10px;">SUPPORT ASSETS</div>');
+
+    const totalDisp = document.getElementById('totalSpent');
+    totalDisp.textContent = `${totalSpent} / ${cap}`;
+    totalDisp.classList.toggle('over-limit', totalSpent > cap);
+    
+    const otsTracker = document.getElementById('otsTracker');
+    otsTracker.textContent = `${otsSpent} / ${maxOtsPoints} pts | ${otsCards} / ${maxOtsCards} cards`;
+    otsTracker.style.color = (otsSpent > maxOtsPoints || otsCards > maxOtsCards) ? 'var(--danger)' : 'var(--text-muted)';
+    
+    const bidValue = cap - totalSpent;
+    document.getElementById('bidDisplay').textContent = bidValue > 0 ? bidValue : 0;
+}
+
+function buildManifestItem(id, name, qty, cost, subtext) {
+    return `
+        <div class="manifest-item">
+            <div class="manifest-header">
+                <div class="manifest-title">
+                    <span class="manifest-name">${name}</span>
+                    <span class="manifest-qty">x${qty}</span>
+                </div>
+                <button class="btn-remove" onclick="removeUnit('${id}')" title="Remove unit">×</button>
+            </div>
+            <div class="manifest-details">Cost: ${cost} pts ea / ${qty * cost} pts total</div>
+            <div class="manifest-details">${subtext}</div>
+        </div>
+    `;
+}
+
+function adjust(id, amt) {
+    currentList[id] = (currentList[id] || 0) + amt;
+    if (currentList[id] <= 0) delete currentList[id];
+    updateUI();
+}
+
+function clearArmy() {
+    currentList = {};
+    updateUI();
+}
+
+function removeUnit(id) {
+    delete currentList[id];
+    updateUI();
+}
+
+function generateSimpleText() {
+    const cap = parseInt(document.getElementById('armyCap').value) || 0;
+    const faction = REGIMENT_DATA.factions.find(f => f.id === selectedFactionId);
+    let text = `REGIMENT ARMY LIST\nFaction: ${faction.name}\nPoints Cap: ${cap}\n\n`;
+
+    let total = 0;
+    let unitsText = "";
+    let otsText = "";
+
+    for (const [id, qty] of Object.entries(currentList)) {
+        const unit = faction.units.find(u => u.id === id);
+        const ots = REGIMENT_DATA.ots.find(o => o.id === id);
+        
+        if (unit && qty > 0) {
+            const cost = qty * unit.cost;
+            unitsText += `${qty}x ${unit.name} [${unit.cost} ea | ${cost} pts]\n`;
+            total += cost;
+        } else if (ots && qty > 0) {
+            const cost = qty * ots.cost;
+            otsText += `${qty}x ${ots.name} [${ots.cost} ea | ${cost} pts]\n`;
+            // Updated Order: Availability | Atk | Template
+            otsText += `    Avail: ${ots.availability} | Atk: ${ots.attack_dice} | Template: ${ots.template}\n`;
+            if (ots.keywords && ots.keywords.length > 0) {
+                otsText += `    Keywords: ${ots.keywords.join(', ')}\n`;
+                ots.keywords.forEach(kw => usedKeywords.add(kw));
+            }
+            otsText += `\n`;
+            total += cost;
+        }
+    }
+
+    if (unitsText) text += `COMBAT UNITS\n${unitsText}\n`;
+    if (otsText) text += `SUPPORT ASSETS\n${otsText}\n`;
+
+    const bid = cap - total > 0 ? cap - total : 0;
+    text += `TOTAL SPENT: ${total} | BID: ${bid}\n`;
+    return text;
+}
+
+function generateDetailedText() {
+    const cap = parseInt(document.getElementById('armyCap').value) || 0;
+    const faction = REGIMENT_DATA.factions.find(f => f.id === selectedFactionId);
+    let text = `REGIMENT BATTLE MANIFEST\nFaction: ${faction.name}\nPoints Cap: ${cap}\n\n`;
+
+    let total = 0;
+    let unitsText = "";
+    let otsText = "";
+    let usedKeywords = new Set();
+
+    for (const [id, qty] of Object.entries(currentList)) {
+        const unit = faction.units.find(u => u.id === id);
+        const ots = REGIMENT_DATA.ots.find(o => o.id === id);
+        
+        if (unit && qty > 0) {
+            const cost = qty * unit.cost;
+            unitsText += `${qty}x ${unit.name} [${unit.cost} ea | ${cost} pts]\n`;
+            unitsText += `    Mv: ${formatStat(unit.mv, unit.mv_max, '"')} | Atk: ${formatStat(unit.atk_ranged, unit.atk_melee)} | Rng: ${formatStat(unit.rng_short, unit.rng_long, '"')} | Wnd: ${unit.wnd} | Sv: ${unit.sv}\n`;
+            if (unit.keywords && unit.keywords.length > 0) {
+                unitsText += `    Keywords: ${unit.keywords.join(', ')}\n`;
+                unit.keywords.forEach(kw => usedKeywords.add(kw));
+            }
+            unitsText += `\n`;
+            total += cost;
+        } else if (ots && qty > 0) {
+            const cost = qty * ots.cost;
+            otsText += `${qty}x ${ots.name} [${ots.cost} ea | ${cost} pts]\n`;
+            otsText += `    Availability: ${ots.availability} | Template: ${ots.template} | Atk: ${ots.attack_dice}\n`;
+            if (ots.keywords && ots.keywords.length > 0) {
+                otsText += `    Keywords: ${ots.keywords.join(', ')}\n`;
+                ots.keywords.forEach(kw => usedKeywords.add(kw));
+            }
+            otsText += `\n`;
+            total += cost;
+        }
+    }
+
+    if (unitsText) text += `COMBAT UNITS\n${unitsText}`;
+    if (otsText) text += `SUPPORT ASSETS\n${otsText}`;
+
+    if (usedKeywords.size > 0) {
+        text += `KEYWORD DEFINITIONS\n`;
+        usedKeywords.forEach(kw => {
+            const def = REGIMENT_DATA.definitions[kw] || "[Definition Pending]";
+            text += `${kw}: ${def}\n`;
+        });
+        text += `\n`;
+    }
+
+    const bid = cap - total > 0 ? cap - total : 0;
+    text += `TOTAL SPENT: ${total} | BID: ${bid}\n`;
+    return text;
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert("List copied to clipboard!");
+    }).catch(err => {
+        console.error("Failed to copy text: ", err);
+    });
+}
