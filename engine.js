@@ -139,6 +139,31 @@ function renderRoster() {
             </div>
         </div>
     `).join('');
+
+    const leaderContainer = document.getElementById('leaderList');
+    
+    if (faction.leaders && faction.leaders.length > 0) {
+        leaderContainer.innerHTML = faction.leaders.map(l => `
+            <div class="roster-row" id="row-${l.id}">
+                <div class="row-info">
+                    <div class="unit-name">${l.name}</div>
+                    <div class="unit-type">Leader</div>
+                    <div class="unit-stats" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 2px;">Restriction: ${l.restriction_text}</div>
+                    <div class="unit-keywords" style="margin-top: 6px; font-style: italic;">${l.ability}</div>
+                </div>
+                <div class="row-controls">
+                    <div class="cost-limit"><span class="cost">${l.cost} pts</span></div>
+                    <div class="stepper">
+                        <button class="btn-step" onclick="adjust('${l.id}', -1)">-</button>
+                        <span class="qty" id="qty-${l.id}">0</span>
+                        <button class="btn-step" id="add-${l.id}" onclick="adjust('${l.id}', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    } else {
+        leaderContainer.innerHTML = `<div style="padding: 15px; color: var(--text-muted); font-style: italic;">No leaders available for this faction.</div>`;
+    }
     
     otsContainer.innerHTML = REGIMENT_DATA.ots.map(o => `
         <div class="roster-row" id="row-${o.id}">
@@ -182,6 +207,10 @@ function updateUI() {
     let hasUnits = false;
     let hasOts = false;
 
+    let leaderCount = 0;
+    const manifestLeaderContainer = document.getElementById('manifestLeaderList');
+    manifestLeaderContainer.innerHTML = '';
+
     // Process Combat Units
     faction.units.forEach(u => {
         const qty = currentList[u.id] || 0;
@@ -200,6 +229,52 @@ function updateUI() {
             manifestContainer.innerHTML += buildManifestItem(u.id, u.name, qty, u.cost, `Allowed: ${limits.min} to ${limits.max}`);
         }
     });
+
+    // Count leaders first to establish the lock
+    if (faction.leaders) {
+        faction.leaders.forEach(l => {
+            if (currentList[l.id] > 0) leaderCount += currentList[l.id];
+        });
+
+        // Process Leader UI Locks and Restrictions
+        faction.leaders.forEach(l => {
+            const qty = currentList[l.id] || 0;
+            document.getElementById(`qty-${l.id}`).textContent = qty;
+            
+            const isLocked = !isOverride && (leaderCount >= 1 && qty === 0);
+            document.getElementById(`add-${l.id}`).disabled = isLocked;
+
+            let isIllegal = (qty > 1 && !isOverride);
+
+            // Trigger validation if the leader has ANY requirement
+            if (qty > 0 && (l.requires_class || l.requires_subclass)) {
+                let hasValidAttachment = false;
+                faction.units.forEach(u => {
+                    // Only check units that are actually in the army
+                    if (currentList[u.id] > 0) {
+                        // If a requirement is null, it automatically passes that specific check
+                        const classMatch = !l.requires_class || u.class === l.requires_class;
+                        const subclassMatch = !l.requires_subclass || u.subclass === l.requires_subclass;
+                        
+                        // If both conditions are satisfied, the attachment is valid
+                        if (classMatch && subclassMatch) {
+                            hasValidAttachment = true;
+                        }
+                    }
+                });
+                if (!hasValidAttachment) isIllegal = true;
+            }
+
+            document.getElementById(`row-${l.id}`).classList.toggle('illegal', isIllegal);
+
+            if (qty > 0) {
+                totalSpent += (qty * l.cost);
+                manifestLeaderContainer.innerHTML += buildManifestItem(l.id, l.name, qty, l.cost, `Attachment Status: ${isIllegal ? 'Missing Required Unit' : 'Valid'}`);
+            }
+        });
+    }
+
+    if (leaderCount > 0) manifestLeaderContainer.insertAdjacentHTML('afterbegin', '<div style="color:var(--accent); font-weight:bold; margin-bottom:8px; border-bottom:1px solid var(--border-color); padding-bottom:5px;">FACTION LEADER</div>');
 
     // Process OTS Logic
     REGIMENT_DATA.ots.forEach(o => {
@@ -275,34 +350,34 @@ function removeUnit(id) {
 function generateSimpleText() {
     const cap = parseInt(document.getElementById('armyCap').value) || 0;
     const faction = REGIMENT_DATA.factions.find(f => f.id === selectedFactionId);
-    let text = `REGIMENT ARMY LIST\nFaction: ${faction.name}\nPoints Cap: ${cap}\n\n`;
+    let text = `REGIMENT ARMY LIST\nFaction: ${faction.name}\nCommand Value: ${faction.command_value}\nPoints Cap: ${cap}\n\n`;
 
     let total = 0;
+    let leaderText = "";
     let unitsText = "";
     let otsText = "";
 
     for (const [id, qty] of Object.entries(currentList)) {
         const unit = faction.units.find(u => u.id === id);
         const ots = REGIMENT_DATA.ots.find(o => o.id === id);
+        const leader = faction.leaders ? faction.leaders.find(l => l.id === id) : null;
         
-        if (unit && qty > 0) {
+        if (leader && qty > 0) {
+            const cost = qty * leader.cost;
+            leaderText += `${qty}x ${leader.name} [${leader.cost} ea | ${cost} pts]\n`;
+            total += cost;
+        } else if (unit && qty > 0) {
             const cost = qty * unit.cost;
             unitsText += `${qty}x ${unit.name} [${unit.cost} ea | ${cost} pts]\n`;
             total += cost;
         } else if (ots && qty > 0) {
             const cost = qty * ots.cost;
             otsText += `${qty}x ${ots.name} [${ots.cost} ea | ${cost} pts]\n`;
-            // Updated Order: Availability | Atk | Template
-            otsText += `    Avail: ${ots.availability} | Atk: ${ots.attack_dice} | Template: ${ots.template}\n`;
-            if (ots.keywords && ots.keywords.length > 0) {
-                otsText += `    Keywords: ${ots.keywords.join(', ')}\n`;
-                ots.keywords.forEach(kw => usedKeywords.add(kw));
-            }
-            otsText += `\n`;
             total += cost;
         }
     }
 
+    if (leaderText) text += `FACTION LEADER\n${leaderText}\n`;
     if (unitsText) text += `COMBAT UNITS\n${unitsText}\n`;
     if (otsText) text += `SUPPORT ASSETS\n${otsText}\n`;
 
@@ -314,9 +389,10 @@ function generateSimpleText() {
 function generateDetailedText() {
     const cap = parseInt(document.getElementById('armyCap').value) || 0;
     const faction = REGIMENT_DATA.factions.find(f => f.id === selectedFactionId);
-    let text = `REGIMENT BATTLE MANIFEST\nFaction: ${faction.name}\nPoints Cap: ${cap}\n\n`;
+    let text = `REGIMENT BATTLE MANIFEST\nFaction: ${faction.name}\nCommand Value: ${faction.command_value}\nPoints Cap: ${cap}\n\n`;
 
     let total = 0;
+    let leaderText = "";
     let unitsText = "";
     let otsText = "";
     let usedKeywords = new Set();
@@ -324,8 +400,14 @@ function generateDetailedText() {
     for (const [id, qty] of Object.entries(currentList)) {
         const unit = faction.units.find(u => u.id === id);
         const ots = REGIMENT_DATA.ots.find(o => o.id === id);
+        const leader = faction.leaders ? faction.leaders.find(l => l.id === id) : null;
         
-        if (unit && qty > 0) {
+        if (leader && qty > 0) {
+            const cost = qty * leader.cost;
+            leaderText += `${qty}x ${leader.name} [${leader.cost} ea | ${cost} pts]\n`;
+            leaderText += `    Ability: ${leader.ability}\n\n`;
+            total += cost;
+        } else if (unit && qty > 0) {
             const cost = qty * unit.cost;
             unitsText += `${qty}x ${unit.name} [${unit.cost} ea | ${cost} pts]\n`;
             unitsText += `    Mv: ${formatStat(unit.mv, unit.mv_max, '"')} | Atk: ${formatStat(unit.atk_ranged, unit.atk_melee)} | Rng: ${formatStat(unit.rng_short, unit.rng_long, '"')} | Wnd: ${unit.wnd} | Sv: ${unit.sv}\n`;
@@ -338,7 +420,7 @@ function generateDetailedText() {
         } else if (ots && qty > 0) {
             const cost = qty * ots.cost;
             otsText += `${qty}x ${ots.name} [${ots.cost} ea | ${cost} pts]\n`;
-            otsText += `    Availability: ${ots.availability} | Template: ${ots.template} | Atk: ${ots.attack_dice}\n`;
+            otsText += `    Avail: ${ots.availability} | Atk: ${ots.attack_dice} | Template: ${ots.template}\n`;
             if (ots.keywords && ots.keywords.length > 0) {
                 otsText += `    Keywords: ${ots.keywords.join(', ')}\n`;
                 ots.keywords.forEach(kw => usedKeywords.add(kw));
@@ -348,6 +430,7 @@ function generateDetailedText() {
         }
     }
 
+    if (leaderText) text += `FACTION LEADER\n${leaderText}`;
     if (unitsText) text += `COMBAT UNITS\n${unitsText}`;
     if (otsText) text += `SUPPORT ASSETS\n${otsText}`;
 
