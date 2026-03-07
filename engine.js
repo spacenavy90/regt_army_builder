@@ -2,20 +2,72 @@ let currentList = {};
 let selectedFactionId = "reb_all";
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Top-nav listeners
     document.getElementById('armyCap').addEventListener('input', updateUI);
     document.getElementById('sortSelect').addEventListener('change', renderRoster);
     document.getElementById('factionSelect').addEventListener('change', (e) => {
-        selectedFactionId = e.target.value;
-        currentList = {}; 
-        renderRoster();
+        loadBuilderView(e.target.value);
     });
     document.getElementById('overrideToggle').addEventListener('change', updateUI);
+    
+    // Export & Clear listeners
     document.getElementById('btnClearList').addEventListener('click', clearArmy);
     document.getElementById('btnCopySimple').addEventListener('click', () => copyToClipboard(generateSimpleText()));
     document.getElementById('btnCopyDetailed').addEventListener('click', () => copyToClipboard(generateDetailedText()));
 
-    renderRoster();
+    initializeHomeScreen();
 });
+
+// View Switching Functions
+function initializeHomeScreen() {
+    const majorGrid = document.getElementById('majorFactionsGrid');
+    const minorGrid = document.getElementById('minorFactionsGrid');
+    const selectDropdown = document.getElementById('factionSelect');
+
+    // Clear initial HTML
+    majorGrid.innerHTML = '';
+    minorGrid.innerHTML = '';
+    selectDropdown.innerHTML = '';
+
+    REGIMENT_DATA.factions.forEach(f => {
+        // Populate the dropdown in the header dynamically
+        selectDropdown.innerHTML += `<option value="${f.id}">${f.name}</option>`;
+
+        // Populate the Home Screen grids
+        if (f.type === "Major") {
+            majorGrid.innerHTML += `
+                <div class="faction-card" onclick="loadBuilderView('${f.id}')">
+                    <img src="icons/${f.id}.svg" alt="${f.name} Icon" class="faction-icon" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'100\\'><circle cx=\\'50\\' cy=\\'50\\' r=\\'40\\' stroke=\\'#333\\' stroke-width=\\'3\\' fill=\\'none\\'/></svg>'">
+                    <span class="faction-card-name">${f.name}</span>
+                </div>
+            `;
+        } else {
+            minorGrid.innerHTML += `
+                <button class="minor-btn" onclick="loadBuilderView('${f.id}')">${f.name}</button>
+            `;
+        }
+    });
+}
+
+function loadBuilderView(factionId) {
+    selectedFactionId = factionId;
+    document.getElementById('factionSelect').value = factionId;
+    currentList = {}; // Clear list when switching factions
+    
+    // Toggle UI views
+    document.getElementById('homeView').style.display = 'none';
+    document.getElementById('builderControls').style.display = 'flex';
+    document.getElementById('builderView').style.display = 'grid'; // Grid matches the CSS for app-container
+
+    renderRoster();
+}
+
+function goHome() {
+    // Return to faction select
+    document.getElementById('homeView').style.display = 'flex';
+    document.getElementById('builderControls').style.display = 'none';
+    document.getElementById('builderView').style.display = 'none';
+}
 
 function formatStat(val1, val2, unitSuffix = "") {
     if (val1 === null && val2 === null) return "-";

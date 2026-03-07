@@ -1,103 +1,6 @@
 const REGIMENT_DATA = {
   factions: [
     {
-      id: "reb_all",
-      name: "Rebel Alliance",
-      type: "Major",
-      units: [
-        { 
-          id: "reb_trp", 
-          name: "Rebel Troopers", 
-          unit_size: 3,
-          cost: 40, 
-          min_pct: 15, 
-          max_pct: null, 
-          class: "Infantry",
-          subclass: null,
-          mv: 6, mv_max: null,
-          atk_ranged: 2, atk_melee: 3,
-          rng_short: 8, rng_long: 12,
-          wnd: 3, sv: "6+",
-          keywords: [] 
-        },
-        { 
-          id: "reb_pth", 
-          name: "Rebel Pathfinders", 
-          unit_size: 2,
-          cost: 75, 
-          min_pct: 0, 
-          max_pct: 30, 
-          class: "Infantry",
-          subclass: null,
-          mv: 6, mv_max: null,
-          atk_ranged: 2, atk_melee: 3,
-          rng_short: 10, rng_long: 12,
-          wnd: 3, sv: "5+",
-          keywords: ["Clone"] 
-        },
-        { 
-          id: "reb_tau", 
-          name: "Tauntaun Riders", 
-          unit_size: 2,
-          cost: 90, 
-          min_pct: 0, 
-          max_pct: 40, 
-          class: "Vehicle",
-          subclass: "Ground",
-          mv: 10, mv_max: null,
-          atk_ranged: 2, atk_melee: 2,
-          rng_short: 8, rng_long: 12,
-          wnd: 2, sv: "5+",
-          keywords: [] 
-        },
-        { 
-          id: "reb_aa5", 
-          name: "A-A5 Transport", 
-          unit_size: 1,
-          cost: 100, 
-          min_pct: 0, 
-          max_pct: 40, 
-          class: "Vehicle",
-          subclass: "Hover",
-          mv: 8, mv_max: null,
-          atk_ranged: 2, atk_melee: 2,
-          rng_short: 8, rng_long: 12,
-          wnd: 2, sv: "4+",
-          keywords: ["Transport"] 
-        },
-        { 
-          id: "reb_ptw", 
-          name: "P-Tower", 
-          unit_size: 1,
-          cost: 150, 
-          min_pct: 0, 
-          max_pct: 60, 
-          class: "Emplacement",
-          subclass: null,
-          mv: 0, mv_max: null,
-          atk_ranged: 5, atk_melee: 1,
-          rng_short: 14, rng_long: 24,
-          wnd: 3, sv: "4+",
-          keywords: ["Anti-Armor"] 
-        },
-        { 
-          id: "reb_snw", 
-          name: "Snowspeeder", 
-          unit_size: 1,
-          cost: 110, 
-          min_pct: 0, 
-          max_pct: 35, 
-          class: "Vehicle",
-          subclass: "Aerial",
-          mv: 4, mv_max: 14,
-          atk_ranged: 3, atk_melee: null,
-          rng_short: 10, rng_long: 16,
-          wnd: 4, sv: "4+",
-          keywords: ["Tow-Cable"] 
-        }
-      ]
-    },
-    {
       id: "emp_all",
       name: "Galactic Empire",
       type: "Major",
@@ -208,6 +111,121 @@ const REGIMENT_DATA = {
           keywords: ["Anti-Armor", "Heavy Armor", "Towering", "Transport"] 
         }
       ]
+    },
+    {
+      id: "reb_all",
+      name: "Rebel Alliance",
+      type: "Major",
+      units: [
+        { 
+          id: "reb_trp", 
+          name: "Rebel Troopers", 
+          unit_size: 3,
+          cost: 40, 
+          min_pct: 15, 
+          max_pct: null, 
+          class: "Infantry",
+          subclass: null,
+          mv: 6, mv_max: null,
+          atk_ranged: 2, atk_melee: 3,
+          rng_short: 8, rng_long: 12,
+          wnd: 3, sv: "6+",
+          keywords: [] 
+        },
+        { 
+          id: "reb_pth", 
+          name: "Rebel Pathfinders", 
+          unit_size: 2,
+          cost: 75, 
+          min_pct: 0, 
+          max_pct: 30, 
+          class: "Infantry",
+          subclass: null,
+          mv: 6, mv_max: null,
+          atk_ranged: 2, atk_melee: 3,
+          rng_short: 10, rng_long: 12,
+          wnd: 3, sv: "5+",
+          keywords: ["Clone"] 
+        },
+        { 
+          id: "reb_tau", 
+          name: "Tauntaun Riders", 
+          unit_size: 2,
+          cost: 90, 
+          min_pct: 0, 
+          max_pct: 40, 
+          class: "Vehicle",
+          subclass: "Ground",
+          mv: 10, mv_max: null,
+          atk_ranged: 2, atk_melee: 2,
+          rng_short: 8, rng_long: 12,
+          wnd: 2, sv: "5+",
+          keywords: [] 
+        },
+        { 
+          id: "reb_aa5", 
+          name: "A-A5 Transport", 
+          unit_size: 1,
+          cost: 100, 
+          min_pct: 0, 
+          max_pct: 40, 
+          class: "Vehicle",
+          subclass: "Hover",
+          mv: 8, mv_max: null,
+          atk_ranged: 2, atk_melee: 2,
+          rng_short: 8, rng_long: 12,
+          wnd: 2, sv: "4+",
+          keywords: ["Transport"] 
+        },
+        { 
+          id: "reb_ptw", 
+          name: "P-Tower", 
+          unit_size: 1,
+          cost: 150, 
+          min_pct: 0, 
+          max_pct: 60, 
+          class: "Emplacement",
+          subclass: null,
+          mv: 0, mv_max: null,
+          atk_ranged: 5, atk_melee: 1,
+          rng_short: 14, rng_long: 24,
+          wnd: 3, sv: "4+",
+          keywords: ["Anti-Armor"] 
+        },
+        { 
+          id: "reb_snw", 
+          name: "Snowspeeder", 
+          unit_size: 1,
+          cost: 110, 
+          min_pct: 0, 
+          max_pct: 35, 
+          class: "Vehicle",
+          subclass: "Aerial",
+          mv: 4, mv_max: 14,
+          atk_ranged: 3, atk_melee: null,
+          rng_short: 10, rng_long: 16,
+          wnd: 4, sv: "4+",
+          keywords: ["Tow-Cable"] 
+        }
+      ]
+    },
+    {
+      id: "rep_all",
+      name: "Galactic Republic",
+      type: "Major",
+      units: []
+    },
+    {
+      id: "sep_all",
+      name: "Separatist Alliance",
+      type: "Major",
+      units: []
+    },
+    {
+      id: "gun_all",
+      name: "Gungan Grand Army",
+      type: "Minor",
+      units: []
     }
   ],
 
@@ -249,6 +267,6 @@ const REGIMENT_DATA = {
       keywords: ["Anti-Armor"]
     }
   ],
-  
+
   definitions: {}
 };

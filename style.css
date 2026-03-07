@@ -373,3 +373,96 @@ body {
 .btn-remove:hover {
     color: var(--danger);
 }
+
+/* Home Screen Layout */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.home-title {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    letter-spacing: 1px;
+}
+
+.faction-group-title {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 5px;
+    width: 100%;
+    text-align: center;
+}
+
+.factions-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Major Faction Icon Cards */
+.major-grid {
+    gap: 30px;
+}
+
+.faction-card {
+    background-color: var(--bg-surface);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 30px 20px;
+    width: 200px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.faction-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px);
+    background-color: var(--bg-surface-hover);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.faction-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+    object-fit: contain;
+}
+
+.faction-card-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+/* Minor Faction Text Buttons */
+.minor-btn {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.minor-btn:hover {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: white;
+}
