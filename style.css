@@ -40,6 +40,12 @@ body {
     letter-spacing: 2px;
 }
 
+.brand-logo {
+    max-height: 35px;
+    width: auto;
+    object-fit: contain;
+}
+
 .global-controls {
     display: flex;
     gap: 20px;
@@ -469,4 +475,40 @@ body {
     background-color: var(--accent);
     border-color: var(--accent);
     color: white;
+}
+
+/* Header Navigation Links */
+.nav-links {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-left: auto; /* Pushes the links to the far right of the header */
+}
+
+.nav-btn {
+    padding: 6px 16px;
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.15s ease-in-out;
+}
+
+.nav-btn:hover {
+    background-color: var(--bg-surface-hover);
+    border-color: var(--accent);
+}
+
+.nav-btn.donate-btn {
+    background-color: #ffdd00;
+    color: #000000;
+    border-color: #ffdd00;
+}
+
+.nav-btn.donate-btn:hover {
+    background-color: #ffea00;
+    border-color: #ffea00;
 }

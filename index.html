@@ -8,8 +8,11 @@
 </head>
 <body>
     <header class="top-nav">
-        <div class="brand" onclick="goHome()" style="cursor: pointer;" title="Return to Faction Select">REGIMENT</div>
-        
+        <div class="brand" onclick="goHome()" style="cursor: pointer; display: flex; align-items: center;" title="Return to Faction Select">
+            <img src="icons/logo.png" alt="Regiment" class="brand-logo" onerror="this.style.display='none'; document.getElementById('brandFallback').style.display='block';">
+            <span id="brandFallback" style="display: none; font-weight: bold;">REGIMENT</span>
+        </div>      
+
         <div class="global-controls" id="builderControls" style="display: none;">
             <div class="control-group">
                 <label for="armyCap">Points Cap</label>
@@ -32,9 +35,15 @@
                 <label><input type="checkbox" id="overrideToggle"> Override Limits</label>
             </div>
         </div>
+
+        <div class="nav-links">
+            <a href="https://github.com/yourusername/yourrepo" target="_blank" class="nav-btn">GitHub</a>
+            <a href="https://www.buymeacoffee.com/yourlink" target="_blank" class="nav-btn donate-btn">Donate</a>
+        </div>
     </header>
 
     <div id="homeView" class="home-container">
+        
         <h1 class="home-title">Select Your Faction</h1>
         
         <h2 class="faction-group-title">Major Factions</h2>

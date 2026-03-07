@@ -247,21 +247,28 @@ function updateUI() {
             let isIllegal = (qty > 1 && !isOverride);
 
             // Trigger validation if the leader has ANY requirement
-            if (qty > 0 && (l.requires_class || l.requires_subclass)) {
+            if (qty > 0 && (l.requires_class || l.requires_subclass || l.requires_unit)) {
                 let hasValidAttachment = false;
-                faction.units.forEach(u => {
-                    // Only check units that are actually in the army
-                    if (currentList[u.id] > 0) {
-                        // If a requirement is null, it automatically passes that specific check
-                        const classMatch = !l.requires_class || u.class === l.requires_class;
-                        const subclassMatch = !l.requires_subclass || u.subclass === l.requires_subclass;
-                        
-                        // If both conditions are satisfied, the attachment is valid
-                        if (classMatch && subclassMatch) {
-                            hasValidAttachment = true;
-                        }
+
+                // Check for a specific unit ID requirement first
+                if (l.requires_unit) {
+                    if (currentList[l.requires_unit] > 0) {
+                        hasValidAttachment = true;
                     }
-                });
+                } else {
+                    // Otherwise, check class and subclass requirements
+                    faction.units.forEach(u => {
+                        if (currentList[u.id] > 0) {
+                            const classMatch = !l.requires_class || u.class === l.requires_class;
+                            const subclassMatch = !l.requires_subclass || u.subclass === l.requires_subclass;
+                            
+                            if (classMatch && subclassMatch) {
+                                hasValidAttachment = true;
+                            }
+                        }
+                    });
+                }
+                
                 if (!hasValidAttachment) isIllegal = true;
             }
 

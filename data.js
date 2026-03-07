@@ -13,7 +13,8 @@ const REGIMENT_DATA = {
           restriction_text: "Must be attached to an Infantry unit.",
           requires_class: "Infantry",
           requires_subclass: null,
-          ability: "Placeholder text."
+          ability: "Placeholder text.",
+          tts_image: ""
         },
         {
           id: "ldr_tarkin",
@@ -22,7 +23,8 @@ const REGIMENT_DATA = {
           restriction_text: "None.",
           requires_class: null,
           requires_subclass: null,
-          ability: "Placeholder text."
+          ability: "Placeholder text.",
+          tts_image: ""
         },
         {
           id: "ldr_veers",
@@ -31,7 +33,8 @@ const REGIMENT_DATA = {
           restriction_text: "Must be attached to a Walker unit.",
           requires_class: null,
           requires_subclass: "Walker",
-          ability: "Placeholder text."
+          ability: "Placeholder text.",
+          tts_image: ""
         }
       ],
       units: [
@@ -48,7 +51,10 @@ const REGIMENT_DATA = {
           atk_ranged: 2, atk_melee: 3,
           rng_short: 8, rng_long: 12,
           wnd: 3, sv: "5+",
-          keywords: [] 
+          keywords: [],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: ""
         },
         { 
           id: "emp_dth", 
@@ -63,7 +69,10 @@ const REGIMENT_DATA = {
           atk_ranged: 3, atk_melee: 3,
           rng_short: 10, rng_long: 12,
           wnd: 3, sv: "5+",
-          keywords: ["Fearless"] 
+          keywords: ["Fearless"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: ""
         },
         { 
           id: "emp_hvy", 
@@ -78,7 +87,10 @@ const REGIMENT_DATA = {
           atk_ranged: 4, atk_melee: 2,
           rng_short: 12, rng_long: 20,
           wnd: 3, sv: "5+",
-          keywords: ["Anti-Armor"] 
+          keywords: ["Anti-Armor"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "emp_trp", 
@@ -93,7 +105,10 @@ const REGIMENT_DATA = {
           atk_ranged: 2, atk_melee: 2,
           rng_short: 8, rng_long: 12,
           wnd: 2, sv: "4+",
-          keywords: ["Transport"] 
+          keywords: ["Transport"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "emp_ats", 
@@ -108,7 +123,10 @@ const REGIMENT_DATA = {
           atk_ranged: 3, atk_melee: 3,
           rng_short: 10, rng_long: 14,
           wnd: 3, sv: "4+",
-          keywords: [] 
+          keywords: [],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "emp_tbo", 
@@ -123,7 +141,10 @@ const REGIMENT_DATA = {
           atk_ranged: 6, atk_melee: null,
           rng_short: 14, rng_long: 24,
           wnd: 3, sv: "4+",
-          keywords: ["Anti-Armor"] 
+          keywords: ["Anti-Armor"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "emp_ata", 
@@ -138,7 +159,10 @@ const REGIMENT_DATA = {
           atk_ranged: 5, atk_melee: 6,
           rng_short: 12, rng_long: 24,
           wnd: 6, sv: "3+",
-          keywords: ["Anti-Armor", "Heavy Armor", "Towering", "Transport"] 
+          keywords: ["Anti-Armor", "Heavy Armor", "Towering", "Transport"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         }
       ]
     },
@@ -146,6 +170,39 @@ const REGIMENT_DATA = {
       id: "reb_all",
       name: "Rebel Alliance",
       type: "Major",
+      command_value: "6+",
+      leaders: [
+        {
+          id: "ldr_luke",
+          name: "Luke Skywalker",
+          cost: 0,
+          restriction_text: "Placeholder restriction.",
+          requires_class: null,
+          requires_subclass: null,
+          ability: "Does something.",
+          tts_image: ""
+        },
+        {
+          id: "ldr_leia",
+          name: "Leia Organa",
+          cost: 0,
+          restriction_text: "None.",
+          requires_class: null,
+          requires_subclass: null,
+          ability: "Any friendly unit within 12\" of Leia Organa gains a +1 bonus to their Command Roll.",
+          tts_image: ""
+        },
+        {
+          id: "ldr_wedge",
+          name: "Wedge Antilles",
+          cost: 0,
+          restriction_text: "Must be attached to an Aerial Vehicle unit.",
+          requires_class: "Vehicle",
+          requires_subclass: "Aerial",
+          ability: "When a Snowspeeder unit attempts a Tow-Cable attack, if there is another Snowspeeder unit within 6”, after the defender rolls their 2+ save, you may force a single die reroll.",
+          tts_image: ""
+        }
+      ],
       units: [
         { 
           id: "reb_trp", 
@@ -160,7 +217,10 @@ const REGIMENT_DATA = {
           atk_ranged: 2, atk_melee: 3,
           rng_short: 8, rng_long: 12,
           wnd: 3, sv: "6+",
-          keywords: [] 
+          keywords: [],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "reb_pth", 
@@ -175,7 +235,10 @@ const REGIMENT_DATA = {
           atk_ranged: 2, atk_melee: 3,
           rng_short: 10, rng_long: 12,
           wnd: 3, sv: "5+",
-          keywords: ["Clone"] 
+          keywords: ["Clone"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "reb_tau", 
@@ -190,7 +253,10 @@ const REGIMENT_DATA = {
           atk_ranged: 2, atk_melee: 2,
           rng_short: 8, rng_long: 12,
           wnd: 2, sv: "5+",
-          keywords: [] 
+          keywords: [],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "reb_aa5", 
@@ -205,7 +271,10 @@ const REGIMENT_DATA = {
           atk_ranged: 2, atk_melee: 2,
           rng_short: 8, rng_long: 12,
           wnd: 2, sv: "4+",
-          keywords: ["Transport"] 
+          keywords: ["Transport"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "reb_ptw", 
@@ -220,7 +289,10 @@ const REGIMENT_DATA = {
           atk_ranged: 5, atk_melee: 1,
           rng_short: 14, rng_long: 24,
           wnd: 3, sv: "4+",
-          keywords: ["Anti-Armor"] 
+          keywords: ["Anti-Armor"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "reb_snw", 
@@ -235,7 +307,10 @@ const REGIMENT_DATA = {
           atk_ranged: 3, atk_melee: null,
           rng_short: 10, rng_long: 16,
           wnd: 4, sv: "4+",
-          keywords: ["Tow-Cable"] 
+          keywords: ["Tow-Cable"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         }
       ]
     },
@@ -243,6 +318,39 @@ const REGIMENT_DATA = {
       id: "rep_all",
       name: "Galactic Republic",
       type: "Major",
+      command_value: "5+",
+      leaders: [
+        {
+          id: "ldr_anakin",
+          name: "Anakin Skywalker",
+          cost: 0,
+          restriction_text: "Placeholder restriction.",
+          requires_class: null,
+          requires_subclass: null,
+          ability: "Does something.",
+          tts_image: ""
+        },
+        {
+          id: "ldr_kenobi",
+          name: "General Kenobi",
+          cost: 0,
+          restriction_text: "Must be attached to an Infantry unit.",
+          requires_class: "Infantry",
+          requires_subclass: null,
+          ability: "Grants the attached unit +1 Attack die in Close Combat and a 3+ save value.",
+          tts_image: ""
+        },
+        {
+          id: "ldr_rex",
+          name: "Captain Rex",
+          cost: 0,
+          restriction_text: "Must be attached to an Infantry unit.",
+          requires_class: "Infantry",
+          requires_subclass: null,
+          ability: "The attached unit may perform an Attack as a simple action even if it failed its Command Roll.",
+          tts_image: ""
+        }
+      ],
       units: [
         { 
           id: "rep_clone_troopers", 
@@ -257,7 +365,10 @@ const REGIMENT_DATA = {
           atk_ranged: 2, atk_melee: 3,
           rng_short: 8, rng_long: 12,
           wnd: 3, sv: "6+",
-          keywords: ["Clone"] 
+          keywords: ["Clone"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "rep_arc_troopers", 
@@ -272,7 +383,10 @@ const REGIMENT_DATA = {
           atk_ranged: 3, atk_melee: 3,
           rng_short: 10, rng_long: 12,
           wnd: 3, sv: "5+",
-          keywords: ["Clone"] 
+          keywords: ["Clone"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "rep_jetpack_troopers", 
@@ -287,7 +401,10 @@ const REGIMENT_DATA = {
           atk_ranged: 2, atk_melee: 3,
           rng_short: 10, rng_long: 14,
           wnd: 3, sv: "6+",
-          keywords: ["Clone", "Jetpacks"] 
+          keywords: ["Clone", "Jetpacks"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "rep_atrt", 
@@ -302,7 +419,10 @@ const REGIMENT_DATA = {
           atk_ranged: 3, atk_melee: 2,
           rng_short: 8, rng_long: 12,
           wnd: 2, sv: "5+",
-          keywords: [] 
+          keywords: [],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "rep_tx130", 
@@ -317,7 +437,10 @@ const REGIMENT_DATA = {
           atk_ranged: 4, atk_melee: 1,
           rng_short: 10, rng_long: 14,
           wnd: 3, sv: "4+",
-          keywords: ["Anti-Armor"] 
+          keywords: ["Anti-Armor"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "rep_av7", 
@@ -332,7 +455,10 @@ const REGIMENT_DATA = {
           atk_ranged: 5, atk_melee: 1,
           rng_short: 20, rng_long: 26,
           wnd: 5, sv: "4+",
-          keywords: ["Artillery", "Anti-Armor"] 
+          keywords: ["Artillery", "Anti-Armor"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "rep_laati", 
@@ -347,7 +473,10 @@ const REGIMENT_DATA = {
           atk_ranged: 3, atk_melee: null,
           rng_short: 10, rng_long: 16,
           wnd: 5, sv: "4+",
-          keywords: ["Transport"] 
+          keywords: ["Transport"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "rep_atte", 
@@ -362,7 +491,10 @@ const REGIMENT_DATA = {
           atk_ranged: 5, atk_melee: 5,
           rng_short: 12, rng_long: 20,
           wnd: 6, sv: "3+",
-          keywords: ["Heavy Armor", "Transport"] 
+          keywords: ["Heavy Armor", "Transport"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         }
       ]
     },
@@ -370,6 +502,39 @@ const REGIMENT_DATA = {
       id: "sep_all",
       name: "Separatist Alliance",
       type: "Major",
+      command_value: "7+",
+      leaders: [
+        {
+          id: "ldr_grievous",
+          name: "General Grievous",
+          cost: 0,
+          restriction_text: "Placeholder restriction.",
+          requires_class: null,
+          requires_subclass: null,
+          ability: "Does something.",
+          tts_image: ""
+        },
+        {
+          id: "ldr_loathsom",
+          name: "General Loathsom",
+          cost: 0,
+          restriction_text: "None.",
+          requires_class: null,
+          requires_subclass: null,
+          ability: "Any friendly unit within 12\" of General Loathsom gains a +1 bonus to their Command Roll.",
+          tts_image: ""
+        },
+        {
+          id: "ldr_oom9",
+          name: "OOM-9",
+          cost: 0,
+          restriction_text: "Must be attached to a Hover Vehicle unit.",
+          requires_class: "Vehicle",
+          requires_subclass: "Hover",
+          ability: "Units with the Droid keyword gain a +1 bonus to their Command rolls.",
+          tts_image: ""
+        }
+      ],
       units: [
         { 
           id: "sep_b1", 
@@ -384,7 +549,10 @@ const REGIMENT_DATA = {
           atk_ranged: 2, atk_melee: 2,
           rng_short: 4, rng_long: 10,
           wnd: 3, sv: "-",
-          keywords: ["Droid"] 
+          keywords: ["Droid"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "sep_b2", 
@@ -399,7 +567,10 @@ const REGIMENT_DATA = {
           atk_ranged: 2, atk_melee: 3,
           rng_short: 8, rng_long: 12,
           wnd: 3, sv: "6+",
-          keywords: ["Droid"] 
+          keywords: ["Droid"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "sep_droidekas", 
@@ -414,7 +585,10 @@ const REGIMENT_DATA = {
           atk_ranged: 4, atk_melee: 2,
           rng_short: 6, rng_long: 10,
           wnd: 2, sv: "4+",
-          keywords: ["Droid"] 
+          keywords: ["Droid"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "sep_j1_cannon", 
@@ -429,7 +603,10 @@ const REGIMENT_DATA = {
           atk_ranged: 5, atk_melee: 1,
           rng_short: 20, rng_long: 26,
           wnd: 5, sv: "4+",
-          keywords: ["Artillery", "Anti-Armor"] 
+          keywords: ["Artillery", "Anti-Armor"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "sep_aat", 
@@ -444,7 +621,10 @@ const REGIMENT_DATA = {
           atk_ranged: 4, atk_melee: 1,
           rng_short: 12, rng_long: 16,
           wnd: 4, sv: "4+",
-          keywords: ["Anti-Armor"] 
+          keywords: ["Anti-Armor"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "sep_hailfire", 
@@ -459,7 +639,10 @@ const REGIMENT_DATA = {
           atk_ranged: 4, atk_melee: 2,
           rng_short: 14, rng_long: 18,
           wnd: 3, sv: "5+",
-          keywords: ["Anti-Armor"] 
+          keywords: ["Anti-Armor"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "sep_hmp", 
@@ -474,7 +657,10 @@ const REGIMENT_DATA = {
           atk_ranged: 3, atk_melee: null,
           rng_short: 10, rng_long: 16,
           wnd: 4, sv: "4+",
-          keywords: ["Transport"] 
+          keywords: ["Transport"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "sep_octuptarra", 
@@ -489,7 +675,10 @@ const REGIMENT_DATA = {
           atk_ranged: 5, atk_melee: 2,
           rng_short: 12, rng_long: 16,
           wnd: 5, sv: "4+",
-          keywords: ["Towering", "Omnipresent"] 
+          keywords: ["Towering", "Omnipresent"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         },
         { 
           id: "sep_mtt", 
@@ -504,7 +693,10 @@ const REGIMENT_DATA = {
           atk_ranged: 3, atk_melee: 1,
           rng_short: 10, rng_long: 16,
           wnd: 5, sv: "4+",
-          keywords: ["Heavy Armor", "Transport"] 
+          keywords: ["Heavy Armor", "Transport"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
         }
       ]
     },
@@ -512,7 +704,103 @@ const REGIMENT_DATA = {
       id: "gun_all",
       name: "Gungan Grand Army",
       type: "Minor",
-      units: []
+      command_value: "6+",
+      leaders: [
+        {
+          id: "ldr_tarpals",
+          name: "Captain Tarpals",
+          cost: 0,
+          restriction_text: "Must be attached to a Ground Vehicle unit.",
+          requires_class: "Vehicle",
+          requires_subclass: "Ground",
+          ability: "Any friendly unit within 12\" of Captain Tarpals gains a +1 bonus to their Command Rolls.",
+          tts_image: ""
+        },
+        {
+          id: "ldr_binks",
+          name: "General Binks",
+          cost: 0,
+          restriction_text: "Must be attached to an Infantry unit.",
+          requires_class: "Infantry",
+          requires_subclass: null,
+          ability: "When attacking with this unit, decrease the save value of the defender by 1 (4+ becomes 5+, units with no save are not affected).",
+          tts_image: ""
+        }
+      ],
+      units: [
+        { 
+          id: "gun_militagung", 
+          name: "Militagung", 
+          unit_size: 3,
+          cost: 0, 
+          min_pct: 0, 
+          max_pct: null, 
+          class: "Infantry",
+          subclass: null,
+          mv: 6, mv_max: null,
+          atk_ranged: 2, atk_melee: 3,
+          rng_short: 6, rng_long: 6,
+          wnd: 3, sv: "5+",
+          keywords: ["Booma Balls"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
+        },
+        { 
+          id: "gun_kaadu", 
+          name: "Kaadu Cavalry", 
+          unit_size: 2,
+          cost: 0, 
+          min_pct: 0, 
+          max_pct: null, 
+          class: "Vehicle",
+          subclass: "Ground",
+          mv: 8, mv_max: null,
+          atk_ranged: 3, atk_melee: 4,
+          rng_short: 10, rng_long: 10,
+          wnd: 2, sv: "5+",
+          keywords: ["Booma Balls"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
+        },
+        { 
+          id: "gun_catapult", 
+          name: "Catapult", 
+          unit_size: 1,
+          cost: 0, 
+          min_pct: 0, 
+          max_pct: null, 
+          class: "Vehicle",
+          subclass: "Hover",
+          mv: 0, mv_max: null,
+          atk_ranged: 5, atk_melee: 1,
+          rng_short: 12, rng_long: 12,
+          wnd: 4, sv: "5+",
+          keywords: ["Booma Balls"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
+        },
+        { 
+          id: "gun_fambaa", 
+          name: "Shield Fambaa", 
+          unit_size: 1,
+          cost: 0, 
+          min_pct: 0, 
+          max_pct: null, 
+          class: "Titan",
+          subclass: "Ground",
+          mv: 0, mv_max: null,
+          atk_ranged: null, atk_melee: null,
+          rng_short: null, rng_long: null,
+          wnd: 2, sv: "5+",
+          keywords: ["Shield Generator", "Towering"],
+          tts_model: "",
+          tts_texture: "",
+          tts_collider: "" 
+        }
+      ]
     }
   ],
 
@@ -524,7 +812,8 @@ const REGIMENT_DATA = {
       availability: "4+", 
       template: "Single Card (3.5\" x 2.5\")",
       attack_dice: 3,
-      keywords: []
+      keywords: [],
+      tts_card_front: ""
     },
     { 
       id: "ots_strafing", 
@@ -533,7 +822,8 @@ const REGIMENT_DATA = {
       availability: "5+", 
       template: "Double Card - Long (7\" x 2.5\")",
       attack_dice: 4,
-      keywords: ["Anti-Armor"]
+      keywords: ["Anti-Armor"],
+      tts_card_front: ""
     },
     { 
       id: "ots_artillery", 
@@ -542,7 +832,8 @@ const REGIMENT_DATA = {
       availability: "6+", 
       template: "Double Card - Wide (5\" x 3.5\")",
       attack_dice: 6,
-      keywords: ["Anti-Armor"]
+      keywords: ["Anti-Armor"],
+      tts_card_front: ""
     },
     { 
       id: "ots_orbital", 
@@ -551,7 +842,8 @@ const REGIMENT_DATA = {
       availability: "7+", 
       template: "Single Card (3.5\" x 2.5\")",
       attack_dice: 8,
-      keywords: ["Anti-Armor"]
+      keywords: ["Anti-Armor"],
+      tts_card_front: ""
     }
   ],
 
@@ -565,6 +857,7 @@ const REGIMENT_DATA = {
     "Heavy Armor": "Immune to standard fire from the front. All hits from units without the Anti-Armor keyword are automatically saved if received from the front facing. Flanking units without Anti-Armor can only hit on 6+ when shooting.",
     "Jetpacks": "Ignores all terrain movement penalties and can move over enemy units.",
     "Omnipresent": "Cannot be flanked and can shoot from any of its base edges",
+    "Shield Generator": "Placeholder text.",
     "Tow-Cable": "The unit must declare a charge on a Walker Titan and enter base contact. Ignore normal charge rules. Roll 3 attack dice, hitting on a 2+. The Walker rolls its saves needing a 2+. Any unsaved hits results in the Walker's instant destruction.",
     "Towering": "Can draw Line of Sight over terrain and all other units.",
     "Transport": "This unit may transport one Infantry unit.",
