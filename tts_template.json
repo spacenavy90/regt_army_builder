@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "faction_id": "emp_all",
+    "faction_name": "Galactic Empire",
+    "command_value": "6+",
+    "points_cap": 1000,
+    "total_points": 990,
+    "bid": 10
+  },
+  "leader": {
+    "id": "ldr_vader",
+    "name": "Darth Vader",
+    "cost": 45,
+    "ability": "Placeholder text.",
+    "tts_image": ""
+  },
+  "units": [
+    {
+      "id": "emp_atst",
+      "name": "AT-ST",
+      "quantity": 2,
+      "class": "Vehicle",
+      "subclass": "Walker",
+      "cost_per_unit": 75,
+      "total_cost": 150,
+      "mv": 8,
+      "atk_ranged": 4,
+      "atk_melee": 2,
+      "rng_short": 12,
+      "rng_long": 16,
+      "wnd": 4,
+      "sv": "5+",
+      "keywords": ["Anti-Armor"],
+      "tts_model": "",
+      "tts_texture": "",
+      "tts_collider": ""
+    }
+  ],
+  "ots": [
+    {
+      "id": "ots_orbital_strike",
+      "name": "Orbital Strike",
+      "quantity": 1,
+      "cost_per_unit": 50,
+      "availability": "5+",
+      "attack_dice": 6,
+      "template": "Large Blast",
+      "keywords": ["Anti-Armor"],
+      "tts_image": ""
+    }
+  ]
+}

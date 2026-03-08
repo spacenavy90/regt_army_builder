@@ -10,18 +10,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.getElementById('overrideToggle').addEventListener('change', updateUI);
     
-    
     // Export & Clear listeners
     document.getElementById('btnClearList').addEventListener('click', clearArmy);
-    document.getElementById('btnCopySimple').addEventListener('click', () => copyToClipboard(generateSimpleText()));
-    document.getElementById('btnCopyDetailed').addEventListener('click', () => copyToClipboard(generateDetailedText()));
-    document.getElementById('btnCopyCode').addEventListener('click', generateShareCode);
+    
+    document.getElementById('btnCopySimple').addEventListener('click', () => {
+        copyToClipboard(generateSimpleText(), 'btnCopySimple');
+    });
+    
+    document.getElementById('btnCopyDetailed').addEventListener('click', () => {
+        copyToClipboard(generateDetailedText(), 'btnCopyDetailed');
+    });
+    
+    document.getElementById('btnCopyCode').addEventListener('click', () => {
+        const cap = document.getElementById('armyCap').value;
+        const listState = { f: selectedFactionId, c: cap, l: currentList };
+        copyToClipboard(btoa(JSON.stringify(listState)), 'btnCopyCode');
+    });
+
+    document.getElementById('btnCopyTTS').addEventListener('click', () => {
+        copyToClipboard(generateTTSJSON(), 'btnCopyTTS');
+    });
+
     document.getElementById('btnLoadCode').addEventListener('click', () => {
         const code = document.getElementById('shareCodeInput').value.trim();
         if (code) loadFromShareCode(code);
     });
 
     initializeHomeScreen();
+
+    if (loadState()) {
+        loadBuilderView(selectedFactionId, currentList);
+    }
 });
 
 // View Switching Functions
@@ -320,6 +339,8 @@ function updateUI() {
     
     const bidValue = cap - totalSpent;
     document.getElementById('bidDisplay').textContent = bidValue > 0 ? bidValue : 0;
+
+    saveState();
 }
 
 function buildManifestItem(id, name, qty, cost, subtext) {
@@ -455,12 +476,77 @@ function generateDetailedText() {
     return text;
 }
 
-function copyToClipboard(text) {
+function copyToClipboard(text, btnId) {
+    const btn = document.getElementById(btnId);
+    const originalText = btn.textContent;
+
     navigator.clipboard.writeText(text).then(() => {
-        alert("List copied to clipboard!");
+        btn.textContent = "Copied!";
+        btn.classList.add('btn-success'); // Optional: add a green class in CSS
+        
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.remove('btn-success');
+        }, 2000);
     }).catch(err => {
         console.error("Failed to copy text: ", err);
     });
+}
+
+function generateTTSJSON() {
+    const cap = parseInt(document.getElementById('armyCap').value) || 0;
+    const faction = REGIMENT_DATA.factions.find(f => f.id === selectedFactionId);
+    
+    const output = {
+        metadata: {
+            faction_id: faction.id,
+            faction_name: faction.name,
+            command_value: faction.command_value,
+            points_cap: cap,
+            total_points: 0, // Calculated below
+            bid: 0
+        },
+        leader: null,
+        units: [],
+        ots: []
+    };
+
+    let totalSpent = 0;
+
+    for (const [id, qty] of Object.entries(currentList)) {
+        const unit = faction.units.find(u => u.id === id);
+        const ots = REGIMENT_DATA.ots.find(o => o.id === id);
+        const leader = faction.leaders ? faction.leaders.find(l => l.id === id) : null;
+
+        if (leader) {
+            output.leader = {
+                ...leader,
+                quantity: qty,
+                total_cost: qty * leader.cost
+            };
+            totalSpent += (qty * leader.cost);
+        } else if (unit) {
+            output.units.push({
+                ...unit,
+                quantity: qty,
+                total_cost: qty * unit.cost
+            });
+            totalSpent += (qty * unit.cost);
+        } else if (ots) {
+            output.ots.push({
+                ...ots,
+                quantity: qty,
+                total_cost: qty * ots.cost
+            });
+            totalSpent += (qty * ots.cost);
+        }
+    }
+
+    output.metadata.total_points = totalSpent;
+    output.metadata.bid = Math.max(0, cap - totalSpent);
+
+    // null, 2 provides the indented formatting for debug readability
+    return JSON.stringify(output, null, 2);
 }
 
 function generateShareCode() {
@@ -497,4 +583,51 @@ function loadFromShareCode(base64Code) {
         alert("Invalid share code. Please check the code and try again.");
         console.error("Failed to parse share code:", e);
     }
+}
+
+function saveState() {
+    const state = {
+        cap: document.getElementById('armyCap').value,
+        factionId: selectedFactionId,
+        roster: currentList
+    };
+    localStorage.setItem('regimentBuilderState', JSON.stringify(state));
+}
+
+function loadState() {
+    const saved = localStorage.getItem('regimentBuilderState');
+    if (saved) {
+        try {
+            const state = JSON.parse(saved);
+            document.getElementById('armyCap').value = state.cap;
+            selectedFactionId = state.factionId;
+            document.getElementById('factionSelect').value = selectedFactionId;
+            currentList = state.roster || {};
+            return true;
+        } catch (e) {
+            console.error("Failed to parse saved state.");
+            return false;
+        }
+    }
+    return false;
+}
+
+function printDetailedList() {
+    const text = generateDetailedText();
+    const printWindow = window.open('', '', 'height=800,width=800');
+    
+    printWindow.document.write('<html><head><title>Regiment Battle Manifest</title>');
+    printWindow.document.write('<style>body { font-family: monospace; font-size: 14px; white-space: pre-wrap; padding: 20px; }</style>');
+    printWindow.document.write('</head><body>');
+    printWindow.document.write(text);
+    printWindow.document.write('</body></html>');
+    
+    printWindow.document.close();
+    printWindow.focus();
+    
+    // Slight delay ensures the DOM is fully written before invoking the print dialog
+    setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+    }, 250);
 }
