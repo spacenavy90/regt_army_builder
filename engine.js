@@ -141,7 +141,7 @@ function renderRoster() {
                 <div class="unit-name">${u.name} (${u.unit_size})</div>
                 <div class="unit-type">${u.class}${u.subclass ? ' - ' + u.subclass : ''}</div>
                 <div class="unit-stats">
-                    Mv: ${formatStat(u.mv, u.mv_max, '"')} | Atk: ${formatStat(u.atk_ranged, u.atk_melee)} | Rng: ${formatStat(u.rng_short, u.rng_long, '"')} | Wnd: ${u.wnd} | Sv: ${u.sv}
+                    Mv: ${formatStat(u.mv, u.mv_min, '"')} | Atk: ${formatStat(u.atk_ranged, u.atk_melee)} | Rng: ${formatStat(u.rng_short, u.rng_long, '"')} | Wnd: ${u.wnd} | Sv: ${u.sv}
                 </div>
                 <div class="unit-keywords">${u.keywords.join(', ')}</div>
             </div>
@@ -438,7 +438,7 @@ function generateDetailedText() {
         } else if (unit && qty > 0) {
             const cost = qty * unit.cost;
             unitsText += `${qty}x ${unit.name} [${unit.cost} ea | ${cost} pts]\n`;
-            unitsText += `    Mv: ${formatStat(unit.mv, unit.mv_max, '"')} | Atk: ${formatStat(unit.atk_ranged, unit.atk_melee)} | Rng: ${formatStat(unit.rng_short, unit.rng_long, '"')} | Wnd: ${unit.wnd} | Sv: ${unit.sv}\n`;
+            unitsText += `    Mv: ${formatStat(unit.mv, unit.mv_min, '"')} | Atk: ${formatStat(unit.atk_ranged, unit.atk_melee)} | Rng: ${formatStat(unit.rng_short, unit.rng_long, '"')} | Wnd: ${unit.wnd} | Sv: ${unit.sv}\n`;
             if (unit.keywords && unit.keywords.length > 0) {
                 unitsText += `    Keywords: ${unit.keywords.join(', ')}\n`;
                 unit.keywords.forEach(kw => usedKeywords.add(kw));

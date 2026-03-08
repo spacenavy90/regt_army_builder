@@ -14,7 +14,7 @@ Units are housed within their respective faction's `units` array inside `REGIMEN
 * `class`: String (`"Infantry"`, `"Emplacement"`, `"Vehicle"`, `"Titan"`, etc.).
 * `subclass`: String or `null` (`"Aerial"`, `"Walker"`, `"Hover"`, `"Ground"`, etc.).
 * `min_pct` / `max_pct`: Integer representing the percentage of the points cap required/allowed (e.g., `25`, `50`). Use `0` or `null` if no limit applies.
-* **TTS Keys:** `tts_model`, `tts_texture`, `tts_collider` must exist as strings, even if empty for units. `"tts_image"`, and `"tts_cardd"` exist for new faction leaders and off-table support assets.
+* **TTS Keys:** `tts_model`, `tts_texture`, `tts_collider` must exist as strings, even if empty for units. `"tts_image"`, and `"tts_card_front"` exist for new faction leaders and off-table support assets.
 
 ## Adding or Editing Leaders
 Leaders are housed in the `leaders` array of their specific faction. A faction is restricted to 1 leader by the engine.
