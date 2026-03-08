@@ -229,13 +229,6 @@ body {
     border-bottom: none;
 }
 
-.manifest-header {
-    display: flex;
-    justify-content: space-between;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
 .manifest-details {
     font-size: 0.85rem;
     color: var(--text-muted);
@@ -289,22 +282,6 @@ body {
     gap: 10px;
 }
 
-.btn-export {
-    flex: 1;
-    background-color: var(--accent);
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 4px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.btn-export:hover {
-    background-color: #2563eb;
-}
-
 .export-section {
     margin-top: 20px;
     padding-top: 15px;
@@ -319,7 +296,6 @@ body {
 }
 
 .btn-export {
-    flex: 1;
     background-color: var(--bg-surface-hover);
     border: 1px solid var(--border-color);
     color: var(--text-main);
