@@ -39,6 +39,7 @@
       "wnd": 3,
       "sv": "6+",
       "keywords": [],
+      "tts_height": 1,
       "tts_model": "",
       "tts_texture": "",
       "tts_collider": "",
@@ -65,6 +66,7 @@
       "keywords": [
         "Anti-Armor"
       ],
+      "tts_height": 1.2,
       "tts_model": "",
       "tts_texture": "",
       "tts_collider": "",
@@ -91,6 +93,7 @@
       "keywords": [
         "Tow-Cable"
       ],
+      "tts_height": 1,
       "tts_model": "",
       "tts_texture": "",
       "tts_collider": "",
