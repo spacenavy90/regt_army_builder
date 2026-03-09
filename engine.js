@@ -529,7 +529,8 @@ function generateTTSJSON() {
             output.units.push({
                 ...unit,
                 quantity: qty,
-                total_cost: qty * unit.cost
+                total_cost: qty * unit.cost,
+                tts_height: unit.tts_height || 1.0
             });
             totalSpent += (qty * unit.cost);
         } else if (ots) {

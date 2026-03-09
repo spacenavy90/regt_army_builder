@@ -42,7 +42,7 @@ const REGIMENT_DATA = {
       ],
       units: [
         { 
-          id: "emp_stm", 
+          id: "emp_strmt", 
           name: "Stormtroopers", 
           unit_size: 3,
           cost: 50, 
@@ -55,12 +55,13 @@ const REGIMENT_DATA = {
           rng_short: 8, rng_long: 12,
           wnd: 3, sv: "5+",
           keywords: [],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: ""
         },
         { 
-          id: "emp_dth", 
+          id: "emp_deatht", 
           name: "Death Troopers", 
           unit_size: 2,
           cost: 75, 
@@ -73,12 +74,13 @@ const REGIMENT_DATA = {
           rng_short: 10, rng_long: 12,
           wnd: 3, sv: "5+",
           keywords: ["Fearless"],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: ""
         },
         { 
-          id: "emp_hvy", 
+          id: "emp_hvywep", 
           name: "Heavy Weapons Teams", 
           unit_size: 2,
           cost: 90, 
@@ -91,12 +93,13 @@ const REGIMENT_DATA = {
           rng_short: 12, rng_long: 20,
           wnd: 3, sv: "5+",
           keywords: ["Anti-Armor"],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
         },
         { 
-          id: "emp_trp", 
+          id: "emp_itt", 
           name: "Imperial Transport", 
           unit_size: 1,
           cost: 100, 
@@ -109,12 +112,13 @@ const REGIMENT_DATA = {
           rng_short: 8, rng_long: 12,
           wnd: 2, sv: "4+",
           keywords: ["Transport"],
+          tts_height: 1.2,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
         },
         { 
-          id: "emp_ats", 
+          id: "emp_atst", 
           name: "AT-ST", 
           unit_size: 2,
           cost: 150, 
@@ -127,6 +131,7 @@ const REGIMENT_DATA = {
           rng_short: 10, rng_long: 14,
           wnd: 3, sv: "4+",
           keywords: [],
+          tts_height: 2.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -145,12 +150,13 @@ const REGIMENT_DATA = {
           rng_short: 14, rng_long: 24,
           wnd: 3, sv: "4+",
           keywords: ["Anti-Armor"],
+          tts_height: 2.5,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
         },
         { 
-          id: "emp_ata", 
+          id: "emp_atat", 
           name: "AT-AT", 
           unit_size: 1,
           cost: 300, 
@@ -163,9 +169,10 @@ const REGIMENT_DATA = {
           rng_short: 12, rng_long: 24,
           wnd: 6, sv: "3+",
           keywords: ["Anti-Armor", "Heavy Armor", "Towering", "Transport"],
-          tts_model: "",
-          tts_texture: "",
-          tts_collider: "" 
+          tts_height: 4.0,
+          tts_model: "https://steamusercontent-a.akamaihd.net/ugc/10038581925195204998/39AE4A45B1C07702F362EC005EE58EC294020472/",
+          tts_texture: "https://steamusercontent-a.akamaihd.net/ugc/14157114661739420760/93CB7DA7FB1A8923A2B8E61FF98C192FEBB04E95/",
+          tts_collider: "https://steamusercontent-a.akamaihd.net/ugc/16576285613005064857/823FBD722C64769D37DBDFBAF71E2340D8003C9E/" 
         }
       ]
     },
@@ -178,7 +185,7 @@ const REGIMENT_DATA = {
         {
           id: "ldr_luke",
           name: "Luke Skywalker",
-          cost: 0,
+          cost: 30,
           restriction_text: "Placeholder restriction.",
           requires_class: null,
           requires_subclass: null,
@@ -189,7 +196,7 @@ const REGIMENT_DATA = {
         {
           id: "ldr_leia",
           name: "Leia Organa",
-          cost: 0,
+          cost: 30,
           restriction_text: "None.",
           requires_class: null,
           requires_subclass: null,
@@ -200,7 +207,7 @@ const REGIMENT_DATA = {
         {
           id: "ldr_wedge",
           name: "Wedge Antilles",
-          cost: 0,
+          cost: 30,
           restriction_text: "Must be attached to an Aerial Vehicle unit.",
           requires_class: "Vehicle",
           requires_subclass: "Aerial",
@@ -224,6 +231,7 @@ const REGIMENT_DATA = {
           rng_short: 8, rng_long: 12,
           wnd: 3, sv: "6+",
           keywords: [],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -242,6 +250,7 @@ const REGIMENT_DATA = {
           rng_short: 10, rng_long: 12,
           wnd: 3, sv: "5+",
           keywords: ["Clone"],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -260,6 +269,7 @@ const REGIMENT_DATA = {
           rng_short: 8, rng_long: 12,
           wnd: 2, sv: "5+",
           keywords: [],
+          tts_height: 1.2,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -278,6 +288,7 @@ const REGIMENT_DATA = {
           rng_short: 8, rng_long: 12,
           wnd: 2, sv: "4+",
           keywords: ["Transport"],
+          tts_height: 1.2,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -296,6 +307,7 @@ const REGIMENT_DATA = {
           rng_short: 14, rng_long: 24,
           wnd: 3, sv: "4+",
           keywords: ["Anti-Armor"],
+          tts_height: 1.2,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -314,6 +326,7 @@ const REGIMENT_DATA = {
           rng_short: 10, rng_long: 16,
           wnd: 4, sv: "4+",
           keywords: ["Tow-Cable"],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -329,7 +342,7 @@ const REGIMENT_DATA = {
         {
           id: "ldr_anakin",
           name: "Anakin Skywalker",
-          cost: 0,
+          cost: 30,
           restriction_text: "Placeholder restriction.",
           requires_class: null,
           requires_subclass: null,
@@ -340,7 +353,7 @@ const REGIMENT_DATA = {
         {
           id: "ldr_kenobi",
           name: "General Kenobi",
-          cost: 0,
+          cost: 30,
           restriction_text: "Must be attached to an Infantry unit.",
           requires_class: "Infantry",
           requires_subclass: null,
@@ -351,7 +364,7 @@ const REGIMENT_DATA = {
         {
           id: "ldr_rex",
           name: "Captain Rex",
-          cost: 0,
+          cost: 30,
           restriction_text: "Must be attached to an Infantry unit.",
           requires_class: "Infantry",
           requires_subclass: null,
@@ -375,6 +388,7 @@ const REGIMENT_DATA = {
           rng_short: 8, rng_long: 12,
           wnd: 3, sv: "6+",
           keywords: ["Clone"],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -393,6 +407,7 @@ const REGIMENT_DATA = {
           rng_short: 10, rng_long: 12,
           wnd: 3, sv: "5+",
           keywords: ["Clone"],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -411,6 +426,7 @@ const REGIMENT_DATA = {
           rng_short: 10, rng_long: 14,
           wnd: 3, sv: "6+",
           keywords: ["Clone", "Jetpacks"],
+          tts_height: 2.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -429,6 +445,7 @@ const REGIMENT_DATA = {
           rng_short: 8, rng_long: 12,
           wnd: 2, sv: "5+",
           keywords: [],
+          tts_height: 1.2,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -447,6 +464,7 @@ const REGIMENT_DATA = {
           rng_short: 10, rng_long: 14,
           wnd: 3, sv: "4+",
           keywords: ["Anti-Armor"],
+          tts_height: 1.2,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -465,6 +483,7 @@ const REGIMENT_DATA = {
           rng_short: 20, rng_long: 26,
           wnd: 5, sv: "4+",
           keywords: ["Artillery", "Anti-Armor"],
+          tts_height: 2.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -483,6 +502,7 @@ const REGIMENT_DATA = {
           rng_short: 10, rng_long: 16,
           wnd: 5, sv: "4+",
           keywords: ["Transport"],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -501,6 +521,7 @@ const REGIMENT_DATA = {
           rng_short: 12, rng_long: 20,
           wnd: 6, sv: "3+",
           keywords: ["Heavy Armor", "Transport"],
+          tts_height: 2.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -516,7 +537,7 @@ const REGIMENT_DATA = {
         {
           id: "ldr_grievous",
           name: "General Grievous",
-          cost: 0,
+          cost: 30,
           restriction_text: "Placeholder restriction.",
           requires_class: null,
           requires_subclass: null,
@@ -527,7 +548,7 @@ const REGIMENT_DATA = {
         {
           id: "ldr_loathsom",
           name: "General Loathsom",
-          cost: 0,
+          cost: 30,
           restriction_text: "None.",
           requires_class: null,
           requires_subclass: null,
@@ -538,7 +559,7 @@ const REGIMENT_DATA = {
         {
           id: "ldr_oom9",
           name: "OOM-9",
-          cost: 0,
+          cost: 30,
           restriction_text: "Must be attached to a Hover Vehicle unit.",
           requires_class: "Vehicle",
           requires_subclass: "Hover",
@@ -562,6 +583,7 @@ const REGIMENT_DATA = {
           rng_short: 4, rng_long: 10,
           wnd: 3, sv: "-",
           keywords: ["Droid"],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -580,6 +602,7 @@ const REGIMENT_DATA = {
           rng_short: 8, rng_long: 12,
           wnd: 3, sv: "6+",
           keywords: ["Droid"],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -598,6 +621,7 @@ const REGIMENT_DATA = {
           rng_short: 6, rng_long: 10,
           wnd: 2, sv: "4+",
           keywords: ["Droid"],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -616,6 +640,7 @@ const REGIMENT_DATA = {
           rng_short: 20, rng_long: 26,
           wnd: 5, sv: "4+",
           keywords: ["Artillery", "Anti-Armor"],
+          tts_height: 1.2,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -634,6 +659,7 @@ const REGIMENT_DATA = {
           rng_short: 12, rng_long: 16,
           wnd: 4, sv: "4+",
           keywords: ["Anti-Armor"],
+          tts_height: 1.2,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -652,6 +678,7 @@ const REGIMENT_DATA = {
           rng_short: 14, rng_long: 18,
           wnd: 3, sv: "5+",
           keywords: ["Anti-Armor"],
+          tts_height: 1.2,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -670,6 +697,7 @@ const REGIMENT_DATA = {
           rng_short: 10, rng_long: 16,
           wnd: 4, sv: "4+",
           keywords: ["Transport"],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -688,6 +716,7 @@ const REGIMENT_DATA = {
           rng_short: 12, rng_long: 16,
           wnd: 5, sv: "4+",
           keywords: ["Towering", "Omnipresent"],
+          tts_height: 4.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -706,6 +735,7 @@ const REGIMENT_DATA = {
           rng_short: 10, rng_long: 16,
           wnd: 5, sv: "4+",
           keywords: ["Heavy Armor", "Transport"],
+          tts_height: 2.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -721,7 +751,7 @@ const REGIMENT_DATA = {
         {
           id: "ldr_tarpals",
           name: "Captain Tarpals",
-          cost: 0,
+          cost: 30,
           restriction_text: "Must be attached to a Ground Vehicle unit.",
           requires_class: "Vehicle",
           requires_subclass: "Ground",
@@ -732,7 +762,7 @@ const REGIMENT_DATA = {
         {
           id: "ldr_binks",
           name: "General Binks",
-          cost: 0,
+          cost: 30,
           restriction_text: "Must be attached to an Infantry unit.",
           requires_class: "Infantry",
           requires_subclass: null,
@@ -746,8 +776,8 @@ const REGIMENT_DATA = {
           id: "gun_militagung", 
           name: "Militagung", 
           unit_size: 3,
-          cost: 0, 
-          min_pct: 0, 
+          cost: 50, 
+          min_pct: 15, 
           max_pct: null, 
           class: "Infantry",
           subclass: null,
@@ -756,6 +786,7 @@ const REGIMENT_DATA = {
           rng_short: 6, rng_long: 6,
           wnd: 3, sv: "5+",
           keywords: ["Booma Balls"],
+          tts_height: 1.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -764,9 +795,9 @@ const REGIMENT_DATA = {
           id: "gun_kaadu", 
           name: "Kaadu Cavalry", 
           unit_size: 2,
-          cost: 0, 
+          cost: 100, 
           min_pct: 0, 
-          max_pct: null, 
+          max_pct: 50, 
           class: "Vehicle",
           subclass: "Ground",
           mv: 8, mv_min: null,
@@ -774,6 +805,7 @@ const REGIMENT_DATA = {
           rng_short: 10, rng_long: 10,
           wnd: 2, sv: "5+",
           keywords: ["Booma Balls"],
+          tts_height: 1.2,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -782,9 +814,9 @@ const REGIMENT_DATA = {
           id: "gun_catapult", 
           name: "Catapult", 
           unit_size: 1,
-          cost: 0, 
+          cost: 150, 
           min_pct: 0, 
-          max_pct: null, 
+          max_pct: 25, 
           class: "Vehicle",
           subclass: "Hover",
           mv: 0, mv_min: null,
@@ -792,6 +824,7 @@ const REGIMENT_DATA = {
           rng_short: 12, rng_long: 12,
           wnd: 4, sv: "5+",
           keywords: ["Booma Balls"],
+          tts_height: 1.5,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
@@ -800,9 +833,9 @@ const REGIMENT_DATA = {
           id: "gun_fambaa", 
           name: "Shield Fambaa", 
           unit_size: 1,
-          cost: 0, 
+          cost: 200, 
           min_pct: 0, 
-          max_pct: null, 
+          max_pct: 35, 
           class: "Titan",
           subclass: "Ground",
           mv: 0, mv_min: null,
@@ -810,6 +843,7 @@ const REGIMENT_DATA = {
           rng_short: null, rng_long: null,
           wnd: 2, sv: "5+",
           keywords: ["Shield Generator", "Towering"],
+          tts_height: 2.0,
           tts_model: "",
           tts_texture: "",
           tts_collider: "" 
