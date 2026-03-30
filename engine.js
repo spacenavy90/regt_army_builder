@@ -1,47 +1,53 @@
+let REGIMENT_DATA = null; // Initialize as null
 let currentList = {};
 let selectedFactionId = "reb_all";
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Top-nav listeners
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // 1. Fetch the data
+        const response = await fetch('data.json');
+        if (!response.ok) throw new Error("Failed to load data.json");
+        
+        // 2. Parse and assign to the global variable
+        REGIMENT_DATA = await response.json();
+
+        // 3. Setup standard listeners
+        setupEventListeners();
+
+        // 4. Initialize the view
+        initializeHomeScreen();
+
+        if (loadState()) {
+            loadBuilderView(selectedFactionId, currentList);
+        }
+    } catch (error) {
+        console.error("Critical Initialization Error:", error);
+        alert("The Army Builder could not load the game database. Check the console for details.");
+    }
+});
+
+// Helper to keep the DOMContentLoaded block clean
+function setupEventListeners() {
     document.getElementById('armyCap').addEventListener('input', updateUI);
     document.getElementById('sortSelect').addEventListener('change', renderRoster);
     document.getElementById('factionSelect').addEventListener('change', (e) => {
         loadBuilderView(e.target.value);
     });
     document.getElementById('overrideToggle').addEventListener('change', updateUI);
-    
-    // Export & Clear listeners
     document.getElementById('btnClearList').addEventListener('click', clearArmy);
-    
-    document.getElementById('btnCopySimple').addEventListener('click', () => {
-        copyToClipboard(generateSimpleText(), 'btnCopySimple');
-    });
-    
-    document.getElementById('btnCopyDetailed').addEventListener('click', () => {
-        copyToClipboard(generateDetailedText(), 'btnCopyDetailed');
-    });
-    
+    document.getElementById('btnCopySimple').addEventListener('click', () => copyToClipboard(generateSimpleText(), 'btnCopySimple'));
+    document.getElementById('btnCopyDetailed').addEventListener('click', () => copyToClipboard(generateDetailedText(), 'btnCopyDetailed'));
     document.getElementById('btnCopyCode').addEventListener('click', () => {
         const cap = document.getElementById('armyCap').value;
         const listState = { f: selectedFactionId, c: cap, l: currentList };
         copyToClipboard(btoa(JSON.stringify(listState)), 'btnCopyCode');
     });
-
-    document.getElementById('btnCopyTTS').addEventListener('click', () => {
-        copyToClipboard(generateTTSJSON(), 'btnCopyTTS');
-    });
-
+    document.getElementById('btnCopyTTS').addEventListener('click', () => copyToClipboard(generateTTSJSON(), 'btnCopyTTS'));
     document.getElementById('btnLoadCode').addEventListener('click', () => {
         const code = document.getElementById('shareCodeInput').value.trim();
         if (code) loadFromShareCode(code);
     });
-
-    initializeHomeScreen();
-
-    if (loadState()) {
-        loadBuilderView(selectedFactionId, currentList);
-    }
-});
+}
 
 // View Switching Functions
 function initializeHomeScreen() {
@@ -465,7 +471,9 @@ function generateDetailedText() {
     if (usedKeywords.size > 0) {
         text += `KEYWORD DEFINITIONS\n`;
         usedKeywords.forEach(kw => {
-            const def = REGIMENT_DATA.definitions[kw] || "[Definition Pending]";
+            // Access the .desc property instead of the whole object
+            const entry = REGIMENT_DATA.definitions[kw];
+            const def = entry ? entry.desc : "[Definition Pending]";
             text += `${kw}: ${def}\n`;
         });
         text += `\n`;
@@ -494,16 +502,15 @@ function copyToClipboard(text, btnId) {
 }
 
 function generateTTSJSON() {
-    const cap = parseInt(document.getElementById('armyCap').value) || 0;
     const faction = REGIMENT_DATA.factions.find(f => f.id === selectedFactionId);
+    const cap = parseInt(document.getElementById('armyCap').value) || 0;
     
     const output = {
         metadata: {
             faction_id: faction.id,
             faction_name: faction.name,
-            command_value: faction.command_value,
             points_cap: cap,
-            total_points: 0, // Calculated below
+            total_points: 0,
             bid: 0
         },
         leader: null,
@@ -518,26 +525,47 @@ function generateTTSJSON() {
         const ots = REGIMENT_DATA.ots.find(o => o.id === id);
         const leader = faction.leaders ? faction.leaders.find(l => l.id === id) : null;
 
-        if (leader) {
+        if (leader && qty > 0) {
             output.leader = {
-                ...leader,
-                quantity: qty,
-                total_cost: qty * leader.cost
+                id: leader.id,
+                name: leader.name,
+                cost: leader.cost,
+                ability: leader.ability,
+                tts_image: leader.tts_image
             };
-            totalSpent += (qty * leader.cost);
-        } else if (unit) {
+            totalSpent += leader.cost;
+        } else if (unit && qty > 0) {
             output.units.push({
-                ...unit,
+                id: unit.id,
+                name: unit.name,
                 quantity: qty,
-                total_cost: qty * unit.cost,
-                tts_height: unit.tts_height || 1.0
+                unit_size: unit.unit_size,
+                cost: unit.cost,
+                mv: unit.mv,
+                mv_min: unit.mv_min || null,
+                atk_ranged: unit.atk_ranged,
+                atk_melee: unit.atk_melee,
+                rng_short: unit.rng_short,
+                rng_long: unit.rng_long,
+                wnd: unit.wnd,
+                sv: unit.sv,
+                keywords: unit.keywords,
+                tts_height: unit.tts_height || 1.0,
+                tts_model: unit.tts_model,
+                tts_texture: unit.tts_texture,
+                tts_collider: unit.tts_collider
             });
             totalSpent += (qty * unit.cost);
-        } else if (ots) {
+        } else if (ots && qty > 0) {
             output.ots.push({
-                ...ots,
+                name: ots.name,
                 quantity: qty,
-                total_cost: qty * ots.cost
+                cost: ots.cost,
+                availability: ots.availability,
+                template: ots.template,
+                attack_dice: ots.attack_dice,
+                keywords: ots.keywords,
+                tts_card_front: ots.tts_card_front
             });
             totalSpent += (qty * ots.cost);
         }
@@ -546,7 +574,7 @@ function generateTTSJSON() {
     output.metadata.total_points = totalSpent;
     output.metadata.bid = Math.max(0, cap - totalSpent);
 
-    // null, 2 provides the indented formatting for debug readability
+    // The null, 2 restores the indentation for debug readability
     return JSON.stringify(output, null, 2);
 }
 
@@ -590,7 +618,8 @@ function saveState() {
     const state = {
         cap: document.getElementById('armyCap').value,
         factionId: selectedFactionId,
-        roster: currentList
+        roster: currentList,
+        lastUpdated: Date.now() // Record the exact time of the save
     };
     localStorage.setItem('regimentBuilderState', JSON.stringify(state));
 }
@@ -600,6 +629,15 @@ function loadState() {
     if (saved) {
         try {
             const state = JSON.parse(saved);
+            const now = Date.now();
+            const expiryTime = 6 * 60 * 60 * 1000; // 6 hours in ms
+
+            // Check if the save is older than 24 hours
+            if (state.lastUpdated && (now - state.lastUpdated > expiryTime)) {
+                localStorage.removeItem('regimentBuilderState');
+                return false;
+            }
+
             document.getElementById('armyCap').value = state.cap;
             selectedFactionId = state.factionId;
             document.getElementById('factionSelect').value = selectedFactionId;
