@@ -1,1145 +1,1388 @@
 {
-  "factions": [
-    {
-      "id": "emp_all",
-      "name": "Galactic Empire",
-      "type": "Major",
-      "command_value": "6+",
-      "leaders": [
+    "factions": [
         {
-          "id": "ldr_vader",
-          "name": "Darth Vader",
-          "cost": 45,
-          "restriction_text": "Must be attached to an Infantry unit.",
-          "requires_class": "Infantry",
-          "requires_subclass": null,
-          "requires_unit": null,
-          "ability": "Attached unit gains +1 Attack die in Close Combat and becomes Fearless.",
-          "logic": {
-            "trigger": "on_combat_melee",
-            "target": "attached",
-            "effect": "modify_and_grant",
-            "stat": "atk_melee",
-            "value": 1,
-            "keyword": "Fearless"
-          },
-          "tts_image": ""
+            "id": "emp_all",
+            "name": "Galactic Empire",
+            "type": "Major",
+            "command_value": "6+",
+            "leaders": [
+                {
+                    "id": "ldr_vader",
+                    "name": "Darth Vader",
+                    "cost": 45,
+                    "restriction_text": "Must be attached to an Infantry unit.",
+                    "requires_class": "Infantry",
+                    "requires_subclass": null,
+                    "requires_unit": null,
+                    "ability": "Attached unit gains +1 Attack die in Close Combat and becomes Fearless.",
+                    "logic": {
+                        "trigger": "on_combat_melee",
+                        "target": "attached",
+                        "effect": "modify_and_grant",
+                        "stat": "atk_melee",
+                        "value": 1,
+                        "keyword": "Fearless"
+                    },
+                    "tts_image": ""
+                },
+                {
+                    "id": "ldr_tarkin",
+                    "name": "Grand Moff Tarkin",
+                    "cost": 30,
+                    "restriction_text": "None.",
+                    "requires_class": null,
+                    "requires_subclass": null,
+                    "requires_unit": null,
+                    "ability": "Any friendly unit within 12\" of Tarkin gains a +1 bonus to their Command Roll.",
+                    "logic": {
+                        "trigger": "on_command",
+                        "target": "aura",
+                        "radius": 12,
+                        "effect": "modify",
+                        "stat": "cv",
+                        "value": 1
+                    },
+                    "tts_image": ""
+                },
+                {
+                    "id": "ldr_veers",
+                    "name": "General Veers",
+                    "cost": 40,
+                    "restriction_text": "Must be attached to a Walker unit.",
+                    "requires_class": null,
+                    "requires_subclass": "Walker",
+                    "requires_unit": null,
+                    "ability": "Any friendly unit within 24\" of General Veers gains a +1 bonus to their Command Roll.",
+                    "logic": {
+                        "trigger": "on_command",
+                        "target": "aura",
+                        "radius": 24,
+                        "effect": "modify",
+                        "stat": "cv",
+                        "value": 1
+                    },
+                    "tts_image": ""
+                }
+            ],
+            "units": [
+                {
+                    "id": "emp_strmt",
+                    "name": "Stormtroopers",
+                    "unit_size": 3,
+                    "cost": 45,
+                    "min_pct": 10,
+                    "max_pct": 30,
+                    "class": "Infantry",
+                    "subclass": null,
+                    "mv": 6,
+                    "mv_min": null,
+                    "atk_ranged": 2,
+                    "atk_melee": 3,
+                    "rng_short": 8,
+                    "rng_long": 12,
+                    "wnd": 3,
+                    "sv": "5+",
+                    "keywords": [],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "emp_deatht",
+                    "name": "Death Troopers",
+                    "unit_size": 2,
+                    "cost": 75,
+                    "min_pct": 0,
+                    "max_pct": 15,
+                    "class": "Infantry",
+                    "subclass": null,
+                    "mv": 6,
+                    "mv_min": null,
+                    "atk_ranged": 3,
+                    "atk_melee": 3,
+                    "rng_short": 10,
+                    "rng_long": 12,
+                    "wnd": 3,
+                    "sv": "5+",
+                    "keywords": [
+                        "Fearless"
+                    ],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "emp_hvywep",
+                    "name": "Heavy Weapons Teams",
+                    "unit_size": 2,
+                    "cost": 90,
+                    "min_pct": 0,
+                    "max_pct": 40,
+                    "class": "Infantry",
+                    "subclass": null,
+                    "mv": 4,
+                    "mv_min": null,
+                    "atk_ranged": 4,
+                    "atk_melee": 2,
+                    "rng_short": 12,
+                    "rng_long": 20,
+                    "wnd": 3,
+                    "sv": "5+",
+                    "keywords": [
+                        "Anti-Armor"
+                    ],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "emp_itt",
+                    "name": "Imperial Transport",
+                    "unit_size": 1,
+                    "cost": 100,
+                    "min_pct": 0,
+                    "max_pct": 60,
+                    "class": "Vehicle",
+                    "subclass": "Hover",
+                    "mv": 8,
+                    "mv_min": null,
+                    "atk_ranged": 2,
+                    "atk_melee": 2,
+                    "rng_short": 8,
+                    "rng_long": 12,
+                    "wnd": 2,
+                    "sv": "4+",
+                    "keywords": [
+                        "Transport"
+                    ],
+                    "tts_height": 1.2,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "emp_atst",
+                    "name": "AT-ST",
+                    "unit_size": 2,
+                    "cost": 85,
+                    "min_pct": 0,
+                    "max_pct": 45,
+                    "class": "Vehicle",
+                    "subclass": "Walker",
+                    "mv": 8,
+                    "mv_min": null,
+                    "atk_ranged": 5,
+                    "atk_melee": 3,
+                    "rng_short": 8,
+                    "rng_long": 16,
+                    "wnd": 4,
+                    "sv": "5+",
+                    "keywords": [
+                        "Armor 1"
+                    ],
+                    "tts_height": 2.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "emp_tbo",
+                    "name": "Turbolaser Tower",
+                    "unit_size": 1,
+                    "cost": 110,
+                    "min_pct": 0,
+                    "max_pct": 35,
+                    "class": "Emplacement",
+                    "subclass": null,
+                    "mv": 0,
+                    "mv_min": null,
+                    "atk_ranged": 6,
+                    "atk_melee": null,
+                    "rng_short": 14,
+                    "rng_long": 24,
+                    "wnd": 3,
+                    "sv": "4+",
+                    "keywords": [
+                        "Anti-Armor"
+                    ],
+                    "tts_height": 2.5,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "emp_atat",
+                    "name": "AT-AT",
+                    "unit_size": 1,
+                    "cost": 320,
+                    "min_pct": 0,
+                    "max_pct": 60,
+                    "class": "Titan",
+                    "subclass": "Walker",
+                    "mv": 6,
+                    "mv_min": null,
+                    "atk_ranged": 5,
+                    "atk_melee": 6,
+                    "rng_short": 12,
+                    "rng_long": 24,
+                    "wnd": 6,
+                    "sv": "3+",
+                    "keywords": [
+                        "Anti-Armor",
+                        "Heavy Armor",
+                        "Towering",
+                        "Transport"
+                    ],
+                    "tts_height": 4.0,
+                    "tts_model": "https://steamusercontent-a.akamaihd.net/ugc/10038581925195204998/39AE4A45B1C07702F362EC005EE58EC294020472/",
+                    "tts_texture": "https://steamusercontent-a.akamaihd.net/ugc/14157114661739420760/93CB7DA7FB1A8923A2B8E61FF98C192FEBB04E95/",
+                    "tts_collider": "https://steamusercontent-a.akamaihd.net/ugc/16576285613005064857/823FBD722C64769D37DBDFBAF71E2340D8003C9E/"
+                }
+            ]
         },
         {
-          "id": "ldr_tarkin",
-          "name": "Grand Moff Tarkin",
-          "cost": 30,
-          "restriction_text": "None.",
-          "requires_class": null,
-          "requires_subclass": null,
-          "requires_unit": null,
-          "ability": "Any friendly unit within 12\" of Tarkin gains a +1 bonus to their Command Roll.",
-          "logic": {
-            "trigger": "on_command",
-            "target": "aura",
-            "radius": 12,
-            "effect": "modify",
-            "stat": "cv",
-            "value": 1
-          },
-          "tts_image": ""
+            "id": "reb_all",
+            "name": "Rebel Alliance",
+            "type": "Major",
+            "command_value": "6+",
+            "leaders": [
+                {
+                    "id": "ldr_luke",
+                    "name": "Luke Skywalker",
+                    "cost": 30,
+                    "restriction_text": "None.",
+                    "requires_class": null,
+                    "requires_subclass": null,
+                    "requires_unit": null,
+                    "ability": "Attached unit gains +1 Attack die in Close Combat and +1 to their Save value.",
+                    "logic": {
+                        "trigger": "passive",
+                        "target": "attached",
+                        "effect": "modify_stats",
+                        "atk_melee": 1,
+                        "sv": 1
+                    },
+                    "tts_image": ""
+                },
+                {
+                    "id": "ldr_leia",
+                    "name": "Leia Organa",
+                    "cost": 30,
+                    "restriction_text": "None.",
+                    "requires_class": null,
+                    "requires_subclass": null,
+                    "requires_unit": null,
+                    "ability": "Any friendly unit within 12\" of Leia Organa gains a +1 bonus to their Command Roll.",
+                    "logic": {
+                        "trigger": "on_command",
+                        "target": "aura",
+                        "radius": 12,
+                        "effect": "modify",
+                        "stat": "cv",
+                        "value": 1
+                    },
+                    "tts_image": ""
+                },
+                {
+                    "id": "ldr_wedge",
+                    "name": "Wedge Antilles",
+                    "cost": 30,
+                    "restriction_text": "Must be attached to an Aerial Vehicle unit.",
+                    "requires_class": "Vehicle",
+                    "requires_subclass": "Aerial",
+                    "requires_unit": null,
+                    "ability": "When a Snowspeeder unit attempts a Tow-Cable attack, you may force a single die reroll.",
+                    "logic": {
+                        "trigger": "on_attack_modifier",
+                        "target": "attached",
+                        "effect": "reroll_fixed",
+                        "condition": "tow_cable_attack",
+                        "value": 1
+                    },
+                    "tts_image": ""
+                }
+            ],
+            "units": [
+                {
+                    "id": "reb_trp",
+                    "name": "Rebel Troopers",
+                    "unit_size": 3,
+                    "cost": 40,
+                    "min_pct": 10,
+                    "max_pct": 30,
+                    "class": "Infantry",
+                    "subclass": null,
+                    "mv": 6,
+                    "mv_min": null,
+                    "atk_ranged": 2,
+                    "atk_melee": 3,
+                    "rng_short": 8,
+                    "rng_long": 12,
+                    "wnd": 3,
+                    "sv": "6+",
+                    "keywords": [],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "reb_pth",
+                    "name": "Rebel Pathfinders",
+                    "unit_size": 2,
+                    "cost": 75,
+                    "min_pct": 0,
+                    "max_pct": 30,
+                    "class": "Infantry",
+                    "subclass": null,
+                    "mv": 6,
+                    "mv_min": null,
+                    "atk_ranged": 2,
+                    "atk_melee": 3,
+                    "rng_short": 10,
+                    "rng_long": 12,
+                    "wnd": 3,
+                    "sv": "5+",
+                    "keywords": [
+                        "Clone"
+                    ],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "reb_tau",
+                    "name": "Tauntaun Riders",
+                    "unit_size": 2,
+                    "cost": 90,
+                    "min_pct": 0,
+                    "max_pct": 40,
+                    "class": "Vehicle",
+                    "subclass": "Ground",
+                    "mv": 10,
+                    "mv_min": null,
+                    "atk_ranged": 2,
+                    "atk_melee": 2,
+                    "rng_short": 8,
+                    "rng_long": 12,
+                    "wnd": 2,
+                    "sv": "5+",
+                    "keywords": [],
+                    "tts_height": 1.2,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "reb_aa5",
+                    "name": "A-A5 Transport",
+                    "unit_size": 1,
+                    "cost": 100,
+                    "min_pct": 0,
+                    "max_pct": 40,
+                    "class": "Vehicle",
+                    "subclass": "Hover",
+                    "mv": 8,
+                    "mv_min": null,
+                    "atk_ranged": 2,
+                    "atk_melee": 2,
+                    "rng_short": 8,
+                    "rng_long": 12,
+                    "wnd": 2,
+                    "sv": "4+",
+                    "keywords": [
+                        "Transport"
+                    ],
+                    "tts_height": 1.2,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "reb_ptw",
+                    "name": "P-Tower",
+                    "unit_size": 1,
+                    "cost": 150,
+                    "min_pct": 0,
+                    "max_pct": 60,
+                    "class": "Emplacement",
+                    "subclass": null,
+                    "mv": 0,
+                    "mv_min": null,
+                    "atk_ranged": 5,
+                    "atk_melee": 1,
+                    "rng_short": 14,
+                    "rng_long": 24,
+                    "wnd": 3,
+                    "sv": "4+",
+                    "keywords": [
+                        "Anti-Armor"
+                    ],
+                    "tts_height": 1.2,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "reb_snw",
+                    "name": "Snowspeeder",
+                    "unit_size": 1,
+                    "cost": 110,
+                    "min_pct": 0,
+                    "max_pct": 35,
+                    "class": "Vehicle",
+                    "subclass": "Aerial",
+                    "mv": 14,
+                    "mv_min": 4,
+                    "atk_ranged": 3,
+                    "atk_melee": null,
+                    "rng_short": 10,
+                    "rng_long": 16,
+                    "wnd": 4,
+                    "sv": "4+",
+                    "keywords": [
+                        "Tow-Cable"
+                    ],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                }
+            ]
         },
         {
-          "id": "ldr_veers",
-          "name": "General Veers",
-          "cost": 40,
-          "restriction_text": "Must be attached to a Walker unit.",
-          "requires_class": null,
-          "requires_subclass": "Walker",
-          "requires_unit": null,
-          "ability": "Any friendly unit within 24\" of General Veers gains a +1 bonus to their Command Roll.",
-          "logic": {
-            "trigger": "on_command",
-            "target": "aura",
-            "radius": 24,
-            "effect": "modify",
-            "stat": "cv",
-            "value": 1
-          },
-          "tts_image": ""
+            "id": "rep_all",
+            "name": "Galactic Republic",
+            "type": "Major",
+            "command_value": "5+",
+            "leaders": [
+                {
+                    "id": "ldr_anakin",
+                    "name": "Anakin Skywalker",
+                    "cost": 30,
+                    "restriction_text": "None.",
+                    "requires_class": null,
+                    "requires_subclass": null,
+                    "requires_unit": null,
+                    "ability": "Attached unit may add +2 Attack dice in Close Combat.",
+                    "logic": {
+                        "trigger": "on_combat_melee",
+                        "target": "attached",
+                        "effect": "modify",
+                        "stat": "atk_melee",
+                        "value": 2
+                    },
+                    "tts_image": ""
+                },
+                {
+                    "id": "ldr_kenobi",
+                    "name": "General Kenobi",
+                    "cost": 30,
+                    "restriction_text": "Must be attached to an Infantry unit.",
+                    "requires_class": "Infantry",
+                    "requires_subclass": null,
+                    "requires_unit": null,
+                    "ability": "Grants the attached unit +1 Attack die in Close Combat and a 3+ save value.",
+                    "logic": {
+                        "trigger": "passive",
+                        "target": "attached",
+                        "effect": "override_stats",
+                        "atk_melee_bonus": 1,
+                        "sv": "3+"
+                    },
+                    "tts_image": ""
+                },
+                {
+                    "id": "ldr_rex",
+                    "name": "Captain Rex",
+                    "cost": 30,
+                    "restriction_text": "Must be attached to an Infantry unit.",
+                    "requires_class": "Infantry",
+                    "requires_subclass": null,
+                    "requires_unit": null,
+                    "ability": "The attached unit may perform an Attack as a simple action even if it failed its Command Roll.",
+                    "logic": {
+                        "trigger": "after_failed_command",
+                        "target": "attached",
+                        "effect": "action_grant",
+                        "type": "attack",
+                        "cost": "simple"
+                    },
+                    "tts_image": ""
+                }
+            ],
+            "units": [
+                {
+                    "id": "rep_clone_troopers",
+                    "name": "Clone Troopers",
+                    "unit_size": 3,
+                    "cost": 55,
+                    "min_pct": 10,
+                    "max_pct": 30,
+                    "class": "Infantry",
+                    "subclass": null,
+                    "mv": 6,
+                    "mv_min": null,
+                    "atk_ranged": 2,
+                    "atk_melee": 3,
+                    "rng_short": 8,
+                    "rng_long": 12,
+                    "wnd": 3,
+                    "sv": "5+",
+                    "keywords": [
+                        "Clone"
+                    ],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "rep_arc_troopers",
+                    "name": "ARC Troopers",
+                    "unit_size": 3,
+                    "cost": 90,
+                    "min_pct": 0,
+                    "max_pct": 40,
+                    "class": "Infantry",
+                    "subclass": null,
+                    "mv": 6,
+                    "mv_min": null,
+                    "atk_ranged": 3,
+                    "atk_melee": 3,
+                    "rng_short": 10,
+                    "rng_long": 12,
+                    "wnd": 3,
+                    "sv": "5+",
+                    "keywords": [
+                        "Clone"
+                    ],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "rep_jetpack_troopers",
+                    "name": "Jetpack Troopers",
+                    "unit_size": 2,
+                    "cost": 90,
+                    "min_pct": 0,
+                    "max_pct": 40,
+                    "class": "Infantry",
+                    "subclass": null,
+                    "mv": 8,
+                    "mv_min": null,
+                    "atk_ranged": 2,
+                    "atk_melee": 3,
+                    "rng_short": 10,
+                    "rng_long": 14,
+                    "wnd": 3,
+                    "sv": "6+",
+                    "keywords": [
+                        "Clone",
+                        "Jetpacks"
+                    ],
+                    "tts_height": 2.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "rep_atrt",
+                    "name": "AT-RT Walkers",
+                    "unit_size": 2,
+                    "cost": 100,
+                    "min_pct": 0,
+                    "max_pct": 60,
+                    "class": "Vehicle",
+                    "subclass": "Walker",
+                    "mv": 10,
+                    "mv_min": null,
+                    "atk_ranged": 3,
+                    "atk_melee": 2,
+                    "rng_short": 8,
+                    "rng_long": 12,
+                    "wnd": 2,
+                    "sv": "5+",
+                    "keywords": [],
+                    "tts_height": 1.2,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "rep_tx130",
+                    "name": "TX-130 Tanks",
+                    "unit_size": 2,
+                    "cost": 150,
+                    "min_pct": 0,
+                    "max_pct": 75,
+                    "class": "Vehicle",
+                    "subclass": "Hover",
+                    "mv": 10,
+                    "mv_min": null,
+                    "atk_ranged": 4,
+                    "atk_melee": 1,
+                    "rng_short": 10,
+                    "rng_long": 14,
+                    "wnd": 3,
+                    "sv": "4+",
+                    "keywords": [
+                        "Anti-Armor"
+                    ],
+                    "tts_height": 1.2,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "rep_av7",
+                    "name": "AV-7 Cannon",
+                    "unit_size": 1,
+                    "cost": 85,
+                    "min_pct": 0,
+                    "max_pct": 30,
+                    "class": "Emplacement",
+                    "subclass": null,
+                    "mv": 0,
+                    "mv_min": null,
+                    "atk_ranged": 5,
+                    "atk_melee": 1,
+                    "rng_short": 20,
+                    "rng_long": 26,
+                    "wnd": 4,
+                    "sv": "4+",
+                    "keywords": [
+                        "Indirect",
+                        "Anti-Armor"
+                    ],
+                    "tts_height": 2.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "rep_laati",
+                    "name": "LAAT/i Gunship",
+                    "unit_size": 1,
+                    "cost": 150,
+                    "min_pct": 0,
+                    "max_pct": 30,
+                    "class": "Vehicle",
+                    "subclass": "Aerial",
+                    "mv": 14,
+                    "mv_min": 4,
+                    "atk_ranged": 3,
+                    "atk_melee": null,
+                    "rng_short": 10,
+                    "rng_long": 16,
+                    "wnd": 5,
+                    "sv": "4+",
+                    "keywords": [
+                        "Transport"
+                    ],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "rep_atte",
+                    "name": "AT-TE",
+                    "unit_size": 1,
+                    "cost": 250,
+                    "min_pct": 0,
+                    "max_pct": 75,
+                    "class": "Titan",
+                    "subclass": "Walker",
+                    "mv": 6,
+                    "mv_min": null,
+                    "atk_ranged": 5,
+                    "atk_melee": 5,
+                    "rng_short": 12,
+                    "rng_long": 20,
+                    "wnd": 6,
+                    "sv": "3+",
+                    "keywords": [
+                        "Heavy Armor",
+                        "Transport"
+                    ],
+                    "tts_height": 2.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                }
+            ]
+        },
+        {
+            "id": "sep_all",
+            "name": "Separatist Alliance",
+            "type": "Major",
+            "command_value": "7+",
+            "leaders": [
+                {
+                    "id": "ldr_grievous",
+                    "name": "General Grievous",
+                    "cost": 30,
+                    "restriction_text": "None.",
+                    "requires_class": null,
+                    "requires_subclass": null,
+                    "requires_unit": null,
+                    "ability": "Attached unit gains +2 Attack dice in Close Combat.",
+                    "logic": {
+                        "trigger": "on_combat_melee",
+                        "target": "attached",
+                        "effect": "modify",
+                        "stat": "atk_melee",
+                        "value": 2
+                    },
+                    "tts_image": ""
+                },
+                {
+                    "id": "ldr_loathsom",
+                    "name": "General Loathsom",
+                    "cost": 30,
+                    "restriction_text": "None.",
+                    "requires_class": null,
+                    "requires_subclass": null,
+                    "requires_unit": null,
+                    "ability": "Any friendly unit within 12\" of General Loathsom gains a +1 bonus to their Command Roll.",
+                    "logic": {
+                        "trigger": "on_command",
+                        "target": "aura",
+                        "radius": 12,
+                        "effect": "modify",
+                        "stat": "cv",
+                        "value": 1
+                    },
+                    "tts_image": ""
+                },
+                {
+                    "id": "ldr_oom9",
+                    "name": "OOM-9",
+                    "cost": 30,
+                    "restriction_text": "Must be attached to a Hover Vehicle unit.",
+                    "requires_class": "Vehicle",
+                    "requires_subclass": "Hover",
+                    "requires_unit": null,
+                    "ability": "Units with the Droid keyword within 12\" gain a +1 bonus to their Command rolls.",
+                    "logic": {
+                        "trigger": "on_command",
+                        "target": "aura",
+                        "radius": 12,
+                        "effect": "modify",
+                        "stat": "cv",
+                        "value": 1,
+                        "filter": "Droid"
+                    },
+                    "tts_image": ""
+                }
+            ],
+            "units": [
+                {
+                    "id": "sep_b1",
+                    "name": "B1 Battle Droids",
+                    "unit_size": 4,
+                    "cost": 35,
+                    "min_pct": 10,
+                    "max_pct": 30,
+                    "class": "Infantry",
+                    "subclass": null,
+                    "mv": 6,
+                    "mv_min": null,
+                    "atk_ranged": 2,
+                    "atk_melee": 2,
+                    "rng_short": 4,
+                    "rng_long": 10,
+                    "wnd": 3,
+                    "sv": "-",
+                    "keywords": [
+                        "Droid"
+                    ],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "sep_b2",
+                    "name": "B2 Super Battle Droids",
+                    "unit_size": 3,
+                    "cost": 45,
+                    "min_pct": 10,
+                    "max_pct": 25,
+                    "class": "Infantry",
+                    "subclass": null,
+                    "mv": 6,
+                    "mv_min": null,
+                    "atk_ranged": 2,
+                    "atk_melee": 3,
+                    "rng_short": 8,
+                    "rng_long": 12,
+                    "wnd": 3,
+                    "sv": "5+",
+                    "keywords": [
+                        "Droid"
+                    ],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "sep_droidekas",
+                    "name": "Droidekas",
+                    "unit_size": 2,
+                    "cost": 60,
+                    "min_pct": 0,
+                    "max_pct": 40,
+                    "class": "Infantry",
+                    "subclass": null,
+                    "mv": 8,
+                    "mv_min": null,
+                    "atk_ranged": 4,
+                    "atk_melee": 2,
+                    "rng_short": 6,
+                    "rng_long": 10,
+                    "wnd": 3,
+                    "sv": "4+",
+                    "keywords": [
+                        "Droid",
+                        "Shields 1"
+                    ],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "sep_j1_cannon",
+                    "name": "J-1 Proton Cannon",
+                    "unit_size": 1,
+                    "cost": 125,
+                    "min_pct": 0,
+                    "max_pct": 50,
+                    "class": "Emplacement",
+                    "subclass": null,
+                    "mv": 0,
+                    "mv_min": null,
+                    "atk_ranged": 5,
+                    "atk_melee": 1,
+                    "rng_short": 20,
+                    "rng_long": 26,
+                    "wnd": 5,
+                    "sv": "4+",
+                    "keywords": [
+                        "Indirect",
+                        "Anti-Armor"
+                    ],
+                    "tts_height": 1.2,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "sep_aat",
+                    "name": "AAT Tanks",
+                    "unit_size": 2,
+                    "cost": 150,
+                    "min_pct": 0,
+                    "max_pct": 75,
+                    "class": "Vehicle",
+                    "subclass": "Hover",
+                    "mv": 8,
+                    "mv_min": null,
+                    "atk_ranged": 4,
+                    "atk_melee": 1,
+                    "rng_short": 12,
+                    "rng_long": 16,
+                    "wnd": 4,
+                    "sv": "4+",
+                    "keywords": [
+                        "Anti-Armor"
+                    ],
+                    "tts_height": 1.2,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "sep_hailfire",
+                    "name": "Hailfire Tanks",
+                    "unit_size": 2,
+                    "cost": 150,
+                    "min_pct": 0,
+                    "max_pct": 45,
+                    "class": "Vehicle",
+                    "subclass": "Ground",
+                    "mv": 9,
+                    "mv_min": null,
+                    "atk_ranged": 4,
+                    "atk_melee": 2,
+                    "rng_short": 14,
+                    "rng_long": 18,
+                    "wnd": 3,
+                    "sv": "5+",
+                    "keywords": [
+                        "Anti-Armor"
+                    ],
+                    "tts_height": 1.2,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "sep_hmp",
+                    "name": "HMP Gunship",
+                    "unit_size": 1,
+                    "cost": 150,
+                    "min_pct": 0,
+                    "max_pct": 30,
+                    "class": "Vehicle",
+                    "subclass": "Aerial",
+                    "mv": 14,
+                    "mv_min": 4,
+                    "atk_ranged": 3,
+                    "atk_melee": null,
+                    "rng_short": 10,
+                    "rng_long": 16,
+                    "wnd": 4,
+                    "sv": "4+",
+                    "keywords": [
+                        "Transport"
+                    ],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "sep_octuptarra",
+                    "name": "Octuptarra Magna Tri-Droid",
+                    "unit_size": 1,
+                    "cost": 135,
+                    "min_pct": 0,
+                    "max_pct": 50,
+                    "class": "Titan",
+                    "subclass": "Walker",
+                    "mv": 6,
+                    "mv_min": null,
+                    "atk_ranged": 6,
+                    "atk_melee": 5,
+                    "rng_short": 12,
+                    "rng_long": 18,
+                    "wnd": 8,
+                    "sv": "3+",
+                    "keywords": [
+                        "Towering",
+                        "Omnipresent"
+                    ],
+                    "tts_height": 4.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "sep_mtt",
+                    "name": "MTT",
+                    "unit_size": 1,
+                    "cost": 200,
+                    "min_pct": 0,
+                    "max_pct": 40,
+                    "class": "Titan",
+                    "subclass": "Hover",
+                    "mv": 10,
+                    "mv_min": null,
+                    "atk_ranged": 3,
+                    "atk_melee": 1,
+                    "rng_short": 10,
+                    "rng_long": 16,
+                    "wnd": 5,
+                    "sv": "4+",
+                    "keywords": [
+                        "Heavy Armor",
+                        "Transport"
+                    ],
+                    "tts_height": 2.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                }
+            ]
+        },
+        {
+            "id": "gun_all",
+            "name": "Gungan Grand Army",
+            "type": "Minor",
+            "command_value": "6+",
+            "leaders": [
+                {
+                    "id": "ldr_tarpals",
+                    "name": "Captain Tarpals",
+                    "cost": 30,
+                    "restriction_text": "Must be attached to a Ground Vehicle unit.",
+                    "requires_class": "Vehicle",
+                    "requires_subclass": "Ground",
+                    "requires_unit": null,
+                    "ability": "Any friendly unit within 12\" of Captain Tarpals gains a +1 bonus to their Command Rolls.",
+                    "logic": {
+                        "trigger": "on_command",
+                        "target": "aura",
+                        "radius": 12,
+                        "effect": "modify",
+                        "stat": "cv",
+                        "value": 1
+                    },
+                    "tts_image": ""
+                },
+                {
+                    "id": "ldr_binks",
+                    "name": "General Binks",
+                    "cost": 30,
+                    "restriction_text": "Must be attached to an Infantry unit.",
+                    "requires_class": "Infantry",
+                    "requires_subclass": null,
+                    "requires_unit": null,
+                    "ability": "When attacking with this unit, decrease the save value of the defender by 1.",
+                    "logic": {
+                        "trigger": "on_attack_modifier",
+                        "target": "defender",
+                        "effect": "modify",
+                        "stat": "sv",
+                        "value": 1
+                    },
+                    "tts_image": ""
+                }
+            ],
+            "units": [
+                {
+                    "id": "gun_militagung",
+                    "name": "Militagung",
+                    "unit_size": 3,
+                    "cost": 50,
+                    "min_pct": 10,
+                    "max_pct": 50,
+                    "class": "Infantry",
+                    "subclass": null,
+                    "mv": 6,
+                    "mv_min": null,
+                    "atk_ranged": 2,
+                    "atk_melee": 3,
+                    "rng_short": 6,
+                    "rng_long": 6,
+                    "wnd": 3,
+                    "sv": "5+",
+                    "keywords": [
+                        "Ion",
+                        "Indirect"
+                    ],
+                    "tts_height": 1.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "gun_kaadu",
+                    "name": "Kaadu Cavalry",
+                    "unit_size": 2,
+                    "cost": 100,
+                    "min_pct": 0,
+                    "max_pct": 50,
+                    "class": "Vehicle",
+                    "subclass": "Ground",
+                    "mv": 8,
+                    "mv_min": null,
+                    "atk_ranged": 3,
+                    "atk_melee": 4,
+                    "rng_short": 10,
+                    "rng_long": 10,
+                    "wnd": 2,
+                    "sv": "5+",
+                    "keywords": [
+                        "Ion",
+                        "Indirect"
+                    ],
+                    "tts_height": 1.2,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "gun_catapult",
+                    "name": "Catapult",
+                    "unit_size": 1,
+                    "cost": 150,
+                    "min_pct": 0,
+                    "max_pct": 25,
+                    "class": "Vehicle",
+                    "subclass": "Hover",
+                    "mv": 0,
+                    "mv_min": null,
+                    "atk_ranged": 5,
+                    "atk_melee": 1,
+                    "rng_short": 12,
+                    "rng_long": 12,
+                    "wnd": 4,
+                    "sv": "5+",
+                    "keywords": [
+                        "Ion",
+                        "Indirect"
+                    ],
+                    "tts_height": 1.5,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
+                    "id": "gun_fambaa",
+                    "name": "Shield Fambaa",
+                    "unit_size": 1,
+                    "cost": 200,
+                    "min_pct": 0,
+                    "max_pct": 35,
+                    "class": "Titan",
+                    "subclass": "Ground",
+                    "mv": 0,
+                    "mv_min": null,
+                    "atk_ranged": null,
+                    "atk_melee": null,
+                    "rng_short": null,
+                    "rng_long": null,
+                    "wnd": 2,
+                    "sv": "5+",
+                    "keywords": [
+                        "Shield Generator",
+                        "Towering"
+                    ],
+                    "tts_height": 2.0,
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                }
+            ]
         }
-      ],
-      "units": [
-        { 
-          "id": "emp_strmt", 
-          "name": "Stormtroopers", 
-          "unit_size": 3,
-          "cost": 50, 
-          "min_pct": 15, 
-          "max_pct": null, 
-          "class": "Infantry",
-          "subclass": null,
-          "mv": 6, "mv_min": null,
-          "atk_ranged": 2, "atk_melee": 3,
-          "rng_short": 8, "rng_long": 12,
-          "wnd": 3, "sv": "5+",
-          "keywords": [],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": ""
+    ],
+    "ots": [
+        {
+            "id": "ots_mortar",
+            "name": "Mortar Attack",
+            "cost": 20,
+            "availability": "4+",
+            "template": "Single Card (3.5\" x 2.5\")",
+            "attack_dice": 3,
+            "keywords": [],
+            "tts_card_front": ""
         },
-        { 
-          "id": "emp_deatht", 
-          "name": "Death Troopers", 
-          "unit_size": 2,
-          "cost": 75, 
-          "min_pct": 0, 
-          "max_pct": 15, 
-          "class": "Infantry",
-          "subclass": null,
-          "mv": 6, "mv_min": null,
-          "atk_ranged": 3, "atk_melee": 3,
-          "rng_short": 10, "rng_long": 12,
-          "wnd": 3, "sv": "5+",
-          "keywords": ["Fearless"],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": ""
+        {
+            "id": "ots_strafing",
+            "name": "Strafing Run",
+            "cost": 35,
+            "availability": "5+",
+            "template": "Double Card - Long (7\" x 2.5\")",
+            "attack_dice": 4,
+            "keywords": [
+                "Anti-Armor"
+            ],
+            "tts_card_front": ""
         },
-        { 
-          "id": "emp_hvywep", 
-          "name": "Heavy Weapons Teams", 
-          "unit_size": 2,
-          "cost": 90, 
-          "min_pct": 0, 
-          "max_pct": 40, 
-          "class": "Infantry",
-          "subclass": null,
-          "mv": 4, "mv_min": null,
-          "atk_ranged": 4, "atk_melee": 2,
-          "rng_short": 12, "rng_long": 20,
-          "wnd": 3, "sv": "5+",
-          "keywords": ["Anti-Armor"],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
+        {
+            "id": "ots_artillery",
+            "name": "Artillery Barrage",
+            "cost": 50,
+            "availability": "6+",
+            "template": "Double Card - Wide (5\" x 3.5\")",
+            "attack_dice": 6,
+            "keywords": [
+                "Anti-Armor"
+            ],
+            "tts_card_front": ""
         },
-        { 
-          "id": "emp_itt", 
-          "name": "Imperial Transport", 
-          "unit_size": 1,
-          "cost": 100, 
-          "min_pct": 0, 
-          "max_pct": 60, 
-          "class": "Vehicle",
-          "subclass": "Hover",
-          "mv": 8, "mv_min": null,
-          "atk_ranged": 2, "atk_melee": 2,
-          "rng_short": 8, "rng_long": 12,
-          "wnd": 2, "sv": "4+",
-          "keywords": ["Transport"],
-          "tts_height": 1.2,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "emp_atst", 
-          "name": "AT-ST", 
-          "unit_size": 2,
-          "cost": 150, 
-          "min_pct": 0, 
-          "max_pct": 75, 
-          "class": "Vehicle",
-          "subclass": "Walker",
-          "mv": 8, "mv_min": null,
-          "atk_ranged": 3, "atk_melee": 3,
-          "rng_short": 10, "rng_long": 14,
-          "wnd": 3, "sv": "4+",
-          "keywords": [],
-          "tts_height": 2.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "emp_tbo", 
-          "name": "Turbolaser Tower", 
-          "unit_size": 1,
-          "cost": 110, 
-          "min_pct": 0, 
-          "max_pct": 35, 
-          "class": "Emplacement",
-          "subclass": null,
-          "mv": 0, "mv_min": null,
-          "atk_ranged": 6, "atk_melee": null,
-          "rng_short": 14, "rng_long": 24,
-          "wnd": 3, "sv": "4+",
-          "keywords": ["Anti-Armor"],
-          "tts_height": 2.5,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "emp_atat", 
-          "name": "AT-AT", 
-          "unit_size": 1,
-          "cost": 300, 
-          "min_pct": 0, 
-          "max_pct": 60, 
-          "class": "Titan",
-          "subclass": "Walker",
-          "mv": 6, "mv_min": null,
-          "atk_ranged": 5, "atk_melee": 6,
-          "rng_short": 12, "rng_long": 24,
-          "wnd": 6, "sv": "3+",
-          "keywords": ["Anti-Armor", "Heavy Armor", "Towering", "Transport"],
-          "tts_height": 4.0,
-          "tts_model": "https://steamusercontent-a.akamaihd.net/ugc/10038581925195204998/39AE4A45B1C07702F362EC005EE58EC294020472/",
-          "tts_texture": "https://steamusercontent-a.akamaihd.net/ugc/14157114661739420760/93CB7DA7FB1A8923A2B8E61FF98C192FEBB04E95/",
-          "tts_collider": "https://steamusercontent-a.akamaihd.net/ugc/16576285613005064857/823FBD722C64769D37DBDFBAF71E2340D8003C9E/" 
+        {
+            "id": "ots_orbital",
+            "name": "Orbital Bombardment",
+            "cost": 75,
+            "availability": "7+",
+            "template": "Single Card (3.5\" x 2.5\")",
+            "attack_dice": 8,
+            "keywords": [
+                "Anti-Armor"
+            ],
+            "tts_card_front": ""
         }
-      ]
-    },
-    {
-      "id": "reb_all",
-      "name": "Rebel Alliance",
-      "type": "Major",
-      "command_value": "6+",
-      "leaders": [
-        {
-          "id": "ldr_luke",
-          "name": "Luke Skywalker",
-          "cost": 30,
-          "restriction_text": "None.",
-          "requires_class": null,
-          "requires_subclass": null,
-          "requires_unit": null,
-          "ability": "Attached unit gains +1 Attack die in Close Combat and +1 to their Save value.",
-          "logic": {
-            "trigger": "passive",
-            "target": "attached",
-            "effect": "modify_stats",
-            "atk_melee": 1,
-            "sv": 1
-          },
-          "tts_image": ""
-        },
-        {
-          "id": "ldr_leia",
-          "name": "Leia Organa",
-          "cost": 30,
-          "restriction_text": "None.",
-          "requires_class": null,
-          "requires_subclass": null,
-          "requires_unit": null,
-          "ability": "Any friendly unit within 12\" of Leia Organa gains a +1 bonus to their Command Roll.",
-          "logic": {
-            "trigger": "on_command",
-            "target": "aura",
-            "radius": 12,
-            "effect": "modify",
-            "stat": "cv",
-            "value": 1
-          },
-          "tts_image": ""
-        },
-        {
-          "id": "ldr_wedge",
-          "name": "Wedge Antilles",
-          "cost": 30,
-          "restriction_text": "Must be attached to an Aerial Vehicle unit.",
-          "requires_class": "Vehicle",
-          "requires_subclass": "Aerial",
-          "requires_unit": null,
-          "ability": "When a Snowspeeder unit attempts a Tow-Cable attack, you may force a single die reroll.",
-          "logic": {
-            "trigger": "on_attack_modifier",
-            "target": "attached",
-            "effect": "reroll_fixed",
-            "condition": "tow_cable_attack",
-            "value": 1
-          },
-          "tts_image": ""
-        }
-      ],
-      "units": [
-        { 
-          "id": "reb_trp", 
-          "name": "Rebel Troopers", 
-          "unit_size": 3,
-          "cost": 40, 
-          "min_pct": 15, 
-          "max_pct": null, 
-          "class": "Infantry",
-          "subclass": null,
-          "mv": 6, "mv_min": null,
-          "atk_ranged": 2, "atk_melee": 3,
-          "rng_short": 8, "rng_long": 12,
-          "wnd": 3, "sv": "6+",
-          "keywords": [],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "reb_pth", 
-          "name": "Rebel Pathfinders", 
-          "unit_size": 2,
-          "cost": 75, 
-          "min_pct": 0, 
-          "max_pct": 30, 
-          "class": "Infantry",
-          "subclass": null,
-          "mv": 6, "mv_min": null,
-          "atk_ranged": 2, "atk_melee": 3,
-          "rng_short": 10, "rng_long": 12,
-          "wnd": 3, "sv": "5+",
-          "keywords": ["Clone"],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "reb_tau", 
-          "name": "Tauntaun Riders", 
-          "unit_size": 2,
-          "cost": 90, 
-          "min_pct": 0, 
-          "max_pct": 40, 
-          "class": "Vehicle",
-          "subclass": "Ground",
-          "mv": 10, "mv_min": null,
-          "atk_ranged": 2, "atk_melee": 2,
-          "rng_short": 8, "rng_long": 12,
-          "wnd": 2, "sv": "5+",
-          "keywords": [],
-          "tts_height": 1.2,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "reb_aa5", 
-          "name": "A-A5 Transport", 
-          "unit_size": 1,
-          "cost": 100, 
-          "min_pct": 0, 
-          "max_pct": 40, 
-          "class": "Vehicle",
-          "subclass": "Hover",
-          "mv": 8, "mv_min": null,
-          "atk_ranged": 2, "atk_melee": 2,
-          "rng_short": 8, "rng_long": 12,
-          "wnd": 2, "sv": "4+",
-          "keywords": ["Transport"],
-          "tts_height": 1.2,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "reb_ptw", 
-          "name": "P-Tower", 
-          "unit_size": 1,
-          "cost": 150, 
-          "min_pct": 0, 
-          "max_pct": 60, 
-          "class": "Emplacement",
-          "subclass": null,
-          "mv": 0, "mv_min": null,
-          "atk_ranged": 5, "atk_melee": 1,
-          "rng_short": 14, "rng_long": 24,
-          "wnd": 3, "sv": "4+",
-          "keywords": ["Anti-Armor"],
-          "tts_height": 1.2,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "reb_snw", 
-          "name": "Snowspeeder", 
-          "unit_size": 1,
-          "cost": 110, 
-          "min_pct": 0, 
-          "max_pct": 35, 
-          "class": "Vehicle",
-          "subclass": "Aerial",
-          "mv": 14, "mv_min": 4,
-          "atk_ranged": 3, "atk_melee": null,
-          "rng_short": 10, "rng_long": 16,
-          "wnd": 4, "sv": "4+",
-          "keywords": ["Tow-Cable"],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        }
-      ]
-    },
-    {
-      "id": "rep_all",
-      "name": "Galactic Republic",
-      "type": "Major",
-      "command_value": "5+",
-      "leaders": [
-        {
-          "id": "ldr_anakin",
-          "name": "Anakin Skywalker",
-          "cost": 30,
-          "restriction_text": "None.",
-          "requires_class": null,
-          "requires_subclass": null,
-          "requires_unit": null,
-          "ability": "Attached unit may add +2 Attack dice in Close Combat.",
-          "logic": {
-            "trigger": "on_combat_melee",
-            "target": "attached",
-            "effect": "modify",
-            "stat": "atk_melee",
-            "value": 2
-          },
-          "tts_image": ""
-        },
-        {
-          "id": "ldr_kenobi",
-          "name": "General Kenobi",
-          "cost": 30,
-          "restriction_text": "Must be attached to an Infantry unit.",
-          "requires_class": "Infantry",
-          "requires_subclass": null,
-          "requires_unit": null,
-          "ability": "Grants the attached unit +1 Attack die in Close Combat and a 3+ save value.",
-          "logic": {
-            "trigger": "passive",
-            "target": "attached",
-            "effect": "override_stats",
-            "atk_melee_bonus": 1,
-            "sv": "3+"
-          },
-          "tts_image": ""
-        },
-        {
-          "id": "ldr_rex",
-          "name": "Captain Rex",
-          "cost": 30,
-          "restriction_text": "Must be attached to an Infantry unit.",
-          "requires_class": "Infantry",
-          "requires_subclass": null,
-          "requires_unit": null,
-          "ability": "The attached unit may perform an Attack as a simple action even if it failed its Command Roll.",
-          "logic": {
-            "trigger": "after_failed_command",
-            "target": "attached",
-            "effect": "action_grant",
-            "type": "attack",
-            "cost": "simple"
-          },
-          "tts_image": ""
-        }
-      ],
-      "units": [
-        { 
-          "id": "rep_clone_troopers", 
-          "name": "Clone Troopers", 
-          "unit_size": 3,
-          "cost": 50, 
-          "min_pct": 15, 
-          "max_pct": null, 
-          "class": "Infantry",
-          "subclass": null,
-          "mv": 6, "mv_min": null,
-          "atk_ranged": 2, "atk_melee": 3,
-          "rng_short": 8, "rng_long": 12,
-          "wnd": 3, "sv": "6+",
-          "keywords": ["Clone"],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "rep_arc_troopers", 
-          "name": "ARC Troopers", 
-          "unit_size": 2,
-          "cost": 100, 
-          "min_pct": 0, 
-          "max_pct": 40, 
-          "class": "Infantry",
-          "subclass": null,
-          "mv": 6, "mv_min": null,
-          "atk_ranged": 3, "atk_melee": 3,
-          "rng_short": 10, "rng_long": 12,
-          "wnd": 3, "sv": "5+",
-          "keywords": ["Clone"],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "rep_jetpack_troopers", 
-          "name": "Jetpack Troopers", 
-          "unit_size": 2,
-          "cost": 90, 
-          "min_pct": 0, 
-          "max_pct": 40, 
-          "class": "Infantry",
-          "subclass": null,
-          "mv": 8, "mv_min": null,
-          "atk_ranged": 2, "atk_melee": 3,
-          "rng_short": 10, "rng_long": 14,
-          "wnd": 3, "sv": "6+",
-          "keywords": ["Clone", "Jetpacks"],
-          "tts_height": 2.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "rep_atrt", 
-          "name": "AT-RT Walkers", 
-          "unit_size": 2,
-          "cost": 100, 
-          "min_pct": 0, 
-          "max_pct": 60, 
-          "class": "Vehicle",
-          "subclass": "Walker",
-          "mv": 10, "mv_min": null,
-          "atk_ranged": 3, "atk_melee": 2,
-          "rng_short": 8, "rng_long": 12,
-          "wnd": 2, "sv": "5+",
-          "keywords": [],
-          "tts_height": 1.2,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "rep_tx130", 
-          "name": "TX-130 Tanks", 
-          "unit_size": 2,
-          "cost": 150, 
-          "min_pct": 0, 
-          "max_pct": 75, 
-          "class": "Vehicle",
-          "subclass": "Hover",
-          "mv": 10, "mv_min": null,
-          "atk_ranged": 4, "atk_melee": 1,
-          "rng_short": 10, "rng_long": 14,
-          "wnd": 3, "sv": "4+",
-          "keywords": ["Anti-Armor"],
-          "tts_height": 1.2,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "rep_av7", 
-          "name": "AV-7 Cannon", 
-          "unit_size": 1,
-          "cost": 125, 
-          "min_pct": 0, 
-          "max_pct": 40, 
-          "class": "Emplacement",
-          "subclass": null,
-          "mv": 0, "mv_min": null,
-          "atk_ranged": 5, "atk_melee": 1,
-          "rng_short": 20, "rng_long": 26,
-          "wnd": 5, "sv": "4+",
-          "keywords": ["Artillery", "Anti-Armor"],
-          "tts_height": 2.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "rep_laati", 
-          "name": "LAAT/i Gunship", 
-          "unit_size": 1,
-          "cost": 150, 
-          "min_pct": 0, 
-          "max_pct": 30, 
-          "class": "Vehicle",
-          "subclass": "Aerial",
-          "mv": 14, "mv_min": 4,
-          "atk_ranged": 3, "atk_melee": null,
-          "rng_short": 10, "rng_long": 16,
-          "wnd": 5, "sv": "4+",
-          "keywords": ["Transport"],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "rep_atte", 
-          "name": "AT-TE", 
-          "unit_size": 1,
-          "cost": 250, 
-          "min_pct": 0, 
-          "max_pct": 75, 
-          "class": "Titan",
-          "subclass": "Walker",
-          "mv": 6, "mv_min": null,
-          "atk_ranged": 5, "atk_melee": 5,
-          "rng_short": 12, "rng_long": 20,
-          "wnd": 6, "sv": "3+",
-          "keywords": ["Heavy Armor", "Transport"],
-          "tts_height": 2.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        }
-      ]
-    },
-    {
-      "id": "sep_all",
-      "name": "Separatist Alliance",
-      "type": "Major",
-      "command_value": "7+",
-      "leaders": [
-        {
-          "id": "ldr_grievous",
-          "name": "General Grievous",
-          "cost": 30,
-          "restriction_text": "None.",
-          "requires_class": null,
-          "requires_subclass": null,
-          "requires_unit": null,
-          "ability": "Attached unit gains +2 Attack dice in Close Combat.",
-          "logic": {
-            "trigger": "on_combat_melee",
-            "target": "attached",
-            "effect": "modify",
-            "stat": "atk_melee",
-            "value": 2
-          },
-          "tts_image": ""
-        },
-        {
-          "id": "ldr_loathsom",
-          "name": "General Loathsom",
-          "cost": 30,
-
-          "restriction_text": "None.",
-          "requires_class": null,
-          "requires_subclass": null,
-          "requires_unit": null,
-          "ability": "Any friendly unit within 12\" of General Loathsom gains a +1 bonus to their Command Roll.",
-          "logic": {
-            "trigger": "on_command",
-            "target": "aura",
-            "radius": 12,
-            "effect": "modify",
-            "stat": "cv",
-            "value": 1
-          },
-          "tts_image": ""
-        },
-        {
-          "id": "ldr_oom9",
-          "name": "OOM-9",
-          "cost": 30,
-          "restriction_text": "Must be attached to a Hover Vehicle unit.",
-          "requires_class": "Vehicle",
-          "requires_subclass": "Hover",
-          "requires_unit": null,
-          "ability": "Units with the Droid keyword within 12\" gain a +1 bonus to their Command rolls.",
-          "logic": {
-            "trigger": "on_command",
-            "target": "aura",
-            "radius": 12,
-            "effect": "modify",
-            "stat": "cv",
-            "value": 1,
-            "filter": "Droid"
-          },
-          "tts_image": ""
-        }
-      ],
-      "units": [
-        { 
-          "id": "sep_b1", 
-          "name": "B1 Battle Droids", 
-          "unit_size": 4,
-          "cost": 40, 
-          "min_pct": 20, 
-          "max_pct": null, 
-          "class": "Infantry",
-          "subclass": null,
-          "mv": 6, "mv_min": null,
-          "atk_ranged": 2, "atk_melee": 2,
-          "rng_short": 4, "rng_long": 10,
-          "wnd": 3, "sv": "-",
-          "keywords": ["Droid"],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "sep_b2", 
-          "name": "B2 Super Battle Droids", 
-          "unit_size": 3,
-          "cost": 65, 
-          "min_pct": 10, 
-          "max_pct": 40, 
-          "class": "Infantry",
-          "subclass": null,
-          "mv": 6, "mv_min": null,
-          "atk_ranged": 2, "atk_melee": 3,
-          "rng_short": 8, "rng_long": 12,
-          "wnd": 3, "sv": "6+",
-          "keywords": ["Droid"],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "sep_droidekas", 
-          "name": "Droidekas", 
-          "unit_size": 2,
-          "cost": 90, 
-          "min_pct": 0, 
-          "max_pct": 40, 
-          "class": "Infantry",
-          "subclass": null,
-          "mv": 8, "mv_min": null,
-          "atk_ranged": 4, "atk_melee": 2,
-          "rng_short": 6, "rng_long": 10,
-          "wnd": 2, "sv": "4+",
-          "keywords": ["Droid"],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "sep_j1_cannon", 
-          "name": "J-1 Proton Cannon", 
-          "unit_size": 1,
-          "cost": 125, 
-          "min_pct": 0, 
-          "max_pct": 50, 
-          "class": "Emplacement",
-          "subclass": null,
-          "mv": 0, "mv_min": null,
-          "atk_ranged": 5, "atk_melee": 1,
-          "rng_short": 20, "rng_long": 26,
-          "wnd": 5, "sv": "4+",
-          "keywords": ["Artillery", "Anti-Armor"],
-          "tts_height": 1.2,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "sep_aat", 
-          "name": "AAT Tanks", 
-          "unit_size": 2,
-          "cost": 150, 
-          "min_pct": 0, 
-          "max_pct": 75, 
-          "class": "Vehicle",
-          "subclass": "Hover",
-          "mv": 8, "mv_min": null,
-          "atk_ranged": 4, "atk_melee": 1,
-          "rng_short": 12, "rng_long": 16,
-          "wnd": 4, "sv": "4+",
-          "keywords": ["Anti-Armor"],
-          "tts_height": 1.2,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "sep_hailfire", 
-          "name": "Hailfire Tanks", 
-          "unit_size": 2,
-          "cost": 150, 
-          "min_pct": 0, 
-          "max_pct": 45, 
-          "class": "Vehicle",
-          "subclass": "Ground",
-          "mv": 9, "mv_min": null,
-          "atk_ranged": 4, "atk_melee": 2,
-          "rng_short": 14, "rng_long": 18,
-          "wnd": 3, "sv": "5+",
-          "keywords": ["Anti-Armor"],
-          "tts_height": 1.2,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "sep_hmp", 
-          "name": "HMP Gunship", 
-          "unit_size": 1,
-          "cost": 150, 
-          "min_pct": 0, 
-          "max_pct": 30, 
-          "class": "Vehicle",
-          "subclass": "Aerial",
-          "mv": 14, "mv_min": 4,
-          "atk_ranged": 3, "atk_melee": null,
-          "rng_short": 10, "rng_long": 16,
-          "wnd": 4, "sv": "4+",
-          "keywords": ["Transport"],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "sep_octuptarra", 
-          "name": "Octuptarra Magna Tri-Droid", 
-          "unit_size": 1,
-          "cost": 250, 
-          "min_pct": 0, 
-          "max_pct": 50, 
-          "class": "Titan",
-          "subclass": "Walker",
-          "mv": 6, "mv_min": null,
-          "atk_ranged": 5, "atk_melee": 2,
-          "rng_short": 12, "rng_long": 16,
-          "wnd": 5, "sv": "4+",
-          "keywords": ["Towering", "Omnipresent"],
-          "tts_height": 4.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "sep_mtt", 
-          "name": "MTT", 
-          "unit_size": 1,
-          "cost": 200, 
-          "min_pct": 0, 
-          "max_pct": 40, 
-          "class": "Titan",
-          "subclass": "Hover",
-          "mv": 10, "mv_min": null,
-          "atk_ranged": 3, "atk_melee": 1,
-          "rng_short": 10, "rng_long": 16,
-          "wnd": 5, "sv": "4+",
-          "keywords": ["Heavy Armor", "Transport"],
-          "tts_height": 2.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        }
-      ]
-    },
-    {
-      "id": "gun_all",
-      "name": "Gungan Grand Army",
-      "type": "Minor",
-      "command_value": "6+",
-      "leaders": [
-        {
-          "id": "ldr_tarpals",
-          "name": "Captain Tarpals",
-          "cost": 30,
-          "restriction_text": "Must be attached to a Ground Vehicle unit.",
-          "requires_class": "Vehicle",
-          "requires_subclass": "Ground",
-          "requires_unit": null,
-          "ability": "Any friendly unit within 12\" of Captain Tarpals gains a +1 bonus to their Command Rolls.",
-          "logic": {
-            "trigger": "on_command",
-            "target": "aura",
-            "radius": 12,
-            "effect": "modify",
-            "stat": "cv",
-            "value": 1
-          },
-          "tts_image": ""
-        },
-        {
-          "id": "ldr_binks",
-          "name": "General Binks",
-          "cost": 30,
-          "restriction_text": "Must be attached to an Infantry unit.",
-          "requires_class": "Infantry",
-          "requires_subclass": null,
-          "requires_unit": null,
-          "ability": "When attacking with this unit, decrease the save value of the defender by 1.",
-          "logic": {
-            "trigger": "on_attack_modifier",
-            "target": "defender",
-            "effect": "modify",
-            "stat": "sv",
-            "value": 1
-          },
-          "tts_image": ""
-        }
-      ],
-      "units": [
-        { 
-          "id": "gun_militagung", 
-          "name": "Militagung", 
-          "unit_size": 3,
-          "cost": 50, 
-          "min_pct": 15, 
-          "max_pct": null, 
-          "class": "Infantry",
-          "subclass": null,
-          "mv": 6, "mv_min": null,
-          "atk_ranged": 2, "atk_melee": 3,
-          "rng_short": 6, "rng_long": 6,
-          "wnd": 3, "sv": "5+",
-          "keywords": ["Booma Balls"],
-          "tts_height": 1.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "gun_kaadu", 
-          "name": "Kaadu Cavalry", 
-          "unit_size": 2,
-          "cost": 100, 
-          "min_pct": 0, 
-          "max_pct": 50, 
-          "class": "Vehicle",
-          "subclass": "Ground",
-          "mv": 8, "mv_min": null,
-          "atk_ranged": 3, "atk_melee": 4,
-          "rng_short": 10, "rng_long": 10,
-          "wnd": 2, "sv": "5+",
-          "keywords": ["Booma Balls"],
-          "tts_height": 1.2,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "gun_catapult", 
-          "name": "Catapult", 
-          "unit_size": 1,
-          "cost": 150, 
-          "min_pct": 0, 
-          "max_pct": 25, 
-          "class": "Vehicle",
-          "subclass": "Hover",
-          "mv": 0, "mv_min": null,
-          "atk_ranged": 5, "atk_melee": 1,
-          "rng_short": 12, "rng_long": 12,
-          "wnd": 4, "sv": "5+",
-          "keywords": ["Booma Balls"],
-          "tts_height": 1.5,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        },
-        { 
-          "id": "gun_fambaa", 
-          "name": "Shield Fambaa", 
-          "unit_size": 1,
-          "cost": 200, 
-          "min_pct": 0, 
-          "max_pct": 35, 
-          "class": "Titan",
-          "subclass": "Ground",
-          "mv": 0, "mv_min": null,
-          "atk_ranged": null, "atk_melee": null,
-          "rng_short": null, "rng_long": null,
-          "wnd": 2, "sv": "5+",
-          "keywords": ["Shield Generator", "Towering"],
-          "tts_height": 2.0,
-          "tts_model": "",
-          "tts_texture": "",
-          "tts_collider": "" 
-        }
-      ]
-    }
-  ],
-
-  "ots": [
-    { 
-      "id": "ots_mortar", 
-      "name": "Mortar Attack", 
-      "cost": 20, 
-      "availability": "4+", 
-      "template": "Single Card (3.5\" x 2.5\")",
-      "attack_dice": 3,
-      "keywords": [],
-      "tts_card_front": ""
-    },
-    { 
-      "id": "ots_strafing", 
-      "name": "Strafing Run", 
-      "cost": 35, 
-      "availability": "5+", 
-      "template": "Double Card - Long (7\" x 2.5\")",
-      "attack_dice": 4,
-      "keywords": ["Anti-Armor"],
-      "tts_card_front": ""
-    },
-    { 
-      "id": "ots_artillery", 
-      "name": "Artillery Barrage", 
-      "cost": 50, 
-      "availability": "6+", 
-      "template": "Double Card - Wide (5\" x 3.5\")",
-      "attack_dice": 6,
-      "keywords": ["Anti-Armor"],
-      "tts_card_front": ""
-    },
-    { 
-      "id": "ots_orbital", 
-      "name": "Orbital Bombardment", 
-      "cost": 75, 
-      "availability": "7+", 
-      "template": "Single Card (3.5\" x 2.5\")",
-      "attack_dice": 8,
-      "keywords": ["Anti-Armor"],
-      "tts_card_front": ""
-    }
-  ],
-
-  "definitions": {
+    ],
+"definitions": {
       "Anti-Armor": {
-          "desc": "Weapons capable of damaging units with the “Heavy Armor” keyword from the front.",
+          "desc": "Bypasses Armor X and Heavy Armor effects.",
           "logic": {
-              "trigger": "on_attack_modifier",
+              "bal_type": "multiplier",
+              "bal_val": 1.25,
+              "target_pillar": "action"
+          }
+      },
+      "Armor 1": {
+          "desc": "Cancels 1 hit from non-Anti-Armor sources.",
+          "logic": {
+              "bal_type": "formula",
+              "bal_formula": "1.1 + (om_save * 0.2)",
+              "target_pillar": "body",
+              "effect": "conditional_armor"
+          }
+      },
+      "Armor 2": {
+          "desc": "Cancels 2 hits from non-Anti-Armor sources.",
+          "logic": {
+              "bal_type": "formula",
+              "bal_formula": "1.5 + (om_save * 0.5)",
+              "target_pillar": "body",
+              "effect": "conditional_armor"
+          }
+      },
+      "Armor 3": {
+          "desc": "Cancels 3 hits from non-Anti-Armor sources.",
+          "logic": {
+              "bal_type": "formula",
+              "bal_formula": "2.0 + (om_save * 1.0)",
+              "target_pillar": "body",
+              "effect": "conditional_armor"
+          }
+      },
+      "Indirect": {
+          "desc": "May shoot at targets even if Line of Sight is blocked. Does not suffer penalty for Long Range shooting.",
+          "logic": {
+              "bal_type": "formula",
+              "bal_formula": "1.0 + (rng_l / 24)",
+              "target_pillar": "action"
+          }
+      },
+      "Ion": {
+          "desc": "Vehicle or Droid units wounded by this unit, if not already Shaken, must roll 1d6. On a 4+ this unit immediately becomes Shaken.",
+          "logic": {
+              "bal_type": "formula",
+              "bal_formula": "1.10 + (atk_r * 0.03)",
+              "target_pillar": "action",
+              "trigger": "on_damage_dealt",
               "target": "defender",
-              "effect": "bypass_keyword",
-              "keyword": "Heavy Armor",
-              "condition": "facing_front"
-          }
-      },
-      "Artillery": {
-          "desc": "May shoot at targets even if Line of Sight is blocked. Does not suffer the +1 To-Hit penalty for Long Range.",
-          "logic": {
-              "trigger": "on_attack_init",
-              "target": "self",
-              "effect": "negate_penalty",
-              "penalty": "long_range",
-              "bonus": "ignore_los"
-          }
-      },
-      "Booma Balls": {
-          "desc": "When shooting vehicles or units with the “Droid” keyword, after rolling to hit, you may change 1 miss into a hit. May shoot at targets even if Line of Sight is blocked.",
-          "logic": {
-              "trigger": "after_hit_roll",
-              "target": "self",
-              "effect": "reroll_fixed",
-              "value": 1,
-              "filter": ["Vehicle", "Droid"],
-              "bonus": "ignore_los"
+              "effect": "force_status_check",
+              "condition": "is_vehicle_or_droid"
           }
       },
       "Clone": {
-          "desc": "When this unit would become shaken, roll 1d6. On a result of 5+, it is not shaken.",
+          "desc": "When this unit would become Shaken, roll 1d6. On a result of 5+, it is not shaken.",
           "logic": {
-              "trigger": "on_shaken_trigger",
-              "target": "self",
-              "effect": "negate_status",
-              "condition": "roll_d6",
-              "value": "5+"
+              "bal_type": "formula",
+              "bal_formula": "1.05 + (om_save * 0.03)",
+              "target_pillar": "body",
+              "effect": "status_mitigation",
+              "trigger": "on_shaken_check",
+              "target": "self"
           }
       },
       "Droid": {
-          "desc": "When this unit would become shaken, you may choose to take 1 wound instead.",
+          "desc": "When this unit would become Shaken, you may choose to take 1 wound instead. This can result in the loss of a base.",
           "logic": {
-              "trigger": "on_shaken_trigger",
-              "target": "self",
-              "effect": "trade_status",
-              "cost": "1_wnd",
-              "negate": "shaken"
+              "bal_type": "formula",
+              "bal_formula": "1.05 + ((bases * wnd) * 0.01)",
+              "target_pillar": "body",
+              "effect": "status_mitigation",
+              "trigger": "on_shaken_check"
           }
       },
       "Fearless": {
           "desc": "This unit cannot become Shaken.",
           "logic": {
-              "trigger": "on_status_apply",
-              "target": "self",
-              "effect": "negate_status",
-              "status": "shaken"
+              "bal_type": "formula",
+              "bal_formula": "1.15 + (om_save * 0.05)",
+              "target_pillar": "body",
+              "effect": "status_immunity"
           }
       },
       "Heavy Armor": {
-          "desc": "Immune to standard fire from the front. All hits from units without the Anti-Armor keyword are automatically saved if received from the front facing. Flanking units without Anti-Armor can only hit on 6+ when shooting.",
+          "desc": "Immune to non-Anti-Armor hits from the front. Flanking non-Anti-Armor shooting attacks only hit on 6+.",
           "logic": {
-              "trigger": "on_damage_calc",
-              "target": "self",
-              "effect": "conditional_armor",
-              "condition": "not_anti_armor",
-              "front": "auto_save",
-              "flank": "6_plus_save"
+              "bal_type": "formula",
+              "bal_formula": "4.0 + (om_save * 2.0)",
+              "target_pillar": "body",
+              "effect": "conditional_armor"
           }
       },
       "Jetpacks": {
           "desc": "Ignores all terrain movement penalties and can move over enemy units.",
           "logic": {
-              "trigger": "on_move",
-              "target": "self",
-              "effect": "ignore_collision_and_terrain",
-              "type": "aerial"
+              "bal_type": "formula",
+              "bal_formula": "1.10 + (pow(om_move, 1.5) * 0.15)",
+              "target_pillar": "body"
           }
       },
       "Omnipresent": {
-          "desc": "Cannot be flanked and can shoot from any of its base edges",
+          "desc": "Cannot be flanked and attacks are not limited by arc facings.",
           "logic": {
-              "trigger": "on_arc_check",
-              "target": "self",
-              "effect": "ignore_facing",
-              "arc": 360
+              "bal_type": "formula",
+              "bal_formula": "1.25 + (om_save * 0.25) + ((bases * wnd) * 0.05)",
+              "target_pillar": "body"
           }
       },
-      "Shield Generator": {
-          "desc": "Provides an additional layer of protection against incoming fire, increasing the unit's survival capacity.",
+      "Shields 1": {
+          "desc": "When rolling defense dice, you may reroll 1 failed save.",
           "logic": {
-              "trigger": "on_damage_calc",
-              "target": "self",
-              "effect": "modify",
-              "stat": "sv",
-              "value": 1
+              "bal_type": "formula",
+              "bal_formula": "1.10 + (om_save * 0.12)",
+              "target_pillar": "body"
+          }
+      },
+      "Shields 2": {
+          "desc": "When rolling defense dice, you may reroll 2 failed saves.",
+          "logic": {
+              "bal_type": "formula",
+              "bal_formula": "1.25 + (om_save * 0.30)",
+              "target_pillar": "body"
+          }
+      },
+      "Shields 3": {
+          "desc": "When rolling defense dice, you may reroll 3 failed saves.",
+          "logic": {
+              "bal_type": "formula",
+              "bal_formula": "1.45 + (om_save * 0.55)",
+              "target_pillar": "body"
           }
       },
       "Tow-Cable": {
           "desc": "The unit must declare a charge on a Walker Titan and enter base contact. Ignore normal charge rules. Roll 3 attack dice, hitting on a 2+. The Walker rolls its saves needing a 2+. Any unsaved hits results in the Walker's instant destruction.",
           "logic": {
-              "trigger": "on_charge_titan",
-              "target": "target",
-              "effect": "instant_death",
-              "condition": "failed_save",
-              "atk_dice": 3,
-              "to_hit": "2+",
-              "def_save": "2+"
+              "bal_type": "formula",
+              "bal_formula": "25 * om_move",
+              "is_flat": true,
+              "target_pillar": "action"
           }
       },
       "Towering": {
-          "desc": "Can draw Line of Sight over terrain and all other units.",
+          "desc": "Ignores terrain/units for LoS. Opponents also ignore terrain/units when targeting this unit.",
           "logic": {
-              "trigger": "on_los_check",
-              "target": "self",
-              "effect": "ignore_los_blocking",
-              "type": "all"
+              "bal_type": "formula",
+              "bal_formula": "1.05 + (om_range * 0.10)",
+              "target_pillar": "action"
           }
       },
       "Transport": {
-          "desc": "This unit may transport one Infantry unit.",
+          "desc": "This unit may transport one Infantry or Emplacement unit.",
           "logic": {
-              "trigger": "on_deploy",
-              "target": "self",
-              "effect": "capacity",
-              "slots": 1,
-              "restriction": "Infantry"
+              "bal_type": "formula",
+              "bal_formula": "20 * om_move",
+              "is_flat": true,
+              "target_pillar": "body"
           }
       },
       "Unhindered": {
           "desc": "This unit ignores difficult terrain penalties.",
           "logic": {
-              "trigger": "on_move",
-              "target": "self",
-              "effect": "ignore_terrain",
-              "type": "difficult"
+              "bal_type": "formula",
+              "bal_formula": "5 * om_move",
+              "is_flat": true,
+              "target_pillar": "body"
           }
       }
   }
