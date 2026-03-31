@@ -2,97 +2,102 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Regiment Unit Balancer v2.3</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Regiment Unit Architect</title>
+    <link rel="icon" type="image/svg+xml" href="../icons/favicon.svg" />
+    <link rel="stylesheet" href="unitCreator_style.css" />
   </head>
   <body>
+    <header class="top-nav">
+      <div
+        class="brand"
+        onclick="window.location.href = '../index.html'"
+        style="cursor: pointer; display: flex; align-items: center"
+        title="Return to Army Builder"
+      >
+        <img
+          src="../icons/logo.png"
+          alt="Regiment"
+          class="brand-logo"
+          onerror="
+            this.style.display = 'none';
+            document.getElementById('brandFallback').style.display = 'block';
+          "
+        />
+        <span id="brandFallback" style="display: none; font-weight: bold; letter-spacing: 2px">REGIMENT</span>
+      </div>
+
+      <div class="nav-links">
+        <a href="../index.html" class="nav-btn builder-btn">Army Builder</a>
+        <a href="https://github.com/spacenavy90/regt_army_builder" target="_blank" class="nav-btn">GitHub</a>
+        <a href="https://www.paypal.com/donate/?hosted_button_id=2YP5AY9JT7T5J" target="_blank" class="nav-btn donate-btn">Donate</a>
+      </div>
+    </header>
+
     <div class="container">
       <section class="panel left-panel">
-        <div class="form-row">
-          <label>Unit Name</label>
-          <input type="text" id="unitName" value="New Unit" />
+        <div class="panel-header">
+          <h2>UNIT ARCHITECT</h2>
+          <span class="badge">REGIMENT</span>
         </div>
 
-        <div class="form-row">
-          <label>Faction</label>
-          <select id="factionSelect"></select>
+        <div class="form-section">
+          <div class="form-row">
+            <label>Unit Name</label>
+            <input type="text" id="unitName" value="New Unit" />
+          </div>
+          <div class="form-row">
+            <label>Faction</label>
+            <select id="factionSelect"></select>
+          </div>
         </div>
 
-        <div class="form-row">
-          <label>Unit Type</label>
-          <select id="unitType" onchange="ui.toggleSubtype()">
-            <option value="Infantry">Infantry</option>
-            <option value="Emplacement">Emplacement</option>
-            <option value="Vehicle">Vehicle</option>
-            <option value="Titan">Titan</option>
-          </select>
+        <div class="form-section grid-2">
+          <div class="form-col">
+            <label>Unit Type</label>
+            <select id="unitType" onchange="ui.toggleSubtype()">
+              <option value="Infantry">Infantry</option>
+              <option value="Emplacement">Emplacement</option>
+              <option value="Vehicle">Vehicle</option>
+              <option value="Titan">Titan</option>
+            </select>
+          </div>
+          <div class="form-col">
+            <label>Sub-Type</label>
+            <select id="subType" disabled>
+              <option value="null">None</option>
+              <option value="Walker">Walker</option>
+              <option value="Hover">Hover</option>
+              <option value="Ground">Ground</option>
+              <option value="Aerial">Aerial</option>
+            </select>
+          </div>
         </div>
 
-        <div class="form-row">
-          <label>Sub-Type</label>
-          <select id="subType" disabled>
-            <option value="null">null</option>
-            <option value="Walker">Walker</option>
-            <option value="Hover">Hover</option>
-            <option value="Ground">Ground</option>
-            <option value="Aerial">Aerial</option>
-          </select>
+        <h3 class="section-label">BASE STATISTICS</h3>
+        <div class="form-section stat-grid">
+          <div class="stat-box"><label>Bases</label><input type="number" id="bases" value="3" /></div>
+          <div class="stat-box"><label>Wounds/Base</label><input type="number" id="wnd" value="3" /></div>
+          <div class="stat-box">
+            <label>Save</label>
+            <select id="sv">
+              <option value="3+">3+</option>
+              <option value="4+">4+</option>
+              <option value="5+">5+</option>
+              <option value="6+" selected>6+</option>
+              <option value="-">-</option>
+            </select>
+          </div>
+          <div class="stat-box"><label>Move Speed</label><input type="number" id="mv" value="6" /></div>
+          <div class="stat-box"><label>Move Min</label><input type="number" id="mv_min" value="0" /></div>
+          <div class="stat-box"><label>Override Pts</label><input type="number" id="override" value="0" /></div>
         </div>
 
-        <div class="form-row">
-          <label>Bases</label>
-          <input type="number" id="bases" value="3" />
-        </div>
-
-        <div class="form-row">
-          <label>Wounds/Base</label>
-          <input type="number" id="wnd" value="3" />
-        </div>
-
-        <div class="form-row">
-          <label>Save</label>
-          <select id="sv">
-            <option value="3+">3+</option>
-            <option value="4+">4+</option>
-            <option value="5+">5+</option>
-            <option value="6+" selected>6+</option>
-            <option value="-">-</option>
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label>Move Speed</label>
-          <input type="number" id="mv" value="6" />
-        </div>
-
-        <div class="form-row">
-          <label>Move Minimum</label>
-          <input type="number" id="mv_min" value="0" />
-        </div>
-
-        <div class="form-row">
-          <label>Ranged Dice</label>
-          <input type="number" id="atk_r" value="2" />
-        </div>
-
-        <div class="form-row">
-          <label>Short Range</label>
-          <input type="number" id="rng_s" value="8" />
-        </div>
-
-        <div class="form-row">
-          <label>Long Range</label>
-          <input type="number" id="rng_l" value="12" />
-        </div>
-
-        <div class="form-row">
-          <label>Melee Dice</label>
-          <input type="number" id="atk_m" value="3" />
-        </div>
-
-        <div class="form-row">
-          <label>Override Points</label>
-          <input type="number" id="override" value="0" />
+        <h3 class="section-label">COMBAT PROFILE</h3>
+        <div class="form-section stat-grid">
+          <div class="stat-box"><label>Ranged Dice</label><input type="number" id="atk_r" value="2" /></div>
+          <div class="stat-box"><label>Short Range</label><input type="number" id="rng_s" value="8" /></div>
+          <div class="stat-box"><label>Long Range</label><input type="number" id="rng_l" value="12" /></div>
+          <div class="stat-box"><label>Melee Dice</label><input type="number" id="atk_m" value="3" /></div>
         </div>
 
         <h3 class="section-label">KEYWORDS</h3>
@@ -100,40 +105,51 @@
           <div id="keywordList"></div>
         </div>
 
-        <button id="btnGenerate" onclick="ui.runCalc()" class="btn-full btn-green">GENERATE POINT COST</button>
+        <div class="actions-container">
+          <button id="btnGenerate" onclick="ui.runCalc()" class="btn-main btn-green">GENERATE POINT COST</button>
 
-        <div class="tool-frame">
-          <button onclick="ui.openKeywords()" class="btn-tool btn-grey">KEYWORD CREATOR</button>
-          <button onclick="ui.refresh()" class="btn-tool btn-purple">REFRESH DB</button>
-          <button onclick="ui.saveUnit()" class="btn-tool btn-orange">COPY JSON</button>
+          <div class="tool-frame">
+            <button onclick="ui.preview()" class="btn-tool btn-slate">PREVIEW JSON</button>
+            <button onclick="ui.refresh()" class="btn-tool btn-purple">REFRESH DB</button>
+            <button onclick="ui.saveUnit()" class="btn-tool btn-orange">COPY JSON</button>
+          </div>
+
+          <div class="tool-frame">
+            <button onclick="ui.openKeywords()" class="btn-tool btn-grey">KEYWORD ARCHITECT</button>
+            <button onclick="ui.openUnitLibrary()" class="btn-tool btn-blue">UNIT LIBRARY</button>
+            <button onclick="ui.openSimulator()" class="btn-tool btn-red">SIMULATOR</button>
+          </div>
         </div>
-
-        <button onclick="ui.preview()" class="btn-full btn-slate">PREVIEW JSON</button>
-        <button onclick="ui.openUnitLibrary()" class="btn-full btn-blue">OPEN UNIT LIBRARY</button>
-        <button onclick="ui.openSimulator()" class="btn-full btn-red">COMBAT SIMULATOR</button>
       </section>
 
       <section class="panel right-panel">
-        <pre id="outputLog">AUDIT LOG: READY</pre>
+        <div class="panel-header">
+          <h2>AUDIT LOG</h2>
+        </div>
+        <div class="terminal-wrapper">
+          <pre id="outputLog">ENGINE READY. AWAITING CALCULATION...</pre>
+        </div>
       </section>
     </div>
 
     <div id="libraryModal" class="modal" style="display: none">
-      <div class="modal-content panel">
+      <div class="modal-content">
         <div class="modal-header">
           <h2>UNIT LIBRARY</h2>
           <span class="close-btn" onclick="library.close()">&times;</span>
         </div>
-
         <div class="filter-bar">
-          <label>Search:</label>
-          <input type="text" id="libSearch" oninput="library.refreshTable()" />
-          <label style="margin-left: 10px">Faction:</label>
-          <select id="libFactionFilter" onchange="library.refreshTable()">
-            <option value="All">All</option>
-          </select>
+          <div class="form-col" style="flex: 2">
+            <label>Search:</label>
+            <input type="text" id="libSearch" oninput="library.refreshTable()" placeholder="Type unit name..." />
+          </div>
+          <div class="form-col" style="flex: 1">
+            <label>Faction Filter:</label>
+            <select id="libFactionFilter" onchange="library.refreshTable()">
+              <option value="All">All</option>
+            </select>
+          </div>
         </div>
-
         <div class="table-scroll">
           <table id="libTable">
             <thead>
@@ -147,102 +163,114 @@
             <tbody id="libTableBody"></tbody>
           </table>
         </div>
-
-        <button onclick="library.loadSelection()" class="btn-full btn-blue" style="margin-top: 10px">LOAD SELECTED UNIT</button>
+        <button onclick="library.loadSelection()" class="btn-main btn-blue" style="margin-top: 15px">LOAD SELECTED UNIT</button>
       </div>
     </div>
 
     <div id="keywordModal" class="modal" style="display: none">
-      <div class="modal-content panel" style="width: 550px; max-height: 90vh">
+      <div class="modal-content" style="width: 1000px; max-height: 90vh">
         <div class="modal-header">
           <h2>KEYWORD ARCHITECT</h2>
           <span class="close-btn" onclick="architect.close()">&times;</span>
         </div>
 
-        <div class="form-row"><label>Keyword Name</label><input type="text" id="kwName" value="NewKeyword" /></div>
-        <div class="form-row"><label>Description</label><input type="text" id="kwDesc" value="Enter rule text here..." /></div>
+        <div class="split-layout">
+          <div class="modal-left">
+            <div class="form-section grid-2">
+              <div class="form-col"><label>Keyword Name</label><input type="text" id="kwName" value="NewKeyword" /></div>
+              <div class="form-col"><label>Effect Hook</label><input type="text" id="kwEffect" value="generic" /></div>
+            </div>
 
-        <div class="form-row">
-          <label>Target Pillar</label>
-          <select id="kwPillar">
-            <option value="action">action</option>
-            <option value="body">body</option>
-            <option value="total">total</option>
-          </select>
+            <div class="form-section">
+              <div class="form-row"><label>Description</label><input type="text" id="kwDesc" value="Enter rule text here..." /></div>
+            </div>
+
+            <div class="form-section grid-2">
+              <div class="form-col">
+                <label>Target Pillar</label>
+                <select id="kwPillar">
+                  <option value="action">action</option>
+                  <option value="body">body</option>
+                  <option value="total">total</option>
+                </select>
+              </div>
+              <div class="form-col">
+                <label>Bal Type</label>
+                <select id="kwType">
+                  <option value="multiplier">multiplier</option>
+                  <option value="flat">flat</option>
+                  <option value="formula">formula</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="checkbox-row">
+                <input type="checkbox" id="kwIsFlat" />
+                <label for="kwIsFlat">Treat as Flat Addition (is_flat)</label>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-row"><label>Value/Formula</label><input type="text" id="kwValue" value="1.0" /></div>
+              <p class="helper-text">Variables: bases, wnd, mv, mv_min, rng_s, rng_l, atk_r, atk_m, om_save, om_move, om_range</p>
+            </div>
+
+            <div class="form-section">
+              <div class="form-row"><label>Trigger Hook</label><input type="text" id="kwTrigger" value="always" /></div>
+            </div>
+
+            <div class="tool-frame" style="margin-top: auto">
+              <button onclick="architect.updatePreview()" class="btn-tool btn-slate">GENERATE PREVIEW</button>
+              <button onclick="architect.copyToClipboard()" class="btn-tool btn-blue">COPY TO CLIPBOARD</button>
+            </div>
+          </div>
+
+          <div class="modal-right">
+            <h3 class="section-label" style="margin-top: 0">JSON PREVIEW</h3>
+            <pre id="kwPreview" class="code-preview"></pre>
+          </div>
         </div>
-
-        <div class="form-row">
-          <label>Bal Type</label>
-          <select id="kwType">
-            <option value="multiplier">multiplier</option>
-            <option value="flat">flat</option>
-            <option value="formula">formula</option>
-          </select>
-        </div>
-
-        <div class="form-row" style="margin-left: 130px">
-          <input type="checkbox" id="kwIsFlat" style="width: auto; margin-right: 5px" />
-          <label style="width: auto; font-size: 11px">Treat as Flat Addition (is_flat)</label>
-        </div>
-
-        <div class="form-row"><label>Value/Formula</label><input type="text" id="kwValue" value="1.0" /></div>
-        <p style="font-size: 10px; color: #666; font-style: italic; margin: 0 0 10px 130px">
-          Variables: bases, wnd, mv, mv_min, rng_s, rng_l, atk_r, atk_m, om_save, om_move, om_range
-        </p>
-
-        <div class="form-row"><label>Effect Hook</label><input type="text" id="kwEffect" value="generic" /></div>
-        <div class="form-row"><label>Trigger Hook</label><input type="text" id="kwTrigger" value="always" /></div>
-
-        <h3 class="section-label">JSON PREVIEW</h3>
-        <pre id="kwPreview" style="height: 120px; background: #eee; border: 1px solid #ccc; padding: 5px; font-size: 11px; overflow-y: auto"></pre>
-
-        <div class="tool-frame">
-          <button onclick="architect.updatePreview()" class="btn-grey">GENERATE PREVIEW</button>
-          <button onclick="architect.copyToClipboard()" class="btn-blue">COPY TO CLIPBOARD</button>
-        </div>
-
-        <button onclick="architect.saveToDB()" class="btn-full btn-green" style="margin-top: 5px">COMMIT TO LOCAL CACHE</button>
       </div>
     </div>
 
     <div id="simulatorModal" class="modal" style="display: none">
-      <div class="modal-content panel" style="width: 700px">
+      <div class="modal-content" style="width: 1000px; max-height: 90vh">
         <div class="modal-header">
           <h2>COMBAT SIMULATOR</h2>
           <span class="close-btn" onclick="simulator.close()">&times;</span>
         </div>
 
-        <div class="tool-frame" style="margin-top: 10px">
-          <div class="input-group" style="flex: 1">
-            <label>Attacker (A)</label>
-            <select id="simUnitA"></select>
+        <div class="split-layout">
+          <div class="modal-left">
+            <div class="form-section">
+              <div class="form-col" style="margin-bottom: 12px">
+                <label>Attacker (A)</label>
+                <select id="simUnitA"></select>
+              </div>
+              <div class="form-col">
+                <label>Defender (B)</label>
+                <select id="simUnitB"></select>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-col">
+                <label>Range (Inches)</label>
+                <input type="number" id="simRange" value="8" min="1" max="36" />
+              </div>
+            </div>
+
+            <button onclick="simulator.run()" class="btn-main btn-red" style="margin-top: auto">RUN 1,000 ITERATIONS</button>
           </div>
-          <div class="input-group" style="flex: 1">
-            <label>Defender (B)</label>
-            <select id="simUnitB"></select>
+
+          <div class="modal-right">
+            <h3 class="section-label" style="margin-top: 0">SIMULATION RESULTS</h3>
+            <div class="terminal-wrapper">
+              <pre id="simResults">AWAITING SIMULATION...</pre>
+            </div>
           </div>
         </div>
-
-        <div class="form-row" style="margin-bottom: 15px">
-          <label>Range (Inches):</label>
-          <input type="number" id="simRange" value="8" min="1" max="36" style="width: 80px; flex: none" />
-        </div>
-
-        <button onclick="simulator.run()" class="btn-full btn-red" style="padding: 12px; font-size: 14px">RUN 1000 ITERATIONS</button>
-
-        <h3 class="section-label">SIMULATION RESULTS</h3>
-        <pre
-          id="simResults"
-          style="
-            height: 250px;
-            background: #000;
-            color: #00ff00;
-            padding: 15px;
-            font-family: &quot;Courier New&quot;, monospace;
-            overflow-y: auto;
-            border-radius: 4px;
-          "
-        ></pre>
       </div>
     </div>
 

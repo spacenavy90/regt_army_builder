@@ -159,7 +159,7 @@ class UnitCreatorUI {
         const logElement = document.getElementById("outputLog");
         logElement.innerText = "UNIT JSON COPIED TO CLIPBOARD:\n\n" + jsonString;
 
-        alert(`'${payload.name}' copied to clipboard and saved to local library cache.`);
+        alert(`'${payload.name}' unit JSON copied to clipboard.`);
       })
       .catch((err) => {
         console.error("Could not copy text: ", err);

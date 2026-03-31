@@ -64,22 +64,6 @@ class KeywordArchitect {
       alert("Keyword JSON copied to clipboard!");
     }
   }
-
-  /**
-   * Logic from Python: save_to_db()
-   */
-  saveToDB() {
-    const result = this.getCurrentLogic();
-    if (!result) return;
-
-    if (confirm(`Add '${result.name}' to local cache? (You must still manually update data.json for persistence)`)) {
-      dataManager.saveKeyword(result.name, result.data);
-
-      // Immediately refresh the keyword list in the builder UI
-      ui.init();
-      this.close();
-    }
-  }
 }
 
 const architect = new KeywordArchitect();
