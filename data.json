@@ -232,7 +232,7 @@
                     "sv": "3+",
                     "keywords": [
                         "Anti-Armor",
-                        "Heavy Armor",
+                        "Armor 3",
                         "Towering",
                         "Transport"
                     ],
@@ -709,7 +709,7 @@
                     "wnd": 6,
                     "sv": "3+",
                     "keywords": [
-                        "Heavy Armor",
+                        "Armor 3",
                         "Transport"
                     ],
                     "tts_height": 2.0,
@@ -1005,7 +1005,7 @@
                     "wnd": 5,
                     "sv": "4+",
                     "keywords": [
-                        "Heavy Armor",
+                        "Armor 3",
                         "Transport"
                     ],
                     "tts_height": 2.0,
@@ -1215,175 +1215,183 @@
             "tts_card_front": ""
         }
     ],
-"definitions": {
-      "Anti-Armor": {
-          "desc": "Bypasses Armor X and Heavy Armor effects.",
-          "logic": {
-              "bal_type": "multiplier",
-              "bal_val": 1.25,
-              "target_pillar": "action"
-          }
-      },
-      "Armor 1": {
-          "desc": "Cancels 1 hit from non-Anti-Armor sources.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "1.1 + (om_save * 0.2)",
-              "target_pillar": "body",
-              "effect": "conditional_armor"
-          }
-      },
-      "Armor 2": {
-          "desc": "Cancels 2 hits from non-Anti-Armor sources.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "1.5 + (om_save * 0.5)",
-              "target_pillar": "body",
-              "effect": "conditional_armor"
-          }
-      },
-      "Armor 3": {
-          "desc": "Cancels 3 hits from non-Anti-Armor sources.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "2.0 + (om_save * 1.0)",
-              "target_pillar": "body",
-              "effect": "conditional_armor"
-          }
-      },
-      "Indirect": {
-          "desc": "May shoot at targets even if Line of Sight is blocked. Does not suffer penalty for Long Range shooting.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "1.0 + (rng_l / 24)",
-              "target_pillar": "action"
-          }
-      },
-      "Ion": {
-          "desc": "Vehicle or Droid units wounded by this unit, if not already Shaken, must roll 1d6. On a 4+ this unit immediately becomes Shaken.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "1.10 + (atk_r * 0.03)",
-              "target_pillar": "action",
-              "trigger": "on_damage_dealt",
-              "target": "defender",
-              "effect": "force_status_check",
-              "condition": "is_vehicle_or_droid"
-          }
-      },
-      "Clone": {
-          "desc": "When this unit would become Shaken, roll 1d6. On a result of 5+, it is not shaken.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "1.05 + (om_save * 0.03)",
-              "target_pillar": "body",
-              "effect": "status_mitigation",
-              "trigger": "on_shaken_check",
-              "target": "self"
-          }
-      },
-      "Droid": {
-          "desc": "When this unit would become Shaken, you may choose to take 1 wound instead. This can result in the loss of a base.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "1.05 + ((bases * wnd) * 0.01)",
-              "target_pillar": "body",
-              "effect": "status_mitigation",
-              "trigger": "on_shaken_check"
-          }
-      },
-      "Fearless": {
-          "desc": "This unit cannot become Shaken.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "1.15 + (om_save * 0.05)",
-              "target_pillar": "body",
-              "effect": "status_immunity"
-          }
-      },
-      "Heavy Armor": {
-          "desc": "Immune to non-Anti-Armor hits from the front. Flanking non-Anti-Armor shooting attacks only hit on 6+.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "4.0 + (om_save * 2.0)",
-              "target_pillar": "body",
-              "effect": "conditional_armor"
-          }
-      },
-      "Jetpacks": {
-          "desc": "Ignores all terrain movement penalties and can move over enemy units.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "1.10 + (pow(om_move, 1.5) * 0.15)",
-              "target_pillar": "body"
-          }
-      },
-      "Omnipresent": {
-          "desc": "Cannot be flanked and attacks are not limited by arc facings.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "1.25 + (om_save * 0.25) + ((bases * wnd) * 0.05)",
-              "target_pillar": "body"
-          }
-      },
-      "Shields 1": {
-          "desc": "When rolling defense dice, you may reroll 1 failed save.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "1.10 + (om_save * 0.12)",
-              "target_pillar": "body"
-          }
-      },
-      "Shields 2": {
-          "desc": "When rolling defense dice, you may reroll 2 failed saves.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "1.25 + (om_save * 0.30)",
-              "target_pillar": "body"
-          }
-      },
-      "Shields 3": {
-          "desc": "When rolling defense dice, you may reroll 3 failed saves.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "1.45 + (om_save * 0.55)",
-              "target_pillar": "body"
-          }
-      },
-      "Tow-Cable": {
-          "desc": "The unit must declare a charge on a Walker Titan and enter base contact. Ignore normal charge rules. Roll 3 attack dice, hitting on a 2+. The Walker rolls its saves needing a 2+. Any unsaved hits results in the Walker's instant destruction.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "25 * om_move",
-              "is_flat": true,
-              "target_pillar": "action"
-          }
-      },
-      "Towering": {
-          "desc": "Ignores terrain/units for LoS. Opponents also ignore terrain/units when targeting this unit.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "1.05 + (om_range * 0.10)",
-              "target_pillar": "action"
-          }
-      },
-      "Transport": {
-          "desc": "This unit may transport one Infantry or Emplacement unit.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "20 * om_move",
-              "is_flat": true,
-              "target_pillar": "body"
-          }
-      },
-      "Unhindered": {
-          "desc": "This unit ignores difficult terrain penalties.",
-          "logic": {
-              "bal_type": "formula",
-              "bal_formula": "5 * om_move",
-              "is_flat": true,
-              "target_pillar": "body"
-          }
-      }
-  }
+    "definitions": {
+        "Anti-Armor": {
+            "desc": "Ignores the Armor X keyword and inflicts a -1 penalty to the defender's Save roll.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.35 + (atk_r * 0.08) + (rng_l / 24 * 0.12)",
+                "target_pillar": "action"
+            }
+        },
+        "Armor 1": {
+            "desc": "Cancels 1 hit.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.1 + (om_save * 0.2)",
+                "target_pillar": "body",
+                "effect": "conditional_armor"
+            }
+        },
+        "Armor 2": {
+            "desc": "Cancels 2 hits.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.5 + (om_save * 0.5)",
+                "target_pillar": "body",
+                "effect": "conditional_armor"
+            }
+        },
+        "Armor 3": {
+            "desc": "Cancels 3 hits.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "2.0 + (om_save * 1.0)",
+                "target_pillar": "body",
+                "effect": "conditional_armor"
+            }
+        },
+        "Blast": {
+            "desc": "Ignores cover penalties.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.50 + (atk_r * 0.10) + (rng_l / 12 * 0.15)",
+                "target_pillar": "action"
+            }
+        },
+        "Indirect": {
+            "desc": "May shoot at targets even if Line of Sight is blocked. Does not suffer penalty for Long Range shooting.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.0 + (rng_l / 24)",
+                "target_pillar": "action"
+            }
+        },
+        "Ion": {
+            "desc": "Vehicle or Droid units wounded by this unit, if not already Shaken, must roll 1d6. On a 4+ this unit immediately becomes Shaken.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.10 + (atk_r * 0.03)",
+                "target_pillar": "action",
+                "trigger": "on_damage_dealt",
+                "target": "defender",
+                "effect": "force_status_check",
+                "condition": "is_vehicle_or_droid"
+            }
+        },
+        "Clone": {
+            "desc": "When this unit would become Shaken, roll 1d6. On a result of 5+, it is not shaken.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.05 + (om_save * 0.03)",
+                "target_pillar": "body",
+                "effect": "status_mitigation",
+                "trigger": "on_shaken_check",
+                "target": "self"
+            }
+        },
+        "Droid": {
+            "desc": "When this unit would become Shaken, you may choose to take 1 wound instead. This can result in the loss of a base.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.05 + ((bases * wnd) * 0.01)",
+                "target_pillar": "body",
+                "effect": "status_mitigation",
+                "trigger": "on_shaken_check"
+            }
+        },
+        "Fearless": {
+            "desc": "This unit cannot become Shaken.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.15 + (om_save * 0.05)",
+                "target_pillar": "body",
+                "effect": "status_immunity"
+            }
+        },
+        "Jetpacks": {
+            "desc": "Ignores all terrain movement penalties and can move over enemy units.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.10 + (pow(om_move, 1.5) * 0.15)",
+                "target_pillar": "body"
+            }
+        },
+        "Omnipresent": {
+            "desc": "Cannot be flanked and attacks are not limited by arc facings.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.25 + (om_save * 0.25) + ((bases * wnd) * 0.05)",
+                "target_pillar": "body"
+            }
+        },
+        "Scout": {
+            "desc": "During deployment, this unit may be placed 6\" or its maximum move speed (whichever is higher) outside the deployment zone.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "10 * om_move",
+                "target_pillar": "body",
+                "is_flat": true
+            }
+        },
+        "Shields 1": {
+            "desc": "When rolling defense dice, you may reroll 1 failed save.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.10 + (om_save * 0.12)",
+                "target_pillar": "body"
+            }
+        },
+        "Shields 2": {
+            "desc": "When rolling defense dice, you may reroll 2 failed saves.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.25 + (om_save * 0.30)",
+                "target_pillar": "body"
+            }
+        },
+        "Shields 3": {
+            "desc": "When rolling defense dice, you may reroll 3 failed saves.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.45 + (om_save * 0.55)",
+                "target_pillar": "body"
+            }
+        },
+        "Tow-Cable": {
+            "desc": "The unit must declare a charge on a Walker Titan and enter base contact. Ignore normal charge rules. Roll 3 attack dice, hitting on a 2+. The Walker rolls its saves needing a 2+. Any unsaved hits results in the Walker's instant destruction.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "25 * om_move",
+                "is_flat": true,
+                "target_pillar": "action"
+            }
+        },
+        "Towering": {
+            "desc": "Ignores terrain/units for LoS. Opponents also ignore terrain/units when targeting this unit.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.05 + (om_range * 0.10)",
+                "target_pillar": "action"
+            }
+        },
+        "Transport": {
+            "desc": "This unit may transport one Infantry or Emplacement unit.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "20 * om_move",
+                "is_flat": true,
+                "target_pillar": "body"
+            }
+        },
+        "Unhindered": {
+            "desc": "This unit ignores difficult terrain penalties.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "5 * om_move",
+                "is_flat": true,
+                "target_pillar": "body"
+            }
+        }
+    }
 }

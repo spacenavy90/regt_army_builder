@@ -1,0 +1,260 @@
+/* Windows/Tkinter Neutral Palette */
+:root {
+  --bg-system: #d9d9d9;
+  --bg-panel: #f0f0f0;
+  --border-sunken: #7a7a7a;
+  --border-raised: #999999;
+
+  /* Python Button Colors */
+  --color-green: #27ae60;
+  --color-grey: #34495e;
+  --color-purple: #8e44ad;
+  --color-orange: #e67e22;
+  --color-slate: #95a5a6;
+  --color-blue: #2980b9;
+  --color-red: #c0392b;
+}
+
+body {
+  background-color: var(--bg-system);
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  font-size: 13px;
+}
+
+.container {
+  display: flex;
+  max-width: 1200px;
+  height: 95vh;
+  margin: 0 auto;
+  gap: 15px;
+}
+
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-raised);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: inset 1px 1px 0 white;
+}
+
+.left-panel {
+  width: 450px;
+  overflow-y: auto;
+}
+
+.right-panel {
+  flex: 1;
+}
+
+/* Mimics self.create_label_entry and self.create_label_combo */
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+.form-row label {
+  width: 130px; /* Equivalent to Tkinter width=15 */
+  font-size: 12px;
+  color: black;
+}
+
+.form-row input,
+.form-row select {
+  flex: 1;
+  padding: 2px;
+  border: 1px solid var(--border-sunken);
+  font-size: 13px;
+}
+
+.section-label {
+  font-size: 13px;
+  font-weight: bold;
+  margin: 15px 0 5px 0;
+}
+
+/* KEYWORD SCROLLBOX (The Tkinter Canvas/Scrollbar replacement) */
+.scroll-container {
+  height: 200px;
+  background: white;
+  border: 2px solid var(--border-sunken);
+  overflow-y: scroll;
+  margin-bottom: 10px;
+}
+
+#keywordList {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.kw-item {
+  display: flex;
+  align-items: center;
+  padding: 2px 0;
+}
+
+.kw-item input[type="checkbox"] {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+/* BUTTONS */
+button {
+  border: 1px solid #555;
+  color: white;
+  padding: 6px;
+  margin: 2px 0;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+}
+
+button:active {
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.btn-full {
+  width: 100%;
+}
+.btn-tool {
+  flex: 1;
+}
+
+.btn-green {
+  background: var(--color-green);
+  font-weight: bold;
+  font-size: 14px;
+  padding: 10px;
+}
+.btn-grey {
+  background: var(--color-grey);
+}
+.btn-purple {
+  background: var(--color-purple);
+}
+.btn-orange {
+  background: var(--color-orange);
+}
+.btn-slate {
+  background: var(--color-slate);
+}
+.btn-blue {
+  background: var(--color-blue);
+}
+.btn-red {
+  background: var(--color-red);
+  font-weight: bold;
+}
+
+.tool-frame {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+/* AUDIT LOG PREVIEW */
+#outputLog {
+  background: #f4f4f4;
+  border: 1px solid var(--border-sunken);
+  flex: 1;
+  margin: 0;
+  padding: 10px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  width: 700px;
+  max-height: 500px;
+  background: #f0f0f0;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.filter-bar {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+}
+.filter-bar input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.table-scroll {
+  flex: 1;
+  overflow-y: auto;
+  border: 2px solid var(--border-sunken);
+  background: white;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  cursor: pointer;
+}
+th {
+  background: #e1e1e1;
+  position: sticky;
+  top: 0;
+  text-align: left;
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+}
+td {
+  padding: 5px;
+  font-size: 12px;
+  border-bottom: 1px dotted #ccc;
+}
+
+.selected-row {
+  background-color: #3498db !important;
+  color: white;
+}
+tr:hover:not(.selected-row) {
+  background-color: #f5f5f5;
+}
+
+/* Simulator specific layout tweaks */
+#simulatorModal .tool-frame {
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+#simulatorModal .input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+#simResults {
+  border: 2px solid var(--border-sunken);
+  margin-top: 5px;
+}
