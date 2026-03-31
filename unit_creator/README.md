@@ -119,10 +119,12 @@ Units and Keywords must adhere to the following schema for the `dataManager.js` 
 
 ```json
 {
-  "id": "reb_troopers",
+  "id": "reb_trp",
   "name": "Rebel Troopers",
   "unit_size": 3,
   "cost": 40,
+  "min_pct": 10,
+  "max_pct": 30,
   "class": "Infantry",
   "subclass": null,
   "mv": 6,
@@ -133,30 +135,31 @@ Units and Keywords must adhere to the following schema for the `dataManager.js` 
   "rng_long": 12,
   "wnd": 3,
   "sv": "6+",
-  "keywords": ["Clone", "Cover 1"],
-  "tts_model": "asset_link"
+  "keywords": [],
+  "tts_height": 1.0,
+  "tts_model": "",
+  "tts_texture": "",
+  "tts_collider": ""
 }
 ```
 
-## 7. Development Workflow
+## 7. Development & Validation Workflow
 
-The creation and validation of a unit within the Regiment ecosystem follows a rigorous four-stage pipeline. This process ensures that every platoon, whether a standard infantry squad or a massive Walker Titan, is mathematically consistent with the established anchors and adheres to the saturation limits of the logic engine.
+### Phase 1: Structural Definition and Initial Calculation
 
-### Phase 1: Statistical Definition and Initial Calculation
-
-The developer begins by defining the unit's raw attributes in the `unit_library.py` or directly within the `data.json` schema. This includes setting the base counts, wounds, movement, and offensive dice. Once defined, the `calculate_unit_points` function is called. This initiates the first pass of the logic engine, which parses the unit's sub-type modifiers and keyword logic. The engine outputs a "Raw Total," representing the mathematical sum of the Body and Action pillars before saturation taxes are applied. This stage is purely data-driven and provides the baseline "Fair Value" for the unit’s physical presence on the board.
+The developer begins by defining the unit's raw attributes in the unit architect or directly within the data.json schema. This includes setting the base counts, wounds, movement, and offensive dice. Once defined, the unitCreatorUI calls the logicEngine. This initiates the first pass of the engine, which parses the unit's sub-type modifiers and keyword logic. The engine outputs a "Raw Total," representing the mathematical sum of the Body and Action pillars before saturation taxes are applied. This stage is purely data-driven and provides the baseline "Fair Value" for the unit’s physical presence on the board.
 
 ### Phase 2: The Saturation Audit
 
-After the initial calculation, the developer must review the Verbose Audit Log. This document provides a line-by-line breakdown of how every point was generated. The critical focus here is the **Saturation Processing** section. If a unit's Action Value or Body Value has a high Anchor Ratio (typically above 3.0), the saturation exponents (0.15 for Body, 0.25 for Action) will begin to drive the cost up exponentially. The developer must determine if the unit is "Over-Stacked." If a unit carries too many high-multiplier keywords like Anti-Armor, Blast, and Indirect simultaneously, the resulting point cost may make the unit unplayable in a standard match. This audit phase is essential for identifying "Deathstar" units that look good on paper but are mathematically inefficient due to the saturation tax.
+After the initial calculation, the developer must review the Verbose Audit Log in the right-hand panel. This document provides a line-by-line breakdown of how every point was generated. The critical focus here is the Saturation Processing section. If a unit's Action Value or Body Value has a high Anchor Ratio (typically above 3.0), the saturation exponents (0.15 for Body, 0.25 for Action) will begin to drive the cost up exponentially. The developer must determine if the unit is "Over-Stacked." If a unit carries too many high-multiplier keywords like Anti-Armor, Blast, and Indirect simultaneously, the resulting point cost may make the unit unplayable in a standard match. This audit phase is essential for identifying "Deathstar" units that look good on paper but are mathematically inefficient due to the saturation tax.
 
 ### Phase 3: Subjective Override and Role Refinement
 
-While the logic engine is highly accurate for direct combatants, certain units possess utility that the math cannot fully capture. Examples include dedicated suicide units, pure logistics/transport vehicles, or units with highly situational rule-breaking keywords. In these instances, the developer utilizes the `override_points` field in the unit database. This field allows for manual point adjustments based on playtest feel or specific tactical roles that fall outside the standard damage/durability curve. Overrides should be used sparingly and always documented with a rationale in the unit's metadata to prevent balance drift over time.
+While the logic engine is highly accurate for direct combatants, certain units possess utility that the math cannot fully capture. Examples include dedicated suicide units, pure logistics/transport vehicles, or units with highly situational rule-breaking keywords. In these instances, the developer utilizes the Override Points field in the Architect. This field allows for manual point adjustments based on playtest feel or specific tactical roles that fall outside the standard damage/durability curve. Overrides should be used sparingly and always documented with a rationale in the unit's metadata to prevent balance drift over time.
 
 ### Phase 4: Monte Carlo Simulation and Validation
 
-The final stage involves the integrated **Combat Simulator**. The unit is subjected to 1,000 iterations of combat against the **Rebel Trooper Anchor**. The simulator calculates the "Point Efficiency" rating by comparing the unit's performance against its cost relative to the anchor. A perfectly balanced unit should maintain a Point Efficiency rating between **0.95x and 1.05x**. If the unit consistently over-performs or under-performs beyond these margins, the developer must return to Phase 1 to adjust stats or Phase 3 to refine the point override. This simulation ensures that the unit is not only mathematically sound but also performs as intended in the "chaos" of a dice-driven environment.
+The final stage involves the integrated Combat Simulator. The unit is subjected to 1,000 iterations of combat against the Rebel Trooper Anchor. The simulator calculates the "Point Efficiency" rating by comparing the unit's performance against its cost relative to the anchor. A perfectly balanced unit should maintain a Point Efficiency rating between 0.95x and 1.05x. If the unit consistently over-performs or under-performs beyond these margins, the developer must return to Phase 1 to adjust stats or Phase 3 to refine the point override. This simulation ensures that the unit is not only mathematically sound but also performs as intended in the "chaos" of a dice-driven environment.
 
 ### Phase 5: JSON Export and Integration
 

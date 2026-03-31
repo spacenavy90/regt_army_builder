@@ -1,60 +1,63 @@
-# Star Wars: Regiment Army Builder
-
-## Overview
-The Star Wars: Regiment Army Builder is a dedicated web-based tool designed for the 6mm scale tabletop wargame, **Star Wars: Regiment**. This application streamlines the process of list construction, ensuring all forces adhere to the specific rules of the game while providing various export formats for physical play, digital sharing, and Tabletop Simulator (TTS) integration.
-
-The builder is engineered with a "Single Source of Truth" philosophy. All game data is housed in a central `data.json` file, allowing the engine to dynamically render units, leaders, and off-table support (OTS) assets through asynchronous fetching.
+# STAR WARS: REGIMENT | ARMY BUILDER & UNIT ARCHITECT
 
 ---
 
-## Core Features
+## 1. PROJECT OVERVIEW
 
-### 1. Dynamic Faction Management
-The application supports both **Major** and **Minor** factions. Major factions, such as the Galactic Empire and Rebel Alliance, feature high-resolution icon-based selection cards, while Minor factions use a streamlined button interface. Each faction is assigned a unique **Command Value** (e.g., $5+$ for Republic, $6+$ for Empire, $7+$ for Separatists), which is displayed persistently within the builder interface.
+The Star Wars: Regiment ecosystem is a dual-platform suite consisting of a high-performance **Army Builder** and a mathematically rigorous **Unit Architect**. Together, these tools provide a complete lifecycle for the 6mm wargame: from the initial mathematical balancing of a unit to its deployment in digital or physical environments.
 
-### 2. Intelligent Rules Engine
-The builder monitors army composition in real-time, providing visual feedback if a list becomes illegal.
+### The "Single Source of Truth" (SSOT)
 
-* **Point Scaling:** The engine calculates unit minimum and maximum requirements based on the user-defined Points Cap. For example, if a unit has a $min$ percentage of $15\%$, the builder will flag the unit as illegal until the total points spent on that unit type satisfy the requirement.
-* **Movement Logic:** Units are tracked with standard movement values ($mv$) and optional minimum movement requirements ($mv\_min$). This is primarily used for Aerial units (like the Snowspeeder) that must move a minimum distance to remain effective.
-* **OTS Constraint Logic:** Off-Table Support assets are strictly governed by a dual-limit system. A list is restricted to a maximum of $15\%$ of the total points cap for OTS expenditures and a card count limit of $1$ card per $250$ points.
-* **Leader Attachment Validation:** Faction leaders are restricted to one per army. The builder employs an $AND$ logic validation system to ensure leaders are attached to valid units. This validation checks three optional parameters: **Class** (e.g., Infantry), **Subclass** (e.g., Walker), and **Unit ID** (for specific named unit attachments).
-
-### 3. State Persistence and Recovery
-The builder utilizes the browser's `localStorage` to execute an **Auto-Save** function. Every modification to a list—including points cap adjustments, unit counts, and faction selection—is cached locally. 
-
-To ensure the interface remains clean and relevant to current sessions, saved lists automatically expire and are cleared if the user does not return to the app within **6 hours**.
+Both tools rely on a centralized `data.json` database. This ensures that unit statistics, point costs, and logic triggers remain consistent across the builder, the combat simulator, and Tabletop Simulator (TTS).
 
 ---
 
-## Export and Integration
+## 2. THE ARMY BUILDER: CONSTRUCTION & USAGE
 
-### Tabletop Simulator (TTS) Integration
-The builder generates a specialized JSON string designed for use with a Tabletop Simulator Lua importer. 
-* **"Dumb Reader" Logic:** The JSON includes all relevant unit statistics, keywords, 3D asset URLs, and a specific `tts_height` value for model elevation. 
-* **Trimmed Payload:** While the master database contains complex logic blocks for future unit simulations, the TTS export is "trimmed" to only include the specific data needed for spawning models in-game, keeping the character count manageable for the TTS interface.
+The Army Builder is a reactive web interface designed to manage complex regimental formations and enforce game-wide legality rules.
 
-### Multi-Format Reporting
-* **Simple Text:** A condensed list intended for quick sharing on platforms like Discord or Slack.
-* **Detailed Manifest:** A comprehensive breakdown including unit stats, abilities, and a generated glossary of every keyword used in the army, pulling directly from the `definitions` logic.
-* **Share Codes:** Base64-encoded strings that allow users to share their exact list state with others.
-* **Print Functionality:** A dedicated print system that opens a sanitized, monospace version of the detailed manifest, formatted specifically for physical reference at the tabletop.
+### Core Builder Functions
+
+- **Dynamic Roster Rendering:** Loads faction-specific units and metadata (Command Values) directly from the JSON.
+- **Intelligent Validation:** Enforces percentage-based unit limits ($min\_pct$ / $max\_pct$), dual-constraint Off-Table Support (OTS) limits (15% points / 1 card per 250pts), and Leader attachment logic.
+- **State Persistence:** Features an auto-save system via `localStorage` with a 6-hour session expiry to ensure a clean workspace.
+- **Advanced Export Suite:**
+  - **Detailed Manifests:** Includes a dynamic keyword glossary generated on-the-fly.
+  - **TTS "Dumb Reader" JSON:** A trimmed payload designed to drive automated 3D model spawning and wound-syncing in Tabletop Simulator.
+  - **Share Codes:** Base64-encoded strings for instant list transfers between players.
 
 ---
 
-## Technical Architecture
-The application is built using a lightweight stack of HTML5, CSS3, and Vanilla JavaScript. It uses the `fetch` API to load game data asynchronously, ensuring the core engine remains separate from the content database.
+## 3. THE UNIT ARCHITECT: BALANCING ALGORITHM (v3.4)
 
-### Data Structure
-The `data.json` object is categorized into:
-* **Factions:** Unit rosters, logic-based leaders, and faction-specific metadata.
-* **OTS:** A global pool of off-table support assets.
-* **Definitions:** A master glossary containing both descriptive text for players and logic triggers for simulation.
+The Unit Architect uses a multi-pillar mathematical engine to ensure competitive parity between units, centered on the **Rebel Trooper Constant** (40 pts).
 
-### Validation Flow
-Whenever a unit quantity is adjusted, the `updateUI()` function executes the following sequence:
-1. Recalculates total points and remaining bid.
-2. Checks OTS point and card ceilings.
-3. Evaluates unit minimum/maximum percentages.
-4. Validates Leader attachment legality.
-5. Updates the Manifest panels and the Auto-Save cache with a fresh timestamp.
+### The Pillar Architecture
+
+Point costs are generated by splitting unit statistics into two distinct values to prevent "cross-contamination" of roles:
+
+- **Body Value (BV):** Measures durability. Calculated via wound pools, save multipliers, maneuverability (Speed Taxes), and Armor keywords.
+- **Action Value (AV):** Measures lethality. Calculated via range projection, dice volume, and reliability (CV).
+
+### The Saturation Engine
+
+To prevent "Deathstar" units, the algorithm applies exponential taxes to units that over-stack high-impact keywords.
+
+- **Body Saturation (0.15 exponent):** Taxes extreme durability.
+- **Action Saturation (0.25 exponent):** Taxes extreme lethality, ensuring that elite units remain mathematically beatable by equivalent points of standard infantry.
+
+### Validation Workflow
+
+1.  **Structural Definition:** Define raw stats and keywords.
+2.  **Saturation Audit:** Review the verbose log to ensure the unit isn't over-taxed by efficiency penalties.
+3.  **Monte Carlo Simulation:** Run 1,000 automated combat iterations against the Anchor unit to verify a "Point Efficiency" rating between 0.95x and 1.05x.
+4.  **JSON Export:** Finalize the unit and merge the resulting code into the master `data.json` file.
+
+---
+
+## 4. TECHNICAL ARCHITECTURE
+
+- **Stack:** Vanilla JavaScript (ES6+), HTML5, CSS3. Zero external dependencies.
+- **Data Ingestion:** Asynchronous `fetch()` API used to load the database at runtime.
+- **Logic Schema:** Standardized `trigger`, `target`, and `effect` keys within the data allow units to be processed by both the web UI and the automated combat simulator.
+- **Maintenance:** Content updates are strictly additive within the `data.json` file. Developers must maintain strict JSON syntax (double quotes, no trailing commas) to ensure successful application initialization.
