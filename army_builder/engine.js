@@ -5,7 +5,7 @@ let selectedFactionId = "reb_all";
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     // 1. Fetch the data
-    const response = await fetch("../data.json");
+    const response = await fetch("data.json");
     if (!response.ok) throw new Error("Failed to load data.json");
 
     // 2. Parse and assign to the global variable
