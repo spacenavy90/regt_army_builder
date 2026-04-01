@@ -1,14 +1,12 @@
 class LeaderArchitect {
   constructor() {
-    this.baseCost = 10;
-    this.statWeights = { atk: 12, sv: 18, cv: 15, override_sv: 35, action: 25 };
-    this.viewMode = "json"; // Tracks what is currently in the right panel
+    this.baseCost = 30; // The fixed "Base Tax" for taking a leader slot
+    this.viewMode = "json";
   }
 
   open() {
     document.getElementById("leaderModal").style.display = "flex";
     this.populateFactions();
-    this.populateKeywords();
     if (document.getElementById("ldrEffectsContainer").children.length === 0) {
       this.addEffect();
     }
@@ -37,54 +35,55 @@ class LeaderArchitect {
       .join("");
   }
 
-  populateKeywords() {
-    const select = document.getElementById("ldrKeyword");
-    if (!select) return;
-    const kws = Object.keys(ui.keywordsDb).sort();
-    select.innerHTML = `<option value="null">None</option>` + kws.map((kw) => `<option value="${kw}">${kw}</option>`).join("");
-  }
-
   addEffect() {
     const container = document.getElementById("ldrEffectsContainer");
     const rowId = `eff_${Date.now()}`;
-    const kws = Object.keys(ui.keywordsDb).sort();
     const rowHtml = `
-      <div class="effect-row form-section" id="${rowId}" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-light); margin-bottom: 10px; position: relative;">
-        <span class="close-btn" onclick="leaderArchitect.removeEffect('${rowId}')" style="position: absolute; right: 10px; top: 5px; font-size: 18px;">&times;</span>
+      <div class="effect-row form-section" id="${rowId}" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-light); margin-bottom: 10px; position: relative; padding: 15px;">
+        <span class="close-btn" onclick="leaderArchitect.removeEffect('${rowId}')" style="position: absolute; right: 10px; top: 5px; font-size: 18px; cursor: pointer;">&times;</span>
+        
+        <div class="form-row" style="margin-bottom: 12px;">
+            <label>Mechanic Category</label>
+            <select class="eff-cat" onchange="leaderArchitect.update()">
+                <option value="stat_override">Stat & Rule Overrides (Physics)</option>
+                <option value="action_econ">Action Economy & Sequencing (Time)</option>
+                <option value="status_morale">Status & Morale Economy (Attrition)</option>
+                <option value="meta_game">Meta-Game Manipulation (Player)</option>
+            </select>
+        </div>
+
         <div class="grid-2">
-          <div class="form-col"><label>Type</label>
-            <select class="eff-type" onchange="leaderArchitect.update()">
-              <option value="cv">Command Bonus (+CV)</option>
-              <option value="atk">Attack Bonus (+Dice)</option>
-              <option value="sv">Save Bonus (+SV)</option>
-              <option value="override_sv">Save Override (3+)</option>
-              <option value="action">Action Economy</option>
+          <div class="form-col"><label>Potency Value (PV)</label>
+            <select class="eff-pv" onchange="leaderArchitect.update()">
+              <option value="15">Low (15) - Minor Stat Buff, Reroll</option>
+              <option value="25">Medium (25) - SV Override, Simple Action</option>
+              <option value="40">High (40) - Meta-Game, Complex Action</option>
             </select>
           </div>
-          <div class="form-col"><label>Value</label><input type="number" class="eff-val" value="1" oninput="leaderArchitect.update()" /></div>
-        </div>
-        <div class="stat-grid" style="margin-top: 8px;">
-          <div class="stat-box"><label>Targeting</label>
-            <select class="eff-target" onchange="leaderArchitect.update()">
-              <option value="attached">Attached</option>
-              <option value="aura">Aura</option>
-              <option value="defender">Defender</option>
-            </select>
-          </div>
-          <div class="stat-box"><label>Radius"</label><input type="number" class="eff-radius" value="0" oninput="leaderArchitect.update()" /></div>
-          <div class="stat-box"><label>Reliability</label>
-            <select class="eff-freq" onchange="leaderArchitect.update()">
-              <option value="passive">Passive</option>
-              <option value="triggered">Triggered</option>
+          <div class="form-col"><label>Projection (PM)</label>
+            <select class="eff-pm" onchange="leaderArchitect.update()">
+              <option value="1.0">Attached / Self (1.0x)</option>
+              <option value="1.5">Aura 6" / Meta-System (1.5x)</option>
+              <option value="2.0">Aura 12" / Global (2.0x)</option>
             </select>
           </div>
         </div>
-        <div class="form-row" style="margin-top: 8px;">
-          <label style="width: 80px;">Keyword</label>
-          <select class="eff-kw" onchange="leaderArchitect.update()">
-            <option value="null">None</option>
-            ${kws.map((kw) => `<option value="${kw}">${kw}</option>`).join("")}
-          </select>
+        <div class="grid-2" style="margin-top: 8px;">
+          <div class="form-col"><label>Frequency (FM)</label>
+            <select class="eff-fm" onchange="leaderArchitect.update()">
+              <option value="1.0">Passive / Always On (1.0x)</option>
+              <option value="0.9">Once Per Turn (0.9x)</option>
+              <option value="0.7">Conditional / Triggered (0.7x)</option>
+              <option value="0.4">Once Per Game (0.4x)</option>
+            </select>
+          </div>
+          <div class="form-col"><label>Risk Discount (RD)</label>
+            <select class="eff-rd" onchange="leaderArchitect.update()">
+              <option value="0">None (0 pts)</option>
+              <option value="5">Minor Drawback (-5 pts)</option>
+              <option value="10">Major Drawback (-10 pts)</option>
+            </select>
+          </div>
         </div>
       </div>`;
     container.insertAdjacentHTML("beforeend", rowHtml);
@@ -104,44 +103,53 @@ class LeaderArchitect {
   calculate() {
     let totalAbilityValue = 0;
     let log = "=== LEADER AUDIT LOG ===\n";
-    log += `Base Cost: ${this.baseCost}\n`;
+    log += `Base Tax: ${this.baseCost}\n`;
 
     const rows = document.querySelectorAll(".effect-row");
     rows.forEach((row, idx) => {
-      const type = row.querySelector(".eff-type").value;
-      const val = parseInt(row.querySelector(".eff-val").value) || 0;
-      const target = row.querySelector(".eff-target").value;
-      const radius = parseInt(row.querySelector(".eff-radius").value) || 0;
-      const freq = row.querySelector(".eff-freq").value;
-      const kw = row.querySelector(".eff-kw").value;
+      const catSelect = row.querySelector(".eff-cat");
+      const catName = catSelect.options[catSelect.selectedIndex].text;
 
-      let potency = (this.statWeights[type] || 10) * val;
-      if (kw !== "null") potency += 20;
+      const pv = parseInt(row.querySelector(".eff-pv").value) || 0;
+      const pm = parseFloat(row.querySelector(".eff-pm").value) || 1.0;
+      const fm = parseFloat(row.querySelector(".eff-fm").value) || 1.0;
+      const rd = parseInt(row.querySelector(".eff-rd").value) || 0;
 
-      const targetScalar = target === "aura" ? 1 + radius * 0.05 : 1.0;
-      const freqScalar = freq === "passive" ? 1.0 : 0.7;
-      const effCost = potency * targetScalar * freqScalar;
+      let effCost = pv * pm * fm - rd;
+      effCost = Math.max(0, effCost);
 
       totalAbilityValue += effCost;
-      log += `Effect ${idx + 1} (${type}): Potency=${potency} x Target(${targetScalar.toFixed(2)}) x Freq(${freqScalar.toFixed(2)}) = +${effCost.toFixed(2)}\n`;
+      log += `\nEffect ${idx + 1}: ${catName}\n`;
+      log += `  Formula: (PV:${pv} * PM:${pm.toFixed(1)} * FM:${fm.toFixed(1)}) - Risk:${rd}\n`;
+      log += `  Subtotal: +${effCost.toFixed(2)} pts\n`;
     });
 
+    // Calculate Attachment Friction (AF) Hierarchy
     let friction = 1.0;
     const reqClass = document.getElementById("ldrReqClass").value;
     const reqSub = document.getElementById("ldrReqSub").value;
+    const reqUnit = document.getElementById("ldrReqUnit").value.trim();
 
-    if (reqClass !== "null" && reqSub !== "null") friction = 0.75;
-    else if (reqSub !== "null") friction = 0.85;
-    else if (reqClass !== "null") friction = 0.95;
+    if (reqUnit !== "") {
+      friction = 0.7; // Most restrictive: Specific Unit
+      log += `\nAttachment Friction: Specific Unit (${reqUnit}) -> x0.70\n`;
+    } else if (reqSub !== "null") {
+      friction = 0.8; // Subclass restriction
+      log += `\nAttachment Friction: Subclass (${reqSub}) -> x0.80\n`;
+    } else if (reqClass !== "null") {
+      friction = 0.9; // Class restriction
+      log += `\nAttachment Friction: Class (${reqClass}) -> x0.90\n`;
+    } else {
+      log += `\nAttachment Friction: Universal -> x1.00\n`;
+    }
 
-    const rawTotal = (this.baseCost + totalAbilityValue) * friction;
-    const finalCost = Math.max(15, Math.ceil(rawTotal / 5) * 5);
+    const rawTotal = this.baseCost + totalAbilityValue * friction;
+    const finalCost = Math.max(50, Math.ceil(rawTotal / 5) * 5);
 
     log += `------------------------\n`;
     log += `Raw Ability Sum: ${totalAbilityValue.toFixed(2)}\n`;
-    log += `Restriction Friction: x${friction.toFixed(2)}\n`;
-    log += `Final Mathematical Cost: ${rawTotal.toFixed(2)}\n`;
-    log += `Rounded Minimum Point Cost: ${finalCost}\n`;
+    log += `Final Mathematical Cost: ${this.baseCost} + (${totalAbilityValue.toFixed(2)} * ${friction.toFixed(2)}) = ${rawTotal.toFixed(2)}\n`;
+    log += `Rounded Point Cost (Floor 50): ${finalCost}\n`;
 
     return { cost: finalCost, log: log };
   }
@@ -159,14 +167,13 @@ class LeaderArchitect {
   update() {
     const calcResult = this.calculate();
     const override = parseInt(document.getElementById("ldrOverridePts").value) || 0;
-    // Overrides happen instantly
     const displayCost = override > 0 ? override : calcResult.cost;
 
     document.getElementById("ldrPointBadge").innerText = `${displayCost} PTS`;
 
     if (this.viewMode === "log") {
       document.getElementById("ldrPreview").innerText = calcResult.log;
-      return; // Skip JSON generation if we are viewing the log
+      return;
     }
 
     const name = document.getElementById("ldrName").value;
@@ -176,13 +183,14 @@ class LeaderArchitect {
 
     const rows = document.querySelectorAll(".effect-row");
     const logicStack = Array.from(rows).map((row) => ({
-      type: row.querySelector(".eff-type").value,
-      value: parseInt(row.querySelector(".eff-val").value) || 0,
-      target: row.querySelector(".eff-target").value,
-      radius: parseInt(row.querySelector(".eff-radius").value) || null,
-      freq: row.querySelector(".eff-freq").value,
-      keyword: row.querySelector(".eff-kw").value !== "null" ? row.querySelector(".eff-kw").value : null,
+      category: row.querySelector(".eff-cat").value,
+      potency_tier: parseInt(row.querySelector(".eff-pv").value),
+      projection_multiplier: parseFloat(row.querySelector(".eff-pm").value),
+      frequency_multiplier: parseFloat(row.querySelector(".eff-fm").value),
+      risk_discount: parseInt(row.querySelector(".eff-rd").value),
     }));
+
+    const reqUnitValue = document.getElementById("ldrReqUnit").value.trim();
 
     const payload = {
       id: finalId,
@@ -191,6 +199,7 @@ class LeaderArchitect {
       restriction_text: document.getElementById("ldrRestrText").value,
       requires_class: document.getElementById("ldrReqClass").value === "null" ? null : document.getElementById("ldrReqClass").value,
       requires_subclass: document.getElementById("ldrReqSub").value === "null" ? null : document.getElementById("ldrReqSub").value,
+      requires_unit: reqUnitValue === "" ? null : reqUnitValue,
       ability: document.getElementById("ldrAbility").value,
       logic: logicStack,
     };
@@ -200,11 +209,12 @@ class LeaderArchitect {
 
   copyJSON() {
     this.viewMode = "json";
-    this.update(); // Force JSON view before copying
+    this.update();
     const content = document.getElementById("ldrPreview").innerText;
     navigator.clipboard.writeText(content).then(() => {
       alert("Leader JSON copied!");
     });
   }
 }
+
 const leaderArchitect = new LeaderArchitect();

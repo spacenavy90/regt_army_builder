@@ -379,12 +379,14 @@
             <h3 class="section-label">RESTRICTIONS & ATTACHMENT</h3>
             <div class="form-section">
               <div class="form-row"><label>Display Text</label><input type="text" id="ldrRestrText" value="None." oninput="leaderArchitect.update()" /></div>
+
               <div class="grid-2" style="margin-top: 8px">
                 <div class="form-col">
                   <label>Required Class</label>
                   <select id="ldrReqClass" onchange="leaderArchitect.update()">
                     <option value="null">Universal</option>
                     <option value="Infantry">Infantry</option>
+                    <option value="Emplacement">Emplacement</option>
                     <option value="Vehicle">Vehicle</option>
                     <option value="Titan">Titan</option>
                   </select>
@@ -400,23 +402,17 @@
                   </select>
                 </div>
               </div>
+
+              <div class="form-row" style="margin-top: 8px">
+                <label>Required Specific Unit</label>
+                <input type="text" id="ldrReqUnit" placeholder="e.g. 501st Legion (Leave blank if universal)" oninput="leaderArchitect.update()" />
+              </div>
             </div>
 
             <h3 class="section-label">EFFECT STACKER (POTENCY & INFLUENCE)</h3>
             <div class="form-section">
               <div id="ldrEffectsContainer"></div>
               <button onclick="leaderArchitect.addEffect()" class="btn-tool btn-blue" style="width: 100%; margin-top: 5px">+ ADD NEW EFFECT</button>
-            </div>
-
-            <div class="checkbox-row" style="margin-top: 10px">
-              <input type="checkbox" id="toggleLdrLogic" onchange="leaderArchitect.toggleLogic()" />
-              <label for="toggleLdrLogic" style="font-size: 11px; color: var(--text-muted)">SHOW RAW LOGIC SCHEMA (OPTIONAL)</label>
-            </div>
-
-            <div id="ldrLogicGate" style="display: none" class="form-section">
-              <div class="form-row"><label>Trigger Hook</label><input type="text" id="ldrTrig" value="on_command" oninput="leaderArchitect.update()" /></div>
-              <div class="form-row"><label>Effect Hook</label><input type="text" id="ldrEff" value="modify" oninput="leaderArchitect.update()" /></div>
-              <div class="form-row"><label>Stat Key</label><input type="text" id="ldrStatKey" value="cv" oninput="leaderArchitect.update()" /></div>
             </div>
 
             <div class="actions-container" style="margin-top: 15px">
@@ -429,7 +425,7 @@
           </div>
 
           <div class="modal-right">
-            <h3 class="section-label" style="margin-top: 0">JSON PREVIEW</h3>
+            <h3 class="section-label" style="margin-top: 0">JSON / AUDIT PREVIEW</h3>
             <div class="terminal-wrapper">
               <pre id="ldrPreview" class="code-preview"></pre>
             </div>
