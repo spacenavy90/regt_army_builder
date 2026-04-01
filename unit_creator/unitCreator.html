@@ -110,12 +110,17 @@
 
           <div class="tool-frame">
             <button onclick="ui.preview()" class="btn-tool btn-slate">PREVIEW JSON</button>
-            <button onclick="ui.refresh()" class="btn-tool btn-purple">REFRESH DB</button>
+            <button onclick="ui.refresh()" class="btn-tool btn-grey">REFRESH DB</button>
             <button onclick="ui.saveUnit()" class="btn-tool btn-orange">COPY JSON</button>
           </div>
 
           <div class="tool-frame">
-            <button onclick="ui.openKeywords()" class="btn-tool btn-grey">KEYWORD ARCHITECT</button>
+            <button onclick="otsArchitect.open()" class="btn-tool btn-purple">OTS ARCHITECT</button>
+            <button onclick="leaderArchitect.open()" class="btn-tool btn-purple">LEADER ARCHITECT</button>
+            <button onclick="ui.openKeywords()" class="btn-tool btn-purple">KEYWORD ARCHITECT</button>
+          </div>
+
+          <div class="tool-frame">
             <button onclick="ui.openUnitLibrary()" class="btn-tool btn-blue">UNIT LIBRARY</button>
             <button onclick="ui.openSimulator()" class="btn-tool btn-red">SIMULATOR</button>
           </div>
@@ -205,6 +210,19 @@
             </div>
 
             <div class="form-section">
+              <div class="form-row">
+                <label>Trigger Hook</label>
+                <select id="kwTrigger">
+                  <option value="always">always</option>
+                  <option value="on_attack">on_attack</option>
+                  <option value="on_defense">on_defense</option>
+                  <option value="on_command">on_command</option>
+                  <option value="passive">passive</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-section">
               <div class="checkbox-row">
                 <input type="checkbox" id="kwIsFlat" />
                 <label for="kwIsFlat">Treat as Flat Addition (is_flat)</label>
@@ -214,10 +232,6 @@
             <div class="form-section">
               <div class="form-row"><label>Value/Formula</label><input type="text" id="kwValue" value="1.0" /></div>
               <p class="helper-text">Variables: bases, wnd, mv, mv_min, rng_s, rng_l, atk_r, atk_m, om_save, om_move, om_range</p>
-            </div>
-
-            <div class="form-section">
-              <div class="form-row"><label>Trigger Hook</label><input type="text" id="kwTrigger" value="always" /></div>
             </div>
 
             <div class="tool-frame" style="margin-top: auto">
@@ -274,6 +288,156 @@
       </div>
     </div>
 
+    <div id="otsModal" class="modal" style="display: none">
+      <div class="modal-content" style="width: 1000px; max-height: 90vh">
+        <div class="modal-header">
+          <div style="display: flex; align-items: center; gap: 15px">
+            <h2>OTS ARCHITECT</h2>
+            <span id="otsPointBadge" class="badge" style="background: var(--color-orange); font-size: 1rem; padding: 5px 12px">0 PTS</span>
+          </div>
+          <span class="close-btn" onclick="otsArchitect.close()">&times;</span>
+        </div>
+
+        <div class="split-layout">
+          <div class="modal-left">
+            <div class="form-section">
+              <div class="form-row"><label>Support Name</label><input type="text" id="otsName" value="Mortar Attack" oninput="otsArchitect.update()" /></div>
+              <div class="form-row">
+                <label>Override ID</label><input type="text" id="otsOverrideId" placeholder="e.g. ots_custom_id" oninput="otsArchitect.update()" />
+              </div>
+              <div class="form-row"><label>Override Pts</label><input type="number" id="otsOverridePts" value="0" oninput="otsArchitect.update()" /></div>
+              <div class="form-row">
+                <label>Availability</label>
+                <select id="otsAvail" onchange="otsArchitect.update()">
+                  <option value="3+">3+ (97%)</option>
+                  <option value="4+" selected>4+ (92%)</option>
+                  <option value="5+">5+ (83%)</option>
+                  <option value="6+">6+ (72%)</option>
+                  <option value="7+">7+ (58%)</option>
+                  <option value="8+">8+ (42%)</option>
+                  <option value="9+">9+ (28%)</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label>Template</label>
+                <select id="otsTemp" onchange="otsArchitect.update()">
+                  <option value='Single Card (3.5" x 2.5")'>Single Card</option>
+                  <option value='Double Long (7" x 2.5")'>Double Long</option>
+                  <option value='Double Wide (5" x 3.5")'>Double Wide</option>
+                </select>
+              </div>
+              <div class="form-row"><label>Attack Dice</label><input type="number" id="otsDice" value="3" oninput="otsArchitect.update()" /></div>
+            </div>
+
+            <h3 class="section-label">SUPPORT KEYWORDS</h3>
+            <div class="scroll-container" id="otsKeywordList" style="height: 150px"></div>
+
+            <div class="actions-container" style="margin-top: 15px">
+              <button onclick="otsArchitect.generate()" class="btn-main btn-green">GENERATE POINT COST</button>
+              <div class="tool-frame">
+                <button onclick="otsArchitect.preview()" class="btn-tool btn-slate">PREVIEW JSON</button>
+                <button onclick="otsArchitect.copyJSON()" class="btn-tool btn-orange">COPY JSON</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-right">
+            <h3 class="section-label" style="margin-top: 0">JSON PREVIEW</h3>
+            <pre id="otsPreview" class="code-preview"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="leaderModal" class="modal" style="display: none">
+      <div class="modal-content" style="width: 1050px; max-height: 95vh">
+        <div class="modal-header">
+          <div style="display: flex; align-items: center; gap: 15px">
+            <h2>LEADER ARCHITECT</h2>
+            <span id="ldrPointBadge" class="badge" style="background: var(--color-purple); font-size: 1.1rem; padding: 6px 14px">0 PTS</span>
+          </div>
+          <span class="close-btn" onclick="leaderArchitect.close()">&times;</span>
+        </div>
+
+        <div class="split-layout">
+          <div class="modal-left">
+            <div class="form-section">
+              <div class="form-row"><label>Leader Name</label><input type="text" id="ldrName" value="New Leader" oninput="leaderArchitect.update()" /></div>
+              <div class="form-row">
+                <label>Override ID</label><input type="text" id="ldrOverrideId" placeholder="e.g. ldr_custom_id" oninput="leaderArchitect.update()" />
+              </div>
+              <div class="form-row">
+                <label>Faction</label
+                ><select id="ldrFaction" onchange="leaderArchitect.update()"></select>
+              </div>
+              <div class="form-row"><label>Override Pts</label><input type="number" id="ldrOverridePts" value="0" oninput="leaderArchitect.update()" /></div>
+              <div class="form-row">
+                <label>Flavor Ability</label><input type="text" id="ldrAbility" placeholder="Description for card text..." oninput="leaderArchitect.update()" />
+              </div>
+            </div>
+
+            <h3 class="section-label">RESTRICTIONS & ATTACHMENT</h3>
+            <div class="form-section">
+              <div class="form-row"><label>Display Text</label><input type="text" id="ldrRestrText" value="None." oninput="leaderArchitect.update()" /></div>
+              <div class="grid-2" style="margin-top: 8px">
+                <div class="form-col">
+                  <label>Required Class</label>
+                  <select id="ldrReqClass" onchange="leaderArchitect.update()">
+                    <option value="null">Universal</option>
+                    <option value="Infantry">Infantry</option>
+                    <option value="Vehicle">Vehicle</option>
+                    <option value="Titan">Titan</option>
+                  </select>
+                </div>
+                <div class="form-col">
+                  <label>Required Subclass</label>
+                  <select id="ldrReqSub" onchange="leaderArchitect.update()">
+                    <option value="null">None</option>
+                    <option value="Walker">Walker</option>
+                    <option value="Hover">Hover</option>
+                    <option value="Ground">Ground</option>
+                    <option value="Aerial">Aerial</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="section-label">EFFECT STACKER (POTENCY & INFLUENCE)</h3>
+            <div class="form-section">
+              <div id="ldrEffectsContainer"></div>
+              <button onclick="leaderArchitect.addEffect()" class="btn-tool btn-blue" style="width: 100%; margin-top: 5px">+ ADD NEW EFFECT</button>
+            </div>
+
+            <div class="checkbox-row" style="margin-top: 10px">
+              <input type="checkbox" id="toggleLdrLogic" onchange="leaderArchitect.toggleLogic()" />
+              <label for="toggleLdrLogic" style="font-size: 11px; color: var(--text-muted)">SHOW RAW LOGIC SCHEMA (OPTIONAL)</label>
+            </div>
+
+            <div id="ldrLogicGate" style="display: none" class="form-section">
+              <div class="form-row"><label>Trigger Hook</label><input type="text" id="ldrTrig" value="on_command" oninput="leaderArchitect.update()" /></div>
+              <div class="form-row"><label>Effect Hook</label><input type="text" id="ldrEff" value="modify" oninput="leaderArchitect.update()" /></div>
+              <div class="form-row"><label>Stat Key</label><input type="text" id="ldrStatKey" value="cv" oninput="leaderArchitect.update()" /></div>
+            </div>
+
+            <div class="actions-container" style="margin-top: 15px">
+              <button onclick="leaderArchitect.generate()" class="btn-main btn-green">GENERATE POINT COST</button>
+              <div class="tool-frame">
+                <button onclick="leaderArchitect.preview()" class="btn-tool btn-slate">PREVIEW JSON</button>
+                <button onclick="leaderArchitect.copyJSON()" class="btn-tool btn-orange">COPY JSON</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-right">
+            <h3 class="section-label" style="margin-top: 0">JSON PREVIEW</h3>
+            <div class="terminal-wrapper">
+              <pre id="ldrPreview" class="code-preview"></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="dataManager.js"></script>
     <script src="logicEngine.js"></script>
     <script src="combatEngine.js"></script>
@@ -281,5 +445,7 @@
     <script src="keywordArchitect.js"></script>
     <script src="simulatorUI.js"></script>
     <script src="unitCreatorUI.js"></script>
+    <script src="otsArchitect.js"></script>
+    <script src="leaderArchitect.js"></script>
   </body>
 </html>

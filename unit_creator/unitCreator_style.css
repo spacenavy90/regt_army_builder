@@ -73,7 +73,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 .left-panel::-webkit-scrollbar {
@@ -457,7 +457,7 @@ button:active {
   display: flex;
   gap: 1.5rem;
   flex: 1;
-  min-height: 400px; /* Gives modals a good baseline height */
+  min-height: 0; /* Gives modals a good baseline height */
 }
 
 .modal-left {
@@ -465,6 +465,8 @@ button:active {
   display: flex;
   flex-direction: column;
   max-width: 50%;
+  overflow-y: auto;
+  padding-right: 15px;
 }
 
 .modal-right {

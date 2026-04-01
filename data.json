@@ -7,7 +7,7 @@
             "command_value": "6+",
             "leaders": [
                 {
-                    "id": "ldr_vader",
+                    "id": "ldr_emp_vader",
                     "name": "Darth Vader",
                     "cost": 45,
                     "restriction_text": "Must be attached to an Infantry unit.",
@@ -26,7 +26,7 @@
                     "tts_image": ""
                 },
                 {
-                    "id": "ldr_tarkin",
+                    "id": "ldr_emp_tarkin",
                     "name": "Grand Moff Tarkin",
                     "cost": 30,
                     "restriction_text": "None.",
@@ -45,7 +45,7 @@
                     "tts_image": ""
                 },
                 {
-                    "id": "ldr_veers",
+                    "id": "ldr_emp_veers",
                     "name": "General Veers",
                     "cost": 40,
                     "restriction_text": "Must be attached to a Walker unit.",
@@ -250,7 +250,7 @@
             "command_value": "6+",
             "leaders": [
                 {
-                    "id": "ldr_luke",
+                    "id": "ldr_reb_luke",
                     "name": "Luke Skywalker",
                     "cost": 30,
                     "restriction_text": "None.",
@@ -268,7 +268,7 @@
                     "tts_image": ""
                 },
                 {
-                    "id": "ldr_leia",
+                    "id": "ldr_reb_leia",
                     "name": "Leia Organa",
                     "cost": 30,
                     "restriction_text": "None.",
@@ -287,7 +287,7 @@
                     "tts_image": ""
                 },
                 {
-                    "id": "ldr_wedge",
+                    "id": "ldr_reb_wedge",
                     "name": "Wedge Antilles",
                     "cost": 30,
                     "restriction_text": "Must be attached to an Aerial Vehicle unit.",
@@ -461,7 +461,7 @@
             "command_value": "5+",
             "leaders": [
                 {
-                    "id": "ldr_anakin",
+                    "id": "ldr_rep_anakin",
                     "name": "Anakin Skywalker",
                     "cost": 30,
                     "restriction_text": "None.",
@@ -479,7 +479,7 @@
                     "tts_image": ""
                 },
                 {
-                    "id": "ldr_kenobi",
+                    "id": "ldr_rep_kenobi",
                     "name": "General Kenobi",
                     "cost": 30,
                     "restriction_text": "Must be attached to an Infantry unit.",
@@ -497,7 +497,7 @@
                     "tts_image": ""
                 },
                 {
-                    "id": "ldr_rex",
+                    "id": "ldr_rep_rex",
                     "name": "Captain Rex",
                     "cost": 30,
                     "restriction_text": "Must be attached to an Infantry unit.",
@@ -726,7 +726,7 @@
             "command_value": "7+",
             "leaders": [
                 {
-                    "id": "ldr_grievous",
+                    "id": "ldr_sep_grievous",
                     "name": "General Grievous",
                     "cost": 30,
                     "restriction_text": "None.",
@@ -744,7 +744,7 @@
                     "tts_image": ""
                 },
                 {
-                    "id": "ldr_loathsom",
+                    "id": "ldr_sep_loathsom",
                     "name": "General Loathsom",
                     "cost": 30,
                     "restriction_text": "None.",
@@ -763,7 +763,7 @@
                     "tts_image": ""
                 },
                 {
-                    "id": "ldr_oom9",
+                    "id": "ldr_sep_oom9",
                     "name": "OOM-9",
                     "cost": 30,
                     "restriction_text": "Must be attached to a Hover Vehicle unit.",
@@ -1022,7 +1022,7 @@
             "command_value": "6+",
             "leaders": [
                 {
-                    "id": "ldr_tarpals",
+                    "id": "ldr_gun_tarpals",
                     "name": "Captain Tarpals",
                     "cost": 30,
                     "restriction_text": "Must be attached to a Ground Vehicle unit.",
@@ -1041,7 +1041,7 @@
                     "tts_image": ""
                 },
                 {
-                    "id": "ldr_binks",
+                    "id": "ldr_gun_binks",
                     "name": "General Binks",
                     "cost": 30,
                     "restriction_text": "Must be attached to an Infantry unit.",
@@ -1205,12 +1205,13 @@
         {
             "id": "ots_orbital",
             "name": "Orbital Bombardment",
-            "cost": 75,
-            "availability": "7+",
+            "cost": 89,
+            "availability": "8+",
             "template": "Single Card (3.5\" x 2.5\")",
-            "attack_dice": 8,
+            "attack_dice": 6,
             "keywords": [
-                "Anti-Armor"
+                "Anti-Armor",
+                "Blast"
             ],
             "tts_card_front": ""
         }
