@@ -89,7 +89,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
   border-bottom: 1px solid var(--border-light);
   padding-bottom: 0.5rem;
 }
@@ -113,9 +113,9 @@ body {
 /* FORMS & INPUTS */
 .form-section {
   background: rgba(0, 0, 0, 0.15);
-  padding: 12px;
+  padding: 10px; /* Slightly reduced from 12px */
   border-radius: var(--radius);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem; /* Reduced from 1rem */
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -206,7 +206,7 @@ select:disabled {
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin: 1.5rem 0 0.5rem 0;
+  margin: 0.75rem 0 0.25rem 0;
 }
 
 .helper-text {
@@ -229,12 +229,13 @@ select:disabled {
 
 /* KEYWORD SCROLLBOX */
 .scroll-container {
-  height: 220px;
+  height: 200px;
+  flex-shrink: 0;
   background: var(--bg-input);
   border: 1px solid var(--border-light);
   border-radius: var(--radius);
   overflow-y: auto;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .scroll-container::-webkit-scrollbar {
@@ -273,7 +274,10 @@ select:disabled {
 .kw-item label {
   cursor: pointer;
   font-size: 0.9rem;
+  color: var(--text-main);
   user-select: none;
+  flex: 1;
+  padding: 2px 0;
 }
 
 /* BUTTONS */
@@ -294,10 +298,10 @@ button:active {
 }
 
 .actions-container {
-  margin-top: auto;
+  margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .btn-main {

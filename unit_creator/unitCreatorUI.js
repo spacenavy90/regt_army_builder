@@ -29,17 +29,26 @@ class UnitCreatorUI {
 
   populateKeywords() {
     const container = document.getElementById("keywordList");
+    if (!container) return;
+
     const sortedKeywords = Object.keys(this.keywordsDb).sort();
 
+    if (sortedKeywords.length === 0) {
+      container.innerHTML = `<div style="padding:10px; color:var(--text-muted); font-style:italic;">No keywords found in DB...</div>`;
+      return;
+    }
+
     container.innerHTML = sortedKeywords
-      .map(
-        (kw) => `
+      .map((kw) => {
+        // Sanitize ID: replace spaces with underscores for safer DOM handling
+        const safeId = kw.replace(/ /g, "_");
+        return `
             <div class="kw-item">
-                <input type="checkbox" id="kw_${kw}" value="${kw}" class="kw-checkbox">
-                <label for="kw_${kw}">${kw}</label>
+                <input type="checkbox" id="kw_${safeId}" value="${kw}" class="kw-checkbox">
+                <label for="kw_${safeId}">${kw}</label>
             </div>
-        `,
-      )
+        `;
+      })
       .join("");
   }
 
@@ -217,7 +226,8 @@ class UnitCreatorUI {
     // Reset and set keywords
     document.querySelectorAll(".kw-checkbox").forEach((cb) => (cb.checked = false));
     unitData.keywords.forEach((kw) => {
-      const cb = document.getElementById(`kw_${kw}`);
+      const safeId = kw.replace(/ /g, "_"); // Match the sanitization used in populate
+      const cb = document.getElementById(`kw_${safeId}`);
       if (cb) cb.checked = true;
     });
 

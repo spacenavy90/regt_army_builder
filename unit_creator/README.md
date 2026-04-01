@@ -1,4 +1,4 @@
-# Star Wars: Regiment Balancing Algorithm (v3.4 - Maneuverability & Saturation Focus)
+# Star Wars: Regiment Unit Architect and Balancing
 
 ## 1. Overview & Balancing Philosophy
 
