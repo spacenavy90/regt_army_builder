@@ -5,7 +5,7 @@ let selectedFactionId = "reb_all";
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     // 1. Fetch the data
-    const response = await fetch("data.json");
+    const response = await fetch("../data.json");
     if (!response.ok) throw new Error("Failed to load data.json");
 
     // 2. Parse and assign to the global variable
@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-// Helper to keep the DOMContentLoaded block clean
 function setupEventListeners() {
   document.getElementById("armyCap").addEventListener("input", updateUI);
   document.getElementById("sortSelect").addEventListener("change", renderRoster);
@@ -35,6 +34,14 @@ function setupEventListeners() {
   });
   document.getElementById("overrideToggle").addEventListener("change", updateUI);
   document.getElementById("btnClearList").addEventListener("click", clearArmy);
+
+  // --- NEW MODAL LISTENERS ---
+  document.getElementById("btnKeywords").addEventListener("click", toggleKeywordModal);
+
+  document.getElementById("keywordModal").addEventListener("click", (e) => {
+    if (e.target.id === "keywordModal") toggleKeywordModal();
+  });
+
   document.getElementById("btnCopySimple").addEventListener("click", () => copyToClipboard(generateSimpleText(), "btnCopySimple"));
   document.getElementById("btnCopyDetailed").addEventListener("click", () => copyToClipboard(generateDetailedText(), "btnCopyDetailed"));
   document.getElementById("btnCopyCode").addEventListener("click", () => {
@@ -47,6 +54,39 @@ function setupEventListeners() {
     const code = document.getElementById("shareCodeInput").value.trim();
     if (code) loadFromShareCode(code);
   });
+}
+
+function toggleKeywordModal() {
+  const modal = document.getElementById("keywordModal");
+  const isActive = modal.classList.toggle("active");
+
+  if (isActive) {
+    renderKeywordDefinitions();
+  }
+}
+
+function renderKeywordDefinitions() {
+  const container = document.getElementById("keywordList");
+
+  if (!REGIMENT_DATA || !REGIMENT_DATA.definitions) {
+    container.innerHTML = "<p>Error: Definitions not loaded.</p>";
+    return;
+  }
+
+  // Sort keywords alphabetically for a better user experience
+  const sortedKeys = Object.keys(REGIMENT_DATA.definitions).sort();
+
+  container.innerHTML = sortedKeys
+    .map((key) => {
+      const entry = REGIMENT_DATA.definitions[key];
+      return `
+            <div class="kw-entry">
+                <span class="kw-name">${key}</span>
+                <p class="kw-desc">${entry.desc}</p>
+            </div>
+        `;
+    })
+    .join("");
 }
 
 // View Switching Functions

@@ -45,6 +45,8 @@
       </div>
 
       <div class="nav-links">
+        <button id="btnKeywords" class="nav-btn">Keyword Reference</button>
+
         <a href="unit_creator/unitCreator.html" class="nav-btn architect-btn">Unit Architect</a>
 
         <a href="https://github.com/spacenavy90/regt_army_builder" target="_blank" class="nav-btn">GitHub</a>
@@ -118,6 +120,16 @@
           </div>
         </div>
       </aside>
+    </div>
+
+    <div id="keywordModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Keyword Reference</h2>
+          <button class="modal-close" onclick="toggleKeywordModal()">&times;</button>
+        </div>
+        <div id="keywordList" class="modal-body"></div>
+      </div>
     </div>
 
     <script src="army_builder/engine.js"></script>

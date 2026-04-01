@@ -70,7 +70,10 @@ body {
 
 .left-panel {
   width: 480px;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: hidden;
 }
 
 .left-panel::-webkit-scrollbar {
@@ -229,13 +232,14 @@ select:disabled {
 
 /* KEYWORD SCROLLBOX */
 .scroll-container {
-  height: 200px;
-  flex-shrink: 0;
+  flex: 1;
+  min-height: 200px;
   background: var(--bg-input);
   border: 1px solid var(--border-light);
   border-radius: var(--radius);
   overflow-y: auto;
   margin-bottom: 0.5rem;
+  flex-shrink: 0;
 }
 
 .scroll-container::-webkit-scrollbar {

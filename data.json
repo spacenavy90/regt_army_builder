@@ -1225,7 +1225,7 @@
             }
         },
         "Armor 1": {
-            "desc": "Cancels 1 hit.",
+            "desc": "Cancels 1 non-Anti-Armor hit.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.1 + (om_save * 0.2)",
@@ -1234,7 +1234,7 @@
             }
         },
         "Armor 2": {
-            "desc": "Cancels 2 hits.",
+            "desc": "Cancels 2 non-Anti-Armor hits.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.5 + (om_save * 0.5)",
@@ -1243,7 +1243,7 @@
             }
         },
         "Armor 3": {
-            "desc": "Cancels 3 hits.",
+            "desc": "Cancels 3 non-Anti-Armor hits.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "2.0 + (om_save * 1.0)",
