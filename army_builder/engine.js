@@ -464,7 +464,7 @@ function generateSimpleText() {
 
     if (leader && qty > 0) {
       const cost = qty * leader.cost;
-      leaderText += `${qty}x ${leader.name} [${leader.cost} ea | ${cost} pts]\n`;
+      leaderText += `${qty}x ${leader.name} [${leader.cost} pts]\n`;
       total += cost;
     } else if (unit && qty > 0) {
       const cost = qty * unit.cost;
@@ -504,7 +504,8 @@ function generateDetailedText() {
 
     if (leader && qty > 0) {
       const cost = qty * leader.cost;
-      leaderText += `${qty}x ${leader.name} [${leader.cost} ea | ${cost} pts]\n`;
+      leaderText += `${qty}x ${leader.name} [${leader.cost} pts]\n`;
+      leaderText += `    Restriction: ${leader.restriction_text || "None"}\n`;
       leaderText += `    Ability: ${leader.ability}\n\n`;
       total += cost;
     } else if (unit && qty > 0) {
@@ -601,6 +602,7 @@ function generateTTSJSON() {
         cost: leader.cost,
         ability: leader.ability,
         tts_image: leader.tts_image,
+        tts_card_front: leader.tts_card_front,
       };
       totalSpent += leader.cost;
     } else if (unit && qty > 0) {

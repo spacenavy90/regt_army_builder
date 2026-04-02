@@ -23,7 +23,29 @@
                         "stat": "cv",
                         "value": 1
                     },
-                    "tts_image": ""
+                    "tts_image": "",
+                    "tts_card_front": ""
+                },
+                {
+                    "id": "ldr_emp_thrawn",
+                    "name": "Grand Admiral Thrawn",
+                    "cost": 75,
+                    "restriction_text": "Must equip to Death Troopers.",
+                    "requires_class": null,
+                    "requires_subclass": null,
+                    "requires_unit": "emp_deatht",
+                    "ability": "At the start of the turn, before the Draw Step, randomly draw 3 initiative tokens from the bag and place them on this card. During the Draw Step, when you would normally draw a token, you may instead play one token from this card. If the initiative bag is empty players must choose a token from this card.",
+                    "logic": [
+                        {
+                            "category": "meta_game",
+                            "potency_tier": 40,
+                            "projection_multiplier": 2,
+                            "frequency_multiplier": 0.8,
+                            "risk_discount": 5
+                        }
+                    ],
+                    "tts_image": "",
+                    "tts_card_front": ""
                 },
                 {
                     "id": "ldr_emp_vader",
@@ -42,7 +64,8 @@
                         "value": 1,
                         "keyword": "Fearless"
                     },
-                    "tts_image": ""
+                    "tts_image": "",
+                    "tts_card_front": ""
                 },
                 {
                     "id": "ldr_emp_veers",
@@ -61,7 +84,8 @@
                         "stat": "cv",
                         "value": 1
                     },
-                    "tts_image": ""
+                    "tts_image": "",
+                    "tts_card_front": ""
                 }
             ],
             "units": [
@@ -252,21 +276,23 @@
                 {
                     "id": "ldr_reb_leia",
                     "name": "Leia Organa",
-                    "cost": 30,
+                    "cost": 75,
                     "restriction_text": "None.",
                     "requires_class": null,
                     "requires_subclass": null,
                     "requires_unit": null,
-                    "ability": "Any friendly unit within 12\" of Leia Organa gains a +1 bonus to their Command Roll.",
-                    "logic": {
-                        "trigger": "on_command",
-                        "target": "aura",
-                        "radius": 12,
-                        "effect": "modify",
-                        "stat": "cv",
-                        "value": 1
-                    },
-                    "tts_image": ""
+                    "ability": "Friendly units within 6\" may Regroup as a Simple action.",
+                    "logic": [
+                        {
+                            "category": "action_econ",
+                            "potency_tier": 30,
+                            "projection_multiplier": 1.5,
+                            "frequency_multiplier": 1,
+                            "risk_discount": 0
+                        }
+                    ],
+                    "tts_image": "",
+                    "tts_card_front": ""
                 },
                 {
                     "id": "ldr_reb_luke",
@@ -284,7 +310,8 @@
                         "atk_melee": 1,
                         "sv": 1
                     },
-                    "tts_image": ""
+                    "tts_image": "",
+                    "tts_card_front": ""
                 },
                 {
                     "id": "ldr_reb_wedge",
@@ -302,7 +329,8 @@
                         "condition": "tow_cable_attack",
                         "value": 1
                     },
-                    "tts_image": ""
+                    "tts_image": "",
+                    "tts_card_front": ""
                 }
             ],
             "units": [
@@ -503,7 +531,8 @@
                             "risk_discount": 0
                         }
                     ],
-                    "tts_image": ""
+                    "tts_image": "",
+                    "tts_card_front": ""
                 },
                 {
                     "id": "ldr_rep_kenobi",
@@ -530,7 +559,8 @@
                             "risk_discount": 0
                         }
                     ],
-                    "tts_image": ""
+                    "tts_image": "",
+                    "tts_card_front": ""
                 },
                 {
                     "id": "ldr_rep_rex",
@@ -548,7 +578,8 @@
                         "type": "attack",
                         "cost": "simple"
                     },
-                    "tts_image": ""
+                    "tts_image": "",
+                    "tts_card_front": ""
                 }
             ],
             "units": [
@@ -777,7 +808,8 @@
                         "stat": "atk_melee",
                         "value": 2
                     },
-                    "tts_image": ""
+                    "tts_image": "",
+                    "tts_card_front": ""
                 },
                 {
                     "id": "ldr_sep_loathsom",
@@ -796,7 +828,8 @@
                         "stat": "cv",
                         "value": 1
                     },
-                    "tts_image": ""
+                    "tts_image": "",
+                    "tts_card_front": ""
                 },
                 {
                     "id": "ldr_sep_oom9",
@@ -816,7 +849,8 @@
                         "value": 1,
                         "filter": "Droid"
                     },
-                    "tts_image": ""
+                    "tts_image": "",
+                    "tts_card_front": ""
                 }
             ],
             "units": [
@@ -1073,7 +1107,8 @@
                         "stat": "sv",
                         "value": 1
                     },
-                    "tts_image": ""
+                    "tts_image": "",
+                    "tts_card_front": ""
                 },
                 {
                     "id": "ldr_gun_tarpals",
@@ -1092,7 +1127,8 @@
                         "stat": "cv",
                         "value": 1
                     },
-                    "tts_image": ""
+                    "tts_image": "",
+                    "tts_card_front": ""
                 }
             ],
             "units": [

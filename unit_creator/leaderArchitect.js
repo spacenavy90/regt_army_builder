@@ -199,6 +199,7 @@ class LeaderArchitect {
       ability: document.getElementById("ldrAbility").value,
       logic: logicStack,
       tts_image: "",
+      tts_card_front: "", // NEW: Added for TTS compatibility
     };
 
     document.getElementById("ldrPreview").innerText = JSON.stringify(payload, null, 4);
@@ -322,6 +323,32 @@ class LeaderArchitect {
       this.loadLeaderToUI(selectedLdr);
       this.closeLibrary();
     }
+  }
+
+  clearLeader() {
+    if (!confirm("Are you sure you want to clear all inputs? This will reset the current leader build.")) return;
+
+    // Reset identity and basic stats
+    document.getElementById("ldrName").value = "New Leader";
+    document.getElementById("ldrOverrideId").value = "";
+    document.getElementById("ldrOverridePts").value = 0;
+    document.getElementById("ldrAbility").value = "";
+
+    // Reset restrictions
+    document.getElementById("ldrRestrText").value = "None.";
+    document.getElementById("ldrReqClass").value = "null";
+    document.getElementById("ldrReqSub").value = "null";
+    document.getElementById("ldrReqUnit").value = "";
+
+    // Reset faction to first option
+    document.getElementById("ldrFaction").selectedIndex = 0;
+
+    // Clear and reset effects
+    const container = document.getElementById("ldrEffectsContainer");
+    container.innerHTML = "";
+    this.addEffect(); // Start fresh with one blank effect row
+
+    this.update();
   }
 
   loadLeaderToUI(leaderData) {
