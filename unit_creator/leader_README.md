@@ -27,18 +27,32 @@ This is the "entry fee" for any unique character. It represents the intrinsic va
 
 Each ability in the **Effect Stacker** is calculated using three variables and one discount:
 
-1.  **Potency Value (PV):** \* **Low (15):** Minor stat buffs (e.g., +1 CV, simple rerolls).
-    - **Medium (25):** Primary stat overrides (e.g., 3+ Save), or granting a free Simple Action.
-    - **High (40):** System breakers (e.g., Meta-game manipulation, guaranteed Complex Actions).
-2.  **Projection Multiplier (PM):** \* **Attached (1.0x):** Only affects the leader's unit.
-    - **Aura 6" (1.5x):** Affects nearby units (encourages clumping).
-    - **Global/Meta (2.0x):** Affects the entire board or the game's initiative system.
-3.  **Frequency Multiplier (FM):**
-    - **Passive (1.0x):** Always on.
-    - **Once Per Turn (0.9x):** High reliability but limited.
-    - **Triggered (0.7x):** Situational (e.g., "When Charged").
-    - **Once Per Game (0.4x):** Minimal consistency tax.
-4.  **Risk Discount (RD):** \* Reduces the cost by **5** or **10** points if the player must suffer a penalty (e.g., taking a wound or a Shaken token) to use the power.
+1.  **Potency Value (PV):** Represents the raw "weight" of the rule being introduced.
+    - **Minimal (10):** "Ribbon" abilities or minor flavor (e.g., ignoring specific rare terrain).
+    - **Low-Mid (20):** Standard utility (e.g., +1 CV, simple rerolls).
+    - **Mid-High (30):** Strong rule-breakers (e.g., +1 SV, most free Simple Actions).
+    - **High (40):** Complex mechanics (e.g., multi-unit coordination, guaranteed successes).
+    - **Legendary (50):** Game-defining (e.g., massive out-of-sequence actions or system-wide overrides).
+
+2.  **Projection Multiplier (PM):** Represents the area of influence.
+    - **Attached / Self (1.0x):** Only affects the leader's unit.
+    - **Tight Aura 4" (1.2x):** Requires base-to-base or very close support.
+    - **Standard Aura 8" (1.5x):** The baseline for most battlefield commanders.
+    - **Command Aura 12" (1.8x):** Massive zone of influence.
+    - **Global / Meta (2.0x):** Affects the entire board or game-wide systems (Initiative/Morale).
+
+3.  **Frequency Multiplier (FM):** Represents how often the ability triggers.
+    - **Passive / Always On (1.0x):** Constant benefit.
+    - **Once Per Turn (0.9x):** High reliability with a hard cap.
+    - **Phase-Limited (0.8x):** Only works in specific contexts (e.g., only in Close Combat).
+    - **Triggered / Reactive (0.6x):** Conditional (e.g., "When this unit takes a wound").
+    - **Once Per Game (0.3x):** Significant discount for "one-shot" powers.
+
+4.  **Risk Discount (RD):** A rebate for abilities that require a sacrifice.
+    - **None (0):** Safe leadership.
+    - **Minor Drawback (5):** Opponent gains a slight edge or information.
+    - **Moderate Sacrifice (12):** Requires taking a Wound or Shaken token to activate.
+    - **Severe Sacrifice (20):** Requires destroying a friendly base or permanent stat reduction.
 
 ---
 
@@ -55,16 +69,22 @@ Fill out the **Leader Name** and **Faction**. Before adding abilities, define th
 
 ### Step 2: The Effect Stacker
 
-Click **+ ADD NEW EFFECT** for every distinct rule the leader possesses.
+Click **+ ADD NEW EFFECT** for every distinct rule the leader possesses. Use the **Category** dropdown to define the mechanical intent:
 
-- _Example:_ If Vader has a "Fearless" keyword aura and a "Force Choke" attack bonus, these should be two separate rows in the stacker.
-- Use the **Category** dropdown to label the ability for the JSON export (Physics, Time, Attrition, or Player).
+- **Stat & Rule Overrides:** Mathematical buffs to SV, ATK, or dice results.
+- **Action Economy:** Granting free actions or altering the 2d6 command logic.
+- **Status & Morale:** Manipulating Shaken tokens or Morale Tracker scoring.
+- **Movement & Maneuver:** Breaking the physics of pivots or speed.
+- **Strategic Deployment:** Reserved for Ambush, Infiltrate, or redeployment rules.
+- **Casualty & Reactionary:** Effects that trigger when units are destroyed.
+- **Enemy Disruption:** Targeted debuffs or "taxes" placed on the opponent.
+- **Meta-Game Manipulation:** Direct interaction with the Initiative bag or Stratagem cards.
 
 ### Step 3: Generation & Auditing
 
-- **Generate Point Cost:** This is your debugging tool. It outputs a detailed "Audit Log" to the right panel, showing exactly how the PV, PM, and FM interacted to reach the final number.
-- **Preview JSON:** Use this to check the raw data structure before copying.
-- **Overrides:** If the math feels "off" for a specific lore reason, use the **Override Pts** field. The badge and JSON will update instantly.
+- **Generate Point Cost:** Outputs a detailed **Audit Log** to the right panel. Check this to see the raw math behind your PV, PM, and FM choices.
+- **Preview JSON:** Check the data structure to ensure all logic blocks are present.
+- **Overrides:** Use the **Override Pts** field to manually set a cost if the lore warrants a specific price not captured by the math.
 
 ---
 
@@ -73,20 +93,21 @@ Click **+ ADD NEW EFFECT** for every distinct rule the leader possesses.
 ### The "Soresu Master" (Obi-Wan Kenobi)
 
 - **Setup:** Restricted to **Infantry** ($0.9x$ AF).
-- **Effect 1:** PV 25 (Medium), Attached (1.0x), Passive (1.0x).
-- **Math:** $30_{base} + (25 \times 0.9) = 52.5$
-- **Result:** **55 PTS** (Rounded up).
+- **Effect 1:** PV 30 (Mid-High), Attached (1.0x), Passive (1.0x).
+- **Math:** $30_{base} + (30 \times 0.9) = 57$
+- **Result:** **60 PTS** (Rounded up).
 
 ### The "Grand Strategist" (Thrawn)
 
 - **Setup:** Universal ($1.0x$ AF).
-- **Effect 1:** PV 40 (High), Meta (1.5x), Once Per Turn (0.9x).
-- **Math:** $30_{base} + (40 \times 1.5 \times 0.9) = 30 + 54 = 84$
-- **Result:** **85 PTS** (Rounded up).
+- **Effect 1:** PV 40 (High), Meta/Global (1.5x), Once Per Turn (0.9x), Risk (5).
+- **Math:** $30_{base} + (40 \times 1.5 \times 0.9) - 5 = 79$
+- **Result:** **80 PTS** (Rounded up).
 
 ---
 
 ## 5. UI Tips
 
-- **ID Overrides:** If you are making multiple versions of the same character (e.g., "Anakin (Padawan)" vs "Anakin (Knight)"), use the **Override ID** field to ensure they don't overwrite each other in your library.
-- **Floor Check:** If your math results in a 35-point leader, the Architect will automatically bump them to **50 PTS** to respect the minimum power threshold.
+- **ID Overrides:** Always use a unique ID (e.g., `ldr_rep_rex_501`) if creating variants of the same character to prevent library overwrites.
+- **Floor Check:** The Architect strictly enforces a **50 PT** minimum to ensure even "weak" leaders represent a meaningful investment.
+- **Independent Scrolling:** The left panel scrolls independently from the JSON/Audit preview, allowing you to add unlimited effects without losing sight of the output.

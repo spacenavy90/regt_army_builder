@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>Regiment Unit Architect</title>
     <link rel="icon" type="image/svg+xml" href="../icons/favicon.svg" />
-    <link rel="stylesheet" href="unitCreator_style.css?v=1.03" />
+    <link rel="stylesheet" href="unitCreator_style.css?v=1.04" />
   </head>
   <body>
     <header class="top-nav">
@@ -27,6 +27,7 @@
       </div>
 
       <div class="nav-links">
+        <button id="btnKeywords" class="nav-btn" onclick="toggleKeywordModal()">Keyword Reference</button>
         <a href="../index.html" class="nav-btn builder-btn">Army Builder</a>
         <a href="https://github.com/spacenavy90/regt_army_builder" target="_blank" class="nav-btn">GitHub</a>
         <a href="https://www.paypal.com/donate/?hosted_button_id=2YP5AY9JT7T5J" target="_blank" class="nav-btn donate-btn">Donate</a>
@@ -44,6 +45,10 @@
           <div class="form-row">
             <label>Unit Name</label>
             <input type="text" id="unitName" value="New Unit" />
+          </div>
+          <div class="form-row">
+            <label>Override ID</label>
+            <input type="text" id="unitOverrideId" placeholder="e.g. reb_custom_id" />
           </div>
           <div class="form-row">
             <label>Faction</label>
@@ -115,8 +120,8 @@
           </div>
 
           <div class="tool-frame">
-            <button onclick="otsArchitect.open()" class="btn-tool btn-purple">OTS ARCHITECT</button>
             <button onclick="leaderArchitect.open()" class="btn-tool btn-purple">LEADER ARCHITECT</button>
+            <button onclick="otsArchitect.open()" class="btn-tool btn-purple">OTS ARCHITECT</button>
             <button onclick="ui.openKeywords()" class="btn-tool btn-purple">KEYWORD ARCHITECT</button>
           </div>
 
@@ -376,15 +381,15 @@
               </div>
             </div>
 
-            <h3 class="section-label">RESTRICTIONS & ATTACHMENT</h3>
+            <h3 class="section-label">ATTACHMENT RESTRICTIONS</h3>
             <div class="form-section">
               <div class="form-row"><label>Display Text</label><input type="text" id="ldrRestrText" value="None." oninput="leaderArchitect.update()" /></div>
 
               <div class="grid-2" style="margin-top: 8px">
                 <div class="form-col">
-                  <label>Required Class</label>
+                  <label>Required Unit Type</label>
                   <select id="ldrReqClass" onchange="leaderArchitect.update()">
-                    <option value="null">Universal</option>
+                    <option value="null">None</option>
                     <option value="Infantry">Infantry</option>
                     <option value="Emplacement">Emplacement</option>
                     <option value="Vehicle">Vehicle</option>
@@ -392,7 +397,7 @@
                   </select>
                 </div>
                 <div class="form-col">
-                  <label>Required Subclass</label>
+                  <label>Required Unit Subtype</label>
                   <select id="ldrReqSub" onchange="leaderArchitect.update()">
                     <option value="null">None</option>
                     <option value="Walker">Walker</option>
@@ -404,12 +409,12 @@
               </div>
 
               <div class="form-row" style="margin-top: 8px">
-                <label>Required Specific Unit</label>
-                <input type="text" id="ldrReqUnit" placeholder="e.g. Clone Troopers (Leave blank if universal)" oninput="leaderArchitect.update()" />
+                <label>Required Specific Unit ID</label>
+                <input type="text" id="ldrReqUnit" placeholder="e.g. rep_clone_troopers (Leave blank if universal)" oninput="leaderArchitect.update()" />
               </div>
             </div>
 
-            <h3 class="section-label">EFFECT STACKER (POTENCY & INFLUENCE)</h3>
+            <h3 class="section-label">EFFECT CREATOR</h3>
             <div class="form-section">
               <div id="ldrEffectsContainer"></div>
               <button onclick="leaderArchitect.addEffect()" class="btn-tool btn-blue" style="width: 100%; margin-top: 5px">+ ADD NEW EFFECT</button>
@@ -419,6 +424,7 @@
               <button onclick="leaderArchitect.generate()" class="btn-main btn-green">GENERATE POINT COST</button>
               <div class="tool-frame">
                 <button onclick="leaderArchitect.preview()" class="btn-tool btn-slate">PREVIEW JSON</button>
+                <button onclick="leaderArchitect.openLibrary()" class="btn-tool btn-blue">LEADER LIBRARY</button>
                 <button onclick="leaderArchitect.copyJSON()" class="btn-tool btn-orange">COPY JSON</button>
               </div>
             </div>
@@ -431,6 +437,48 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div id="leaderLibraryModal" class="modal" style="display: none">
+      <div class="modal-content" style="width: 850px">
+        <div class="modal-header">
+          <h2>LEADER LIBRARY</h2>
+          <span class="close-btn" onclick="leaderArchitect.closeLibrary()">&times;</span>
+        </div>
+
+        <div class="filter-bar">
+          <div class="form-col" style="flex: 2">
+            <label>Search:</label>
+            <input type="text" id="ldrLibSearch" oninput="leaderArchitect.refreshLibraryTable()" placeholder="Type leader name or ID..." />
+          </div>
+          <div class="form-col" style="flex: 1">
+            <label>Faction Filter:</label>
+            <select id="ldrLibFactionFilter" onchange="leaderArchitect.refreshLibraryTable()">
+              <option value="All">All Factions</option>
+              <option value="emp">Galactic Empire</option>
+              <option value="reb">Rebel Alliance</option>
+              <option value="rep">Galactic Republic</option>
+              <option value="sep">Separatist Alliance</option>
+              <option value="gun">Gungan Grand Army</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-scroll" style="height: 400px">
+          <table id="ldrLibTable">
+            <thead>
+              <tr>
+                <th>Leader Name</th>
+                <th>Faction</th>
+                <th style="text-align: center">Points</th>
+                <th>ID</th>
+              </tr>
+            </thead>
+            <tbody id="ldrLibTableBody"></tbody>
+          </table>
+        </div>
+        <button onclick="leaderArchitect.loadSelection()" class="btn-main btn-blue" style="margin-top: 15px">LOAD SELECTED LEADER</button>
       </div>
     </div>
 

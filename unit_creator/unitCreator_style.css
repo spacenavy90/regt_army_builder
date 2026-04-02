@@ -592,3 +592,54 @@ body {
   padding: 1.5rem;
   height: calc(100vh - 60px); /* Adjust height to account for header */
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
+  z-index: 10000; /* Ensure it's above other modals */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Hiding logic */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Ensure the list is readable */
+.kw-entry {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+.kw-name {
+  color: var(--accent);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#keywordReferenceDisplay {
+  overflow-y: auto;
+  max-height: 60vh; /* Limits the list height so the header stays visible */
+  padding-right: 10px;
+}
+
+#keywordReferenceDisplay::-webkit-scrollbar {
+  width: 6px;
+}
+
+#keywordReferenceDisplay::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 3px;
+}

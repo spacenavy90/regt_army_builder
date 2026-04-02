@@ -75,3 +75,55 @@ class DataManager {
 
 // Export as a singleton instance
 const dataManager = new DataManager();
+
+function toggleKeywordModal() {
+  // Use the new UNIQUE id
+  const modal = document.getElementById("keywordReferenceModal");
+  if (!modal) return;
+
+  const isActive = modal.classList.toggle("active");
+
+  if (isActive) {
+    renderKeywordDefinitions();
+  }
+}
+
+function renderKeywordDefinitions() {
+  const container = document.getElementById("keywordReferenceDisplay");
+  if (!container) return;
+
+  // 1. Try to get definitions from the UI object first,
+  // 2. Fall back to the DataManager data if UI isn't ready
+  const definitions =
+    window.ui && ui.keywordsDb && Object.keys(ui.keywordsDb).length > 0 ? ui.keywordsDb : dataManager.data ? dataManager.data.definitions : null;
+
+  if (!definitions || Object.keys(definitions).length === 0) {
+    container.innerHTML = `
+      <div style="padding:20px; text-align:center;">
+        <p style="color:var(--color-orange);">Keyword database is currently empty.</p>
+        <p style="font-size:0.8rem; color:var(--text-muted);">Try clicking 'Refresh DB' in the Architect panel.</p>
+      </div>`;
+    return;
+  }
+
+  const sortedKeys = Object.keys(definitions).sort();
+
+  container.innerHTML = sortedKeys
+    .map((key) => {
+      const entry = definitions[key];
+      // Logic for handling both the "desc" and "description" keys just in case
+      const description = entry.desc || entry.description || "No description provided.";
+
+      return `
+            <div class="kw-entry" style="margin-bottom: 20px; border-bottom: 1px solid var(--border-light); padding-bottom: 15px;">
+                <span class="kw-name" style="color: var(--color-blue); font-weight: bold; font-size: 1.1rem; display: block; margin-bottom: 5px;">
+                  ${key.toUpperCase()}
+                </span>
+                <p class="kw-desc" style="color: var(--text-main); font-size: 0.95rem; line-height: 1.5; margin: 0;">
+                  ${description}
+                </p>
+            </div>
+        `;
+    })
+    .join("");
+}

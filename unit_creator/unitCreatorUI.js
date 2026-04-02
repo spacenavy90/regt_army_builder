@@ -96,13 +96,13 @@ class UnitCreatorUI {
     }
   }
 
-  /**
-   * Logic from builder.py: build_payload and get_final_cost
-   */
   buildPayload(stats, calculatedCost) {
     const factionName = document.getElementById("factionSelect").value;
-    const override = parseInt(document.getElementById("override").value) || 0;
-    const finalPts = override > 0 ? override : calculatedCost;
+    const overridePts = parseInt(document.getElementById("override").value) || 0;
+    const finalPts = overridePts > 0 ? overridePts : calculatedCost;
+
+    // Get the manual ID override
+    const overrideId = document.getElementById("unitOverrideId").value.trim();
 
     const prefixMap = {
       "Galactic Empire": "emp",
@@ -112,12 +112,14 @@ class UnitCreatorUI {
       "Gungan Grand Army": "gun",
     };
 
-    // Extract base faction name from label (e.g. "Rebel Alliance (6+)" -> "Rebel Alliance")
     const baseFaction = factionName.split(" (")[0];
     const prefix = prefixMap[baseFaction] || "unk";
 
+    // Use overrideId if it exists, otherwise generate the standard one
+    const finalId = overrideId || `${prefix}_${stats.name.toLowerCase().replace(/ /g, "_")}`;
+
     return {
-      id: `${prefix}_${stats.name.toLowerCase().replace(/ /g, "_")}`,
+      id: finalId, // Updated logic
       name: stats.name,
       unit_size: stats.bases,
       cost: finalPts,
@@ -191,11 +193,11 @@ class UnitCreatorUI {
     });
   }
 
-  /**
-   * Logic from builder.py: load_unit_to_ui
-   */
   loadUnitToUI(unitData, factionName) {
     document.getElementById("unitName").value = unitData.name;
+
+    // NEW: Set the Override ID to the loaded unit's actual ID
+    document.getElementById("unitOverrideId").value = unitData.id || "";
 
     // Select correct faction
     const factionSelect = document.getElementById("factionSelect");
