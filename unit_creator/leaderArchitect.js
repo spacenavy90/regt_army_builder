@@ -70,7 +70,7 @@ class LeaderArchitect {
           <div class="form-col"><label>Projection (PM)</label>
             <select class="eff-pm" onchange="leaderArchitect.update()">
               <option value="1.0">Attached / Self (1.0x)</option>
-              <option value="1.2">Tight Aura 4" (1.2x)</option>
+              <option value="1.2">Tight Aura 6" (1.2x)</option>
               <option value="1.5">Standard Aura 8" (1.5x)</option>
               <option value="1.8">Command Aura 12" (1.8x)</option>
               <option value="2.0">Global / Meta (2.0x)</option>

@@ -54,6 +54,7 @@
             <label>Faction</label>
             <select id="factionSelect"></select>
           </div>
+          <div class="form-row"><label>Override Pts</label><input type="number" id="override" value="0" /></div>
         </div>
 
         <div class="form-section grid-2">
@@ -94,7 +95,7 @@
           </div>
           <div class="stat-box"><label>Move Speed</label><input type="number" id="mv" value="6" /></div>
           <div class="stat-box"><label>Move Min</label><input type="number" id="mv_min" value="0" /></div>
-          <div class="stat-box"><label>Override Pts</label><input type="number" id="override" value="0" /></div>
+          <div class="stat-box"><label>Courage</label><input type="number" id="courage" value="3" /></div>
         </div>
 
         <h3 class="section-label">COMBAT PROFILE</h3>
@@ -121,7 +122,7 @@
 
           <div class="tool-frame">
             <button onclick="leaderArchitect.open()" class="btn-tool btn-purple">LEADER ARCHITECT</button>
-            <button onclick="otsArchitect.open()" class="btn-tool btn-purple">OTS ARCHITECT</button>
+            <button onclick="otsArchitect.open()" class="btn-tool btn-purple">SUPPORT ARCHITECT</button>
             <button onclick="ui.openKeywords()" class="btn-tool btn-purple">KEYWORD ARCHITECT</button>
           </div>
 
@@ -240,8 +241,8 @@
             </div>
 
             <div class="tool-frame" style="margin-top: auto">
-              <button onclick="architect.updatePreview()" class="btn-tool btn-slate">GENERATE PREVIEW</button>
-              <button onclick="architect.copyToClipboard()" class="btn-tool btn-blue">COPY TO CLIPBOARD</button>
+              <button onclick="architect.updatePreview()" class="btn-tool btn-slate">PREVIEW JSON</button>
+              <button onclick="architect.copyToClipboard()" class="btn-tool btn-blue">COPY JSON TO CLIPBOARD</button>
             </div>
           </div>
 
@@ -294,10 +295,10 @@
     </div>
 
     <div id="otsModal" class="modal" style="display: none">
-      <div class="modal-content" style="width: 1000px; max-height: 90vh">
+      <div class="modal-content" style="width: 1150px; max-height: 90vh">
         <div class="modal-header">
           <div style="display: flex; align-items: center; gap: 15px">
-            <h2>OTS ARCHITECT</h2>
+            <h2>SUPPORT ARCHITECT</h2>
             <span id="otsPointBadge" class="badge" style="background: var(--color-orange); font-size: 1rem; padding: 5px 12px">0 PTS</span>
           </div>
           <span class="close-btn" onclick="otsArchitect.close()">&times;</span>
@@ -306,12 +307,41 @@
         <div class="split-layout">
           <div class="modal-left">
             <div class="form-section">
-              <div class="form-row"><label>Support Name</label><input type="text" id="otsName" value="Mortar Attack" oninput="otsArchitect.update()" /></div>
+              <div class="form-row"><label>Support Name</label><input type="text" id="otsName" value="New Support" oninput="otsArchitect.update()" /></div>
               <div class="form-row">
                 <label>Override ID</label><input type="text" id="otsOverrideId" placeholder="e.g. ots_custom_id" oninput="otsArchitect.update()" />
               </div>
               <div class="form-row"><label>Override Pts</label><input type="number" id="otsOverridePts" value="0" oninput="otsArchitect.update()" /></div>
               <div class="form-row">
+                <label>Ability Text</label>
+                <textarea
+                  id="otsAbility"
+                  style="
+                    flex: 1;
+                    background: var(--bg-input);
+                    color: var(--text-main);
+                    border: 1px solid var(--border-light);
+                    border-radius: 4px;
+                    padding: 8px;
+                    font-family: inherit;
+                    min-height: 50px;
+                  "
+                  oninput="otsArchitect.update()"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="form-section grid-2">
+              <div class="form-col">
+                <label>Category</label>
+                <select id="otsCategory" onchange="otsArchitect.switchCategory()">
+                  <option value="Offensive" selected>Offensive</option>
+                  <option value="Sustainment">Sustainment</option>
+                  <option value="Defensive">Defensive</option>
+                  <option value="Utility">Utility</option>
+                </select>
+              </div>
+              <div class="form-col">
                 <label>Availability</label>
                 <select id="otsAvail" onchange="otsArchitect.update()">
                   <option value="3+">3+ (97%)</option>
@@ -323,32 +353,111 @@
                   <option value="9+">9+ (28%)</option>
                 </select>
               </div>
-              <div class="form-row">
-                <label>Template</label>
-                <select id="otsTemp" onchange="otsArchitect.update()">
-                  <option value='Single Card (3.5" x 2.5")'>Single Card</option>
-                  <option value='Double Long (7" x 2.5")'>Double Long</option>
-                  <option value='Double Wide (5" x 3.5")'>Double Wide</option>
+              <div class="form-col">
+                <label>Target Shape</label>
+                <select id="otsShape" onchange="otsArchitect.update()">
+                  <option value="Single Base">Single Base</option>
+                  <option value="Single Unit">Single Unit</option>
+                  <option value="Point (Standard Card)" selected>Point (Card)</option>
+                  <option value="Double Card">Double Card</option>
+                  <option value='Aura (6" Radius)'>Aura (6")</option>
+                  <option value='Aura (8" Radius)'>Aura (8")</option>
+                  <option value='Aura (12" Radius)'>Aura (12")</option>
+                  <option value="Entire Board">Entire Board</option>
+                  <option value="Off-Board / Meta">Off-Board / Meta</option>
                 </select>
               </div>
-              <div class="form-row"><label>Attack Dice</label><input type="number" id="otsDice" value="3" oninput="otsArchitect.update()" /></div>
+              <div class="form-col">
+                <label>Duration</label>
+                <select id="otsDuration" onchange="otsArchitect.update()">
+                  <option value="Instant / Next Act" selected>Instant / Next Act</option>
+                  <option value="1 Round">1 Round</option>
+                  <option value="Permanent">Permanent</option>
+                </select>
+              </div>
             </div>
 
-            <h3 class="section-label">SUPPORT KEYWORDS</h3>
-            <div class="scroll-container" id="otsKeywordList" style="height: 150px"></div>
+            <h3 class="section-label">PAYLOAD LOGIC</h3>
+            <div class="form-section">
+              <div id="panelOffensive">
+                <div class="form-row"><label>Attack Dice</label><input type="number" id="offDice" value="3" oninput="otsArchitect.update()" /></div>
+              </div>
+
+              <div id="panelSustainment" style="display: none">
+                <div class="form-row">
+                  <label>Target Class</label>
+                  <select id="susClass" onchange="otsArchitect.update()">
+                    <option value="Infantry/Emplacement" selected>Infantry / Emplacement</option>
+                    <option value="Vehicle/Titan">Vehicle / Titan</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label>Wounds Restored</label><input type="number" id="susWounds" value="0" min="0" oninput="otsArchitect.update()" />
+                </div>
+                <div class="checkbox-row" style="margin: 8px 0">
+                  <input type="checkbox" id="susShaken" onchange="otsArchitect.update()" />
+                  <label for="susShaken">Clear "Shaken" Status (+2 Mag)</label>
+                </div>
+                <div class="checkbox-row" style="margin: 8px 0">
+                  <input type="checkbox" id="susCourage" onchange="otsArchitect.update()" />
+                  <label for="susCourage">Grant Courage Resistance (+1 Mag)</label>
+                </div>
+              </div>
+
+              <div id="panelDefensive" style="display: none">
+                <div class="form-row">
+                  <label>Terrain Feature</label
+                  ><select id="defTerrain" onchange="otsArchitect.update()">
+                    <option value="None" selected>None</option>
+                    <option value="Difficult">Difficult</option>
+                    <option value="Area">Area</option>
+                    <option value="Blocking">Blocking</option>
+                    <option value="Dangerous">Dangerous</option>
+                  </select>
+                </div>
+                <div class="form-row"><label>EW To-Hit Pen</label><input type="number" id="defEwHit" value="0" oninput="otsArchitect.update()" /></div>
+                <div class="form-row"><label>EW CV Pen</label><input type="number" id="defEwCv" value="0" oninput="otsArchitect.update()" /></div>
+              </div>
+
+              <div id="panelUtility" style="display: none">
+                <div class="grid-2">
+                  <div class="form-col">
+                    <label>Intel Type</label
+                    ><select id="utiIntelType" onchange="otsArchitect.update()">
+                      <option value="None" selected>None</option>
+                      <option value="Reveal Support">Reveal Support</option>
+                      <option value="Target Uplink">Target Uplink</option>
+                    </select>
+                  </div>
+                  <div class="form-col"><label>Intel Intensity</label><input type="number" id="utiIntelVal" value="0" oninput="otsArchitect.update()" /></div>
+                </div>
+                <div class="form-row" style="margin-top: 10px">
+                  <label>Courage Penalty</label><input type="number" id="utiPsychCourage" value="0" oninput="otsArchitect.update()" />
+                </div>
+                <div class="form-row">
+                  <label>Shaken Roll Pen</label><input type="number" id="utiShakenPenalty" value="0" oninput="otsArchitect.update()" />
+                </div>
+              </div>
+            </div>
+
+            <h3 class="section-label">MODIFIER KEYWORDS</h3>
+            <div class="scroll-container" id="otsKeywordList" style="height: 110px"></div>
 
             <div class="actions-container" style="margin-top: 15px">
               <button onclick="otsArchitect.generate()" class="btn-main btn-green">GENERATE POINT COST</button>
               <div class="tool-frame">
                 <button onclick="otsArchitect.preview()" class="btn-tool btn-slate">PREVIEW JSON</button>
                 <button onclick="otsArchitect.copyJSON()" class="btn-tool btn-orange">COPY JSON</button>
+                <button onclick="otsArchitect.reset()" class="btn-tool btn-red" style="background: var(--color-red); color: white">RESET</button>
               </div>
             </div>
           </div>
 
           <div class="modal-right">
-            <h3 class="section-label" style="margin-top: 0">JSON PREVIEW</h3>
-            <pre id="otsPreview" class="code-preview"></pre>
+            <h3 class="section-label" style="margin-top: 0">JSON / AUDIT PREVIEW</h3>
+            <div class="terminal-wrapper">
+              <pre id="otsPreview" class="code-preview"></pre>
+            </div>
           </div>
         </div>
       </div>
@@ -480,6 +589,16 @@
           </table>
         </div>
         <button onclick="leaderArchitect.loadSelection()" class="btn-main btn-blue" style="margin-top: 15px">LOAD SELECTED LEADER</button>
+      </div>
+    </div>
+
+    <div id="keywordReferenceModal" class="modal-overlay">
+      <div class="modal-content" style="max-width: 700px">
+        <div class="modal-header">
+          <h2>KEYWORD REFERENCE</h2>
+          <span class="close-btn" onclick="toggleKeywordModal()">&times;</span>
+        </div>
+        <div id="keywordReferenceDisplay" class="modal-body" style="overflow-y: auto; max-height: 65vh; padding-right: 10px"></div>
       </div>
     </div>
 

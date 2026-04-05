@@ -11,9 +11,6 @@ class KeywordArchitect {
     document.getElementById("keywordModal").style.display = "none";
   }
 
-  /**
-   * Logic from Python: get_current_logic()
-   */
   getCurrentLogic() {
     const name = document.getElementById("kwName").value.trim();
     const type = document.getElementById("kwType").value;
@@ -53,7 +50,12 @@ class KeywordArchitect {
 
     const preview = {};
     preview[result.name] = result.data;
-    document.getElementById("kwPreview").innerText = JSON.stringify(preview, null, 4);
+
+    const fullJson = JSON.stringify(preview, null, 4);
+
+    const stripped = fullJson.trim().slice(1, -1).trim();
+
+    document.getElementById("kwPreview").innerText = stripped + ",";
   }
 
   copyToClipboard() {

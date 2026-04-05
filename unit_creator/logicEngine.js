@@ -5,8 +5,14 @@ const logicEngine = {
   calculateUnitPoints: function (stats, activeKws, keywordsDb) {
     try {
       // --- 1. BASE PILLAR CALCULATIONS ---
-      const totalWounds = stats.bases * stats.wnd;
-      const baseWndVal = totalWounds * 2.22;
+      const unitCourage = stats.courage || 3;
+
+      // THE FIX: Average the physical wounds and mental courage into one Effective stat
+      const effectiveWounds = (stats.wnd + unitCourage) / 2.0;
+
+      // Restore the 2.22 Anchor
+      const baseWndVal = stats.bases * effectiveWounds * 2.22;
+
       const omSave = this.saveMap[stats.sv] || 1.0;
 
       // TIERED MOVEMENT & MINIMUM MOVE
@@ -25,6 +31,8 @@ const logicEngine = {
 
       const rsDiceScore = stats.atk_r * stats.bases * omRange;
       const msDiceScore = stats.atk_m * stats.bases * 0.6;
+
+      // Restore the 1.75 Anchor
       const baseAvVal = (rsDiceScore + msDiceScore) * 1.75;
 
       // --- 2. CLASS & TYPE MODIFIERS ---
@@ -68,13 +76,12 @@ const logicEngine = {
           om_save: omSave,
           om_move: omMove,
           om_range: omRange,
+          om_courage: unitCourage, // Expose raw courage value to keywords
         };
 
         let modVal = 1.0;
-
         if (bType === "formula") {
-          const formula = logic.bal_formula || "1.0";
-          modVal = this.safeEval(formula, formulaContext);
+          modVal = this.safeEval(logic.bal_formula || "1.0", formulaContext);
         } else if (bType === "multiplier") {
           modVal = logic.bal_val || 1.0;
         } else if (bType === "flat") {
@@ -118,11 +125,12 @@ const logicEngine = {
       const rawTotal = finalBv + finalAv;
       const rounded = Math.ceil(rawTotal / 5) * 5;
 
-      // --- 5. AUDIT LOG ---
+      // --- 5. AUDIT LOG (VERBOSE) ---
       let log = `AUDIT LOG: ${stats.name.toUpperCase()}\n`;
       log += "=".repeat(50) + "\n";
       log += `1. BODY PILLAR (FINAL BV: ${finalBv.toFixed(2)})\n`;
-      log += `   Wound Pool: ${stats.bases} Bases * ${stats.wnd} Wounds * 2.22 = ${baseWndVal.toFixed(2)}\n`;
+      log += `   Durability Profile: (${stats.wnd} Wounds + ${unitCourage} Courage) / 2 = ${effectiveWounds.toFixed(2)} Effective Wounds/Base\n`;
+      log += `   Wound Pool: ${stats.bases} Bases * ${effectiveWounds.toFixed(2)} Effective Wounds * 2.22 = ${baseWndVal.toFixed(2)}\n`;
       log += `   Defense Modifiers:\n`;
       log += `     - Save (${stats.sv}): ${omSave.toFixed(2)}x\n`;
       log += `     - Base Move Mult ((${stats.mv}"+6)/12): ${rawMoveMult.toFixed(2)}x\n`;
@@ -177,7 +185,6 @@ const logicEngine = {
 
   safeEval: function (formula, context) {
     try {
-      // Replaces python eval by creating a function with context keys as arguments
       const keys = Object.keys(context);
       const values = Object.values(context);
       const f = new Function(...keys, `return ${formula}`);

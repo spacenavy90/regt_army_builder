@@ -69,6 +69,7 @@ class UnitCreatorUI {
       cv: this.factions[factionName],
       bases: parseInt(document.getElementById("bases").value) || 0,
       wnd: parseInt(document.getElementById("wnd").value) || 0,
+      courage: parseInt(document.getElementById("courage").value) || 0,
       mv: parseInt(document.getElementById("mv").value) || 0,
       mv_min: parseInt(document.getElementById("mv_min").value) || 0,
       sv: document.getElementById("sv").value,
@@ -101,7 +102,6 @@ class UnitCreatorUI {
     const overridePts = parseInt(document.getElementById("override").value) || 0;
     const finalPts = overridePts > 0 ? overridePts : calculatedCost;
 
-    // Get the manual ID override
     const overrideId = document.getElementById("unitOverrideId").value.trim();
 
     const prefixMap = {
@@ -115,18 +115,18 @@ class UnitCreatorUI {
     const baseFaction = factionName.split(" (")[0];
     const prefix = prefixMap[baseFaction] || "unk";
 
-    // Use overrideId if it exists, otherwise generate the standard one
     const finalId = overrideId || `${prefix}_${stats.name.toLowerCase().replace(/ /g, "_")}`;
 
     return {
-      id: finalId, // Updated logic
+      id: finalId,
       name: stats.name,
       unit_size: stats.bases,
       cost: finalPts,
       min_pct: 0,
-      max_pct: 50,
+      max_pct: 100,
       class: stats.type,
       subclass: stats.sub === "null" ? null : stats.sub,
+      courage: stats.courage,
       mv: stats.mv,
       mv_min: stats.mv_min > 0 ? stats.mv_min : null,
       atk_ranged: stats.atk_r,
@@ -195,11 +195,8 @@ class UnitCreatorUI {
 
   loadUnitToUI(unitData, factionName) {
     document.getElementById("unitName").value = unitData.name;
-
-    // NEW: Set the Override ID to the loaded unit's actual ID
     document.getElementById("unitOverrideId").value = unitData.id || "";
 
-    // Select correct faction
     const factionSelect = document.getElementById("factionSelect");
     for (let i = 0; i < factionSelect.options.length; i++) {
       if (factionSelect.options[i].value.includes(factionName)) {
@@ -217,6 +214,7 @@ class UnitCreatorUI {
     document.getElementById("bases").value = unitData.unit_size;
     document.getElementById("wnd").value = unitData.wnd;
     document.getElementById("sv").value = unitData.sv;
+    document.getElementById("courage").value = unitData.courage || 0;
     document.getElementById("mv").value = unitData.mv;
     document.getElementById("mv_min").value = unitData.mv_min || 0;
     document.getElementById("atk_r").value = unitData.atk_ranged;
@@ -225,10 +223,9 @@ class UnitCreatorUI {
     document.getElementById("atk_m").value = unitData.atk_melee || 0;
     document.getElementById("override").value = unitData.cost;
 
-    // Reset and set keywords
     document.querySelectorAll(".kw-checkbox").forEach((cb) => (cb.checked = false));
     unitData.keywords.forEach((kw) => {
-      const safeId = kw.replace(/ /g, "_"); // Match the sanitization used in populate
+      const safeId = kw.replace(/ /g, "_");
       const cb = document.getElementById(`kw_${safeId}`);
       if (cb) cb.checked = true;
     });

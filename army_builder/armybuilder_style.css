@@ -22,6 +22,15 @@ body {
   line-height: 1.5;
 }
 
+/* Shared Resets */
+.btn-step,
+.btn-remove,
+.modal-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 /* Header & Controls */
 .top-nav {
   background-color: var(--bg-surface);
@@ -83,6 +92,7 @@ body {
   padding: 30px;
   max-width: 1600px;
   margin: 0 auto;
+  height: calc(100vh - 85px);
 }
 
 .panel-title {
@@ -106,6 +116,8 @@ body {
 /* Left Column: Roster */
 .roster-panel {
   min-width: 0;
+  overflow-y: auto;
+  padding-right: 15px;
 }
 
 .roster-row {
@@ -190,11 +202,8 @@ body {
 }
 
 .btn-step {
-  background: transparent;
-  border: none;
   color: var(--text-main);
   padding: 8px 15px;
-  cursor: pointer;
   font-size: 1.2rem;
 }
 
@@ -212,8 +221,6 @@ body {
 
 /* Right Column: Manifest */
 .sticky-wrapper {
-  position: sticky;
-  top: 30px;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: 6px;
@@ -225,7 +232,13 @@ body {
   padding: 10px 0;
 }
 
-.manifest-item:last-child {
+.manifest-panel {
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.manifest-item:last-child,
+.kw-entry:last-child {
   border-bottom: none;
 }
 
@@ -234,7 +247,8 @@ body {
   color: var(--text-muted);
 }
 
-.manifest-footer {
+.manifest-footer,
+.export-section {
   margin-top: 20px;
   padding-top: 15px;
   border-top: 2px solid var(--border-color);
@@ -252,10 +266,16 @@ body {
   color: var(--danger);
 }
 
-/* Mobile Compatibility */
 @media (max-width: 992px) {
   .app-container {
     grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .roster-panel,
+  .manifest-panel {
+    overflow-y: visible;
+    padding-right: 0;
   }
 
   .sticky-wrapper {
@@ -263,29 +283,15 @@ body {
   }
 }
 
-@media (max-width: 600px) {
-  .roster-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-
-  .row-controls {
-    width: 100%;
-    justify-content: space-between;
-  }
-}
-
-.export-controls {
+.export-controls,
+.export-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
-.export-section {
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 2px solid var(--border-color);
+.export-grid {
+  margin-bottom: 10px;
 }
 
 .export-title {
@@ -347,11 +353,8 @@ body {
 }
 
 .btn-remove {
-  background: transparent;
-  border: none;
   color: var(--text-muted);
   font-size: 1.2rem;
-  cursor: pointer;
   line-height: 1;
   padding: 0 5px;
 }
@@ -496,13 +499,6 @@ body {
   margin-top: 20px;
 }
 
-.export-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
 .print-btn {
   width: 100%;
 }
@@ -569,11 +565,8 @@ body {
 }
 
 .modal-close {
-  background: none;
-  border: none;
   color: var(--text-muted);
   font-size: 2rem;
-  cursor: pointer;
 }
 
 .modal-body {
@@ -587,10 +580,6 @@ body {
   margin-bottom: 20px;
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 15px;
-}
-
-.kw-entry:last-child {
-  border-bottom: none;
 }
 
 .kw-name {

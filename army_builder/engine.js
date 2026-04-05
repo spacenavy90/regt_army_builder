@@ -189,7 +189,7 @@ function renderRoster() {
                 <div class="unit-name">${u.name} (${u.unit_size})</div>
                 <div class="unit-type">${u.class}${u.subclass ? " - " + u.subclass : ""}</div>
                 <div class="unit-stats">
-                    Mv: ${formatStat(u.mv, u.mv_min, '"')} | Atk: ${formatStat(u.atk_ranged, u.atk_melee)} | Rng: ${formatStat(u.rng_short, u.rng_long, '"')} | Wnd: ${u.wnd} | Sv: ${u.sv}
+                    Mv: ${formatStat(u.mv, u.mv_min, '"')} | Atk: ${formatStat(u.atk_ranged, u.atk_melee)} | Rng: ${formatStat(u.rng_short, u.rng_long, '"')} | Wnd: ${u.wnd} | Cou: ${u.courage} | Sv: ${u.sv}
                 </div>
                 <div class="unit-keywords">${u.keywords.join(", ")}</div>
             </div>
@@ -367,7 +367,7 @@ function updateUI() {
   if (leaderCount > 0)
     manifestLeaderContainer.insertAdjacentHTML(
       "afterbegin",
-      '<div style="color:var(--accent); font-weight:bold; margin-bottom:8px; border-bottom:1px solid var(--border-color); padding-bottom:5px;">FACTION LEADER</div>',
+      '<div style="color:var(--accent); font-weight:bold; margin-bottom:8px; border-bottom:1px solid var(--border-color); padding-bottom:5px;">ARMY LEADER</div>',
     );
 
   // Process OTS Logic
@@ -450,7 +450,7 @@ function removeUnit(id) {
 function generateSimpleText() {
   const cap = parseInt(document.getElementById("armyCap").value) || 0;
   const faction = REGIMENT_DATA.factions.find((f) => f.id === selectedFactionId);
-  let text = `REGIMENT ARMY LIST\nFaction: ${faction.name}\nCommand Value: ${faction.command_value}\nPoints Cap: ${cap}\n\n`;
+  let text = `Faction: ${faction.name}\nCommand Value: ${faction.command_value}\nPoints Cap: ${cap}\n\n`;
 
   let total = 0;
   let leaderText = "";
@@ -477,19 +477,20 @@ function generateSimpleText() {
     }
   }
 
-  if (leaderText) text += `FACTION LEADER\n${leaderText}\n`;
+  if (leaderText) text += `ARMY LEADER\n${leaderText}\n`;
   if (unitsText) text += `COMBAT UNITS\n${unitsText}\n`;
   if (otsText) text += `SUPPORT ASSETS\n${otsText}\n`;
 
   const bid = cap - total > 0 ? cap - total : 0;
   text += `TOTAL SPENT: ${total} | BID: ${bid}\n`;
+
   return text;
 }
 
 function generateDetailedText() {
   const cap = parseInt(document.getElementById("armyCap").value) || 0;
   const faction = REGIMENT_DATA.factions.find((f) => f.id === selectedFactionId);
-  let text = `REGIMENT BATTLE MANIFEST\nFaction: ${faction.name}\nCommand Value: ${faction.command_value}\nPoints Cap: ${cap}\n\n`;
+  let text = `Faction: ${faction.name}\nCommand Value: ${faction.command_value}\nPoints Cap: ${cap}\n\n`;
 
   let total = 0;
   let leaderText = "";
@@ -511,7 +512,7 @@ function generateDetailedText() {
     } else if (unit && qty > 0) {
       const cost = qty * unit.cost;
       unitsText += `${qty}x ${unit.name} [${unit.cost} ea | ${cost} pts]\n`;
-      unitsText += `    Mv: ${formatStat(unit.mv, unit.mv_min, '"')} | Atk: ${formatStat(unit.atk_ranged, unit.atk_melee)} | Rng: ${formatStat(unit.rng_short, unit.rng_long, '"')} | Wnd: ${unit.wnd} | Sv: ${unit.sv}\n`;
+      unitsText += `    Mv: ${formatStat(unit.mv, unit.mv_min, '"')} | Atk: ${formatStat(unit.atk_ranged, unit.atk_melee)} | Rng: ${formatStat(unit.rng_short, unit.rng_long, '"')} | Wnd: ${unit.wnd} | Sv: ${unit.sv} | Crg: ${unit.courage}\n`;
       if (unit.keywords && unit.keywords.length > 0) {
         unitsText += `    Keywords: ${unit.keywords.join(", ")}\n`;
         unit.keywords.forEach((kw) => usedKeywords.add(kw));
@@ -531,14 +532,13 @@ function generateDetailedText() {
     }
   }
 
-  if (leaderText) text += `FACTION LEADER\n${leaderText}`;
+  if (leaderText) text += `ARMY LEADER\n${leaderText}`;
   if (unitsText) text += `COMBAT UNITS\n${unitsText}`;
   if (otsText) text += `SUPPORT ASSETS\n${otsText}`;
 
   if (usedKeywords.size > 0) {
     text += `KEYWORD DEFINITIONS\n`;
     usedKeywords.forEach((kw) => {
-      // Access the .desc property instead of the whole object
       const entry = REGIMENT_DATA.definitions[kw];
       const def = entry ? entry.desc : "[Definition Pending]";
       text += `${kw}: ${def}\n`;
@@ -548,6 +548,12 @@ function generateDetailedText() {
 
   const bid = cap - total > 0 ? cap - total : 0;
   text += `TOTAL SPENT: ${total} | BID: ${bid}\n`;
+
+  // Generate and append the share code
+  const listState = { f: selectedFactionId, c: cap, l: currentList };
+  const shareCode = btoa(JSON.stringify(listState));
+  text += `\nSHARE CODE: ${shareCode}\n`;
+
   return text;
 }
 
@@ -600,6 +606,7 @@ function generateTTSJSON() {
         id: leader.id,
         name: leader.name,
         cost: leader.cost,
+        restriction_text: leader.restriction_text,
         ability: leader.ability,
         tts_image: leader.tts_image,
         tts_card_front: leader.tts_card_front,
@@ -620,6 +627,7 @@ function generateTTSJSON() {
         rng_long: unit.rng_long,
         wnd: unit.wnd,
         sv: unit.sv,
+        courage: unit.courage,
         keywords: unit.keywords,
         tts_height: unit.tts_height || 1.0,
         tts_model: unit.tts_model,
@@ -725,7 +733,7 @@ function printDetailedList() {
   const text = generateDetailedText();
   const printWindow = window.open("", "", "height=800,width=800");
 
-  printWindow.document.write("<html><head><title>Regiment Battle Manifest</title>");
+  printWindow.document.write("<html><head><title>Regiment Army Manifest</title>");
   printWindow.document.write("<style>body { font-family: monospace; font-size: 14px; white-space: pre-wrap; padding: 20px; }</style>");
   printWindow.document.write("</head><body>");
   printWindow.document.write(text);
