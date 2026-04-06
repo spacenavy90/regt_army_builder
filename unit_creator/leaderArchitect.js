@@ -109,53 +109,86 @@ class LeaderArchitect {
 
   calculate() {
     let totalAbilityValue = 0;
-    let log = "=== LEADER AUDIT LOG ===\n";
-    log += `Base Tax: ${this.baseCost}\n`;
+    const leaderName = document.getElementById("ldrName").value.trim() || "NEW LEADER";
+
+    let log = `AUDIT LOG: ${leaderName.toUpperCase()}\n`;
+    log += "=".repeat(50) + "\n";
+    log += `1. BASE DEPLOYMENT\n`;
+    log += `   - Base Leader Tax: ${this.baseCost} pts\n\n`;
+    log += `2. ABILITY EFFECTS\n`;
 
     const rows = document.querySelectorAll(".effect-row");
     rows.forEach((row, idx) => {
+      // Get selected elements to pull both value and display text
       const catSelect = row.querySelector(".eff-cat");
+      const pvSelect = row.querySelector(".eff-pv");
+      const pmSelect = row.querySelector(".eff-pm");
+      const fmSelect = row.querySelector(".eff-fm");
+      const rdSelect = row.querySelector(".eff-rd");
+
       const catName = catSelect.options[catSelect.selectedIndex].text;
+      const pv = parseInt(pvSelect.value) || 0;
+      const pm = parseFloat(pmSelect.value) || 1.0;
+      const fm = parseFloat(fmSelect.value) || 1.0;
+      const rd = parseInt(rdSelect.value) || 0;
 
-      const pv = parseInt(row.querySelector(".eff-pv").value) || 0;
-      const pm = parseFloat(row.querySelector(".eff-pm").value) || 1.0;
-      const fm = parseFloat(row.querySelector(".eff-fm").value) || 1.0;
-      const rd = parseInt(row.querySelector(".eff-rd").value) || 0;
+      const pmText = pmSelect.options[pmSelect.selectedIndex].text;
+      const fmText = fmSelect.options[fmSelect.selectedIndex].text;
+      const rdText = rdSelect.options[rdSelect.selectedIndex].text;
 
-      let effCost = pv * pm * fm - rd;
-      effCost = Math.max(0, effCost);
+      // Step-by-step math for the log
+      const rawPotency = pv * pm;
+      const freqAdjusted = rawPotency * fm;
+      let effCost = freqAdjusted - rd;
+      effCost = Math.max(0, effCost); // Floor at 0 per effect
 
       totalAbilityValue += effCost;
-      log += `\nEffect ${idx + 1}: ${catName}\n`;
-      log += `  Formula: (PV:${pv} * PM:${pm.toFixed(1)} * FM:${fm.toFixed(1)}) - Risk:${rd}\n`;
-      log += `  Subtotal: +${effCost.toFixed(2)} pts\n`;
+
+      log += `   Effect ${idx + 1}: ${catName}\n`;
+      log += `      - Base Potency (PV): ${pv}\n`;
+      log += `      - Projection (PM): ${pmText}\n`;
+      log += `        -> PV ${pv} * PM ${pm.toFixed(1)} = ${rawPotency.toFixed(2)}\n`;
+      log += `      - Frequency (FM): ${fmText}\n`;
+      log += `        -> ${rawPotency.toFixed(2)} * FM ${fm.toFixed(1)} = ${freqAdjusted.toFixed(2)}\n`;
+      log += `      - Risk/Drawback (RD): ${rdText}\n`;
+      log += `      -> Effect Final Cost: ${effCost.toFixed(2)} pts\n`;
+
+      if (idx < rows.length - 1) log += `\n`;
     });
 
+    // --- FRICTION LOGIC ---
     let friction = 1.0;
+    let frictionReason = "Universal / Unrestricted (x1.00)";
+
     const reqClass = document.getElementById("ldrReqClass").value;
     const reqSub = document.getElementById("ldrReqSub").value;
     const reqUnit = document.getElementById("ldrReqUnit").value.trim();
 
     if (reqUnit !== "") {
       friction = 0.7;
-      log += `\nAttachment Friction: Specific Unit (${reqUnit}) -> x0.70\n`;
+      frictionReason = `Specific Unit Attachment [${reqUnit}] (x0.70)`;
     } else if (reqSub !== "null") {
       friction = 0.8;
-      log += `\nAttachment Friction: Subclass (${reqSub}) -> x0.80\n`;
+      frictionReason = `Specific Subclass Attachment [${reqSub}] (x0.80)`;
     } else if (reqClass !== "null") {
       friction = 0.9;
-      log += `\nAttachment Friction: Class (${reqClass}) -> x0.90\n`;
-    } else {
-      log += `\nAttachment Friction: Universal -> x1.00\n`;
+      frictionReason = `Specific Class Attachment [${reqClass}] (x0.90)`;
     }
 
-    const rawTotal = this.baseCost + totalAbilityValue * friction;
-    const finalCost = Math.max(50, Math.ceil(rawTotal / 5) * 5);
+    const adjustedAbilityCost = totalAbilityValue * friction;
+    const rawTotal = this.baseCost + adjustedAbilityCost;
+    const finalCost = Math.max(50, Math.ceil(rawTotal / 5) * 5); // Absolute minimum 50 pts
 
-    log += `------------------------\n`;
-    log += `Raw Ability Sum: ${totalAbilityValue.toFixed(2)}\n`;
-    log += `Final Mathematical Cost: ${this.baseCost} + (${totalAbilityValue.toFixed(2)} * ${friction.toFixed(2)}) = ${rawTotal.toFixed(2)}\n`;
-    log += `Rounded Point Cost (Floor 50): ${finalCost}\n`;
+    log += `\n3. ATTACHMENT FRICTION (RESTRICTIONS)\n`;
+    log += `   - Restriction Level: ${frictionReason}\n`;
+    log += `   - Raw Ability Sum: ${totalAbilityValue.toFixed(2)} pts\n`;
+    log += `   -> Adjusted Ability Sum: ${totalAbilityValue.toFixed(2)} * ${friction.toFixed(2)} = ${adjustedAbilityCost.toFixed(2)} pts\n\n`;
+
+    log += "=".repeat(50) + "\n";
+    log += `FINAL MATHEMATICS\n`;
+    log += `   Base Tax (${this.baseCost}) + Adjusted Abilities (${adjustedAbilityCost.toFixed(2)}) = ${rawTotal.toFixed(2)} pts\n`;
+    log += `   Rounded Point Cost (Floor 50): ${finalCost} pts\n`;
+    log += "=".repeat(50);
 
     return { cost: finalCost, log: log };
   }
@@ -198,8 +231,11 @@ class LeaderArchitect {
       requires_unit: reqUnitValue === "" ? null : reqUnitValue,
       ability: document.getElementById("ldrAbility").value,
       logic: logicStack,
+      tts_card_front: "",
       tts_image: "",
-      tts_card_front: "", // NEW: Added for TTS compatibility
+      tts_model: "",
+      tts_texture: "",
+      tts_collider: "",
     };
 
     document.getElementById("ldrPreview").innerText = JSON.stringify(payload, null, 4);

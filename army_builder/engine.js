@@ -1,5 +1,6 @@
-let REGIMENT_DATA = null; // Initialize as null
+let REGIMENT_DATA = null;
 let currentList = {};
+let currentMissions = { aggressive: null, defensive: null, maneuver: null };
 let selectedFactionId = "reb_all";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -412,6 +413,29 @@ function updateUI() {
   const bidValue = cap - totalSpent;
   document.getElementById("bidDisplay").textContent = bidValue > 0 ? bidValue : 0;
 
+  // Update Mission Buttons & Warning
+  const categories = ["aggressive", "defensive", "maneuver"];
+  let missingMissions = false;
+
+  categories.forEach((cat) => {
+    const btn = document.getElementById(`btnMsn${cat.charAt(0).toUpperCase() + cat.slice(1)}`);
+    if (!btn) return;
+
+    if (currentMissions[cat]) {
+      const msn = REGIMENT_DATA.missions[cat].find((m) => m.id === currentMissions[cat]);
+      btn.textContent = msn ? msn.name : `Choose ${cat}`;
+      btn.style.borderColor = "var(--accent)";
+      btn.style.color = "var(--accent)";
+    } else {
+      btn.textContent = `Choose ${cat.charAt(0).toUpperCase() + cat.slice(1)}`;
+      btn.style.borderColor = "var(--border-color)";
+      btn.style.color = "var(--text-main)";
+      missingMissions = true; // Flag if any are null
+    }
+  });
+
+  document.getElementById("missionWarning").style.display = missingMissions ? "inline" : "none";
+
   saveState();
 }
 
@@ -439,6 +463,7 @@ function adjust(id, amt) {
 
 function clearArmy() {
   currentList = {};
+  currentMissions = { aggressive: null, defensive: null, maneuver: null };
   updateUI();
 }
 
@@ -480,6 +505,18 @@ function generateSimpleText() {
   if (leaderText) text += `ARMY LEADER\n${leaderText}\n`;
   if (unitsText) text += `COMBAT UNITS\n${unitsText}\n`;
   if (otsText) text += `SUPPORT ASSETS\n${otsText}\n`;
+
+  let missionText = `MISSIONS\n`;
+  ["aggressive", "defensive", "maneuver"].forEach((cat) => {
+    const msnId = currentMissions[cat];
+    if (msnId && REGIMENT_DATA.missions[cat]) {
+      const msn = REGIMENT_DATA.missions[cat].find((m) => m.id === msnId);
+      missionText += `- ${cat.charAt(0).toUpperCase() + cat.slice(1)}: ${msn ? msn.name : "Error"}\n`;
+    } else {
+      missionText += `- ${cat.charAt(0).toUpperCase() + cat.slice(1)}: [None Selected]\n`;
+    }
+  });
+  text += `${missionText}\n`;
 
   const bid = cap - total > 0 ? cap - total : 0;
   text += `TOTAL SPENT: ${total} | BID: ${bid}\n`;
@@ -546,6 +583,18 @@ function generateDetailedText() {
     text += `\n`;
   }
 
+  let missionText = `MISSIONS\n`;
+  ["aggressive", "defensive", "maneuver"].forEach((cat) => {
+    const msnId = currentMissions[cat];
+    if (msnId && REGIMENT_DATA.missions[cat]) {
+      const msn = REGIMENT_DATA.missions[cat].find((m) => m.id === msnId);
+      missionText += `- ${cat.charAt(0).toUpperCase() + cat.slice(1)}: ${msn ? msn.name : "Error"}\n`;
+    } else {
+      missionText += `- ${cat.charAt(0).toUpperCase() + cat.slice(1)}: [None Selected]\n`;
+    }
+  });
+  text += `${missionText}\n`;
+
   const bid = cap - total > 0 ? cap - total : 0;
   text += `TOTAL SPENT: ${total} | BID: ${bid}\n`;
 
@@ -590,6 +639,7 @@ function generateTTSJSON() {
       bid: 0,
     },
     leader: null,
+    missions: [],
     units: [],
     ots: [],
   };
@@ -610,6 +660,9 @@ function generateTTSJSON() {
         ability: leader.ability,
         tts_image: leader.tts_image,
         tts_card_front: leader.tts_card_front,
+        tts_model: leader.tts_model,
+        tts_texture: leader.tts_texture,
+        tts_collider: leader.tts_collider,
       };
       totalSpent += leader.cost;
     } else if (unit && qty > 0) {
@@ -650,10 +703,25 @@ function generateTTSJSON() {
     }
   }
 
+  // Process Missions for TTS
+  ["aggressive", "defensive", "maneuver"].forEach((cat) => {
+    const msnId = currentMissions[cat];
+    if (msnId && REGIMENT_DATA.missions[cat]) {
+      const msn = REGIMENT_DATA.missions[cat].find((m) => m.id === msnId);
+      if (msn) {
+        output.missions.push({
+          category: cat,
+          id: msn.id,
+          name: msn.name,
+          tts_card_front: msn.tts_card_front,
+        });
+      }
+    }
+  });
+
   output.metadata.total_points = totalSpent;
   output.metadata.bid = Math.max(0, cap - totalSpent);
 
-  // The null, 2 restores the indentation for debug readability
   return JSON.stringify(output, null, 2);
 }
 
@@ -663,32 +731,23 @@ function generateShareCode() {
     f: selectedFactionId,
     c: cap,
     l: currentList,
+    m: currentMissions,
   };
-
-  // Convert object to JSON string, then encode to Base64
-  const jsonStr = JSON.stringify(listState);
-  const base64Code = btoa(jsonStr);
-
-  copyToClipboard(base64Code);
+  copyToClipboard(btoa(JSON.stringify(listState)), "btnCopyCode");
 }
 
 function loadFromShareCode(base64Code) {
   try {
-    // Decode Base64 back to JSON string, then parse object
     const jsonStr = atob(base64Code);
     const listState = JSON.parse(jsonStr);
 
-    // Apply the loaded state
     document.getElementById("armyCap").value = listState.c || 1000;
+    currentMissions = listState.m || { aggressive: null, defensive: null, maneuver: null }; // Load missions
 
-    // Pass the faction and the unit list to the view loader
     loadBuilderView(listState.f, listState.l);
-
-    // Clear the input field for next time
     document.getElementById("shareCodeInput").value = "";
   } catch (e) {
     alert("Invalid share code. Please check the code and try again.");
-    console.error("Failed to parse share code:", e);
   }
 }
 
@@ -697,7 +756,8 @@ function saveState() {
     cap: document.getElementById("armyCap").value,
     factionId: selectedFactionId,
     roster: currentList,
-    lastUpdated: Date.now(), // Record the exact time of the save
+    missions: currentMissions, // Save missions
+    lastUpdated: Date.now(),
   };
   localStorage.setItem("regimentBuilderState", JSON.stringify(state));
 }
@@ -708,21 +768,16 @@ function loadState() {
     try {
       const state = JSON.parse(saved);
       const now = Date.now();
-      const expiryTime = 30 * 60 * 1000; // 30 minutes in ms
-
-      // Check if the save is older than 24 hours
-      if (state.lastUpdated && now - state.lastUpdated > expiryTime) {
+      if (state.lastUpdated && now - state.lastUpdated > 30 * 60 * 1000) {
         localStorage.removeItem("regimentBuilderState");
         return false;
       }
-
       document.getElementById("armyCap").value = state.cap;
       selectedFactionId = state.factionId;
-      document.getElementById("factionSelect").value = selectedFactionId;
       currentList = state.roster || {};
+      currentMissions = state.missions || { aggressive: null, defensive: null, maneuver: null }; // Load missions
       return true;
     } catch (e) {
-      console.error("Failed to parse saved state.");
       return false;
     }
   }
@@ -747,4 +802,114 @@ function printDetailedList() {
     printWindow.print();
     printWindow.close();
   }, 250);
+}
+
+function openMissionModal(category) {
+  const modal = document.getElementById("missionModal");
+  const title = document.getElementById("missionModalTitle");
+  const list = document.getElementById("missionModalList");
+
+  title.textContent = `Select ${category.charAt(0).toUpperCase() + category.slice(1)} Mission`;
+  list.innerHTML = "";
+
+  if (!REGIMENT_DATA || !REGIMENT_DATA.missions || !REGIMENT_DATA.missions[category]) return;
+
+  // Track currently selected mission for the initial preview
+  let selectedMissionData = null;
+
+  list.innerHTML += `
+      <div class="roster-row" style="cursor: pointer;" onclick="selectMission('${category}', null)">
+          <div class="row-info"><div class="unit-name" style="color: var(--danger);">[Clear Selection]</div></div>
+      </div>
+  `;
+
+  REGIMENT_DATA.missions[category].forEach((msn) => {
+    const isSelected = currentMissions[category] === msn.id;
+    if (isSelected) selectedMissionData = msn;
+
+    list.innerHTML += `
+          <div class="roster-row" style="cursor: pointer; ${isSelected ? "border-color: var(--accent);" : ""}" onclick="selectMission('${category}', '${msn.id}')">
+              <div class="row-info">
+                  <div class="unit-name" style="${isSelected ? "color: var(--accent);" : ""}">${msn.name} ${isSelected ? "✓" : ""}</div>
+                  <div class="unit-stats" style="white-space: normal; background: transparent; padding: 0; margin-top: 4px;">${msn.desc}</div>
+              </div>
+              <div class="row-controls">
+                  <button class="btn-step btn-preview-eye" title="Preview Card" 
+                          onclick="event.stopPropagation(); previewMissionCard('${msn.tts_card_front || ""}', '${msn.id}')">
+                      👁️
+                  </button>
+              </div>
+          </div>
+      `;
+  });
+
+  // Load the initial preview of the currently selected mission
+  if (selectedMissionData) {
+    previewMissionCard(selectedMissionData.tts_card_front, selectedMissionData.id);
+  } else {
+    previewMissionCard("", ""); // Show placeholder
+  }
+
+  modal.classList.add("active");
+}
+
+function previewMissionCard(remoteUrl, missionId) {
+  const imgEl = document.getElementById("missionPreviewImage");
+  const placeholder = document.getElementById("missionPreviewPlaceholder");
+  const pTitle = document.getElementById("placeholderTitle");
+  const pText = document.getElementById("placeholderText");
+
+  // If no missionId is passed, show the "Welcome" instruction state
+  if (!missionId) {
+    imgEl.style.display = "none";
+    placeholder.style.display = "flex";
+    pTitle.textContent = "Mission Preview";
+    pText.textContent = "Select a mission or click the 👁️ icon to view the deployment map and objective details.";
+    return;
+  }
+
+  const localPath = `cards/${missionId}.png`;
+  imgEl.onerror = null;
+  imgEl.removeAttribute("referrerpolicy");
+
+  // Start attempt to load local
+  imgEl.src = localPath;
+  imgEl.style.display = "block";
+  placeholder.style.display = "none";
+
+  imgEl.onerror = () => {
+    if (remoteUrl && remoteUrl.trim() !== "") {
+      imgEl.referrerPolicy = "no-referrer";
+
+      imgEl.onerror = () => {
+        // ACTUAL ERROR STATE: Both sources failed
+        imgEl.style.display = "none";
+        placeholder.style.display = "flex";
+        pTitle.textContent = "Image Not Found";
+        pText.textContent = `Could not load preview for ${missionId}.`;
+      };
+
+      imgEl.src = remoteUrl;
+    } else {
+      // NO REMOTE URL: Local failed and nothing else to try
+      imgEl.style.display = "none";
+      placeholder.style.display = "flex";
+      pTitle.textContent = "No Image Available";
+      pText.textContent = "This mission does not have a preview card assigned yet.";
+    }
+  };
+
+  // Ensure the image element is visible while attempting to load sources
+  imgEl.style.display = "block";
+  placeholder.style.display = "none";
+}
+
+function closeMissionModal() {
+  document.getElementById("missionModal").classList.remove("active");
+}
+
+function selectMission(category, id) {
+  currentMissions[category] = id;
+  closeMissionModal();
+  updateUI();
 }

@@ -595,3 +595,132 @@ body {
   color: var(--text-main);
   line-height: 1.4;
 }
+
+/* --- Mission Modal Split Panel --- */
+.mission-modal-content {
+  max-width: 1400px; /* Increased from 900px */
+  width: 95vw; /* Fill 95% of the screen width */
+  height: 90vh; /* Fill 90% of the screen height */
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-split-body {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+  flex: 1; /* Grow to fill the modal height */
+  overflow: hidden; /* Keep the main container clean */
+}
+
+.modal-list-side {
+  flex: 0 0 400px; /* Keep the list at a readable fixed width */
+  overflow-y: auto;
+  height: 100%; /* Fill the new modal height */
+  padding-right: 15px;
+}
+
+.modal-preview-side {
+  flex: 1; /* Preview side takes up all remaining space */
+  width: auto; /* Remove the previous 320px restriction */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center the card in the large space */
+  background-color: rgba(0, 0, 0, 0.2); /* Subtle contrast for the preview area */
+  border-radius: 8px;
+  padding: 20px;
+}
+
+/* --- Consolidated Mission Card & Placeholder Styling --- */
+
+/* 1. The Image: Scales to fit height, maintains 3.5x5 aspect ratio */
+.mission-card-img {
+  width: auto;
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  aspect-ratio: 3.5 / 5;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-color);
+}
+
+/* 2. The Placeholder: Fills the right panel with centered instructions */
+.mission-card-placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-base);
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 40px;
+}
+
+/* 3. Interior Instruction Styling */
+.placeholder-content {
+  max-width: 320px; /* Keeps text readable and centered */
+}
+
+.placeholder-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  display: block;
+  opacity: 0.4;
+}
+
+.mission-card-placeholder h3 {
+  color: var(--text-main);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1.2rem;
+}
+
+.mission-card-placeholder p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Make eye button look like a distinct action */
+.btn-preview-eye {
+  font-size: 1.4rem;
+  opacity: 0.6;
+  transition:
+    opacity 0.2s,
+    transform 0.1s;
+}
+.btn-preview-eye:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Mobile Stacking for Mission Modal */
+@media (max-width: 992px) {
+  .mission-modal-content {
+    height: 95vh;
+  }
+
+  .modal-split-body {
+    flex-direction: column-reverse;
+    overflow-y: auto;
+  }
+
+  .modal-list-side {
+    flex: none;
+    height: auto;
+  }
+
+  .modal-preview-side {
+    flex: none;
+    height: 400px; /* Give it a fixed height to show the card on mobile */
+    margin-bottom: 20px;
+  }
+}

@@ -88,6 +88,18 @@
         <div class="sticky-wrapper">
           <h2 class="panel-title">Army List</h2>
 
+          <div class="mission-section" style="margin-bottom: 20px">
+            <div class="manifest-header" style="margin-bottom: 8px">
+              <span style="font-weight: bold; color: var(--accent)">MISSIONS</span>
+              <span id="missionWarning" style="color: var(--danger); font-size: 0.8rem; display: none">⚠ Select 3</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <button class="btn-export" id="btnMsnAggressive" onclick="openMissionModal('aggressive')">Choose Aggressive</button>
+              <button class="btn-export" id="btnMsnDefensive" onclick="openMissionModal('defensive')">Choose Defensive</button>
+              <button class="btn-export" id="btnMsnManeuver" onclick="openMissionModal('maneuver')">Choose Maneuver</button>
+            </div>
+          </div>
+
           <div id="manifestLeaderList" class="manifest-items" style="margin-bottom: 15px"></div>
           <div id="manifestList" class="manifest-items"></div>
           <div id="manifestOtsList" class="manifest-items" style="margin-top: 15px"></div>
@@ -129,6 +141,29 @@
           <button class="modal-close" onclick="toggleKeywordModal()">&times;</button>
         </div>
         <div id="keywordList" class="modal-body"></div>
+      </div>
+    </div>
+
+    <div id="missionModal" class="modal-overlay">
+      <div class="modal-content mission-modal-content">
+        <div class="modal-header">
+          <h2 id="missionModalTitle">Select Mission</h2>
+          <button class="modal-close" onclick="closeMissionModal()">&times;</button>
+        </div>
+        <div class="modal-split-body">
+          <div id="missionModalList" class="modal-list-side"></div>
+
+          <div class="modal-preview-side">
+            <img id="missionPreviewImage" src="" alt="Mission Card Preview" class="mission-card-img" style="display: none" />
+            <div id="missionPreviewPlaceholder" class="mission-card-placeholder">
+              <div class="placeholder-content">
+                <span class="placeholder-icon">🎴</span>
+                <h3 id="placeholderTitle">Mission Preview</h3>
+                <p id="placeholderText">Select a mission or click the 👁️ icon to view the deployment map and objective details.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 

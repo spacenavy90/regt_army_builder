@@ -24,7 +24,10 @@
                         "value": 1
                     },
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 },
                 {
                     "id": "ldr_emp_thrawn",
@@ -45,7 +48,10 @@
                         }
                     ],
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 },
                 {
                     "id": "ldr_emp_vader",
@@ -65,7 +71,10 @@
                         "keyword": "Fearless"
                     },
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 },
                 {
                     "id": "ldr_emp_veers",
@@ -85,7 +94,10 @@
                         "value": 1
                     },
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 }
             ],
             "units": [
@@ -299,7 +311,10 @@
                         }
                     ],
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 },
                 {
                     "id": "ldr_reb_luke",
@@ -318,7 +333,10 @@
                         "sv": 1
                     },
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 },
                 {
                     "id": "ldr_reb_wedge",
@@ -337,7 +355,10 @@
                         "value": 1
                     },
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 }
             ],
             "units": [
@@ -546,7 +567,10 @@
                         }
                     ],
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 },
                 {
                     "id": "ldr_rep_kenobi",
@@ -574,7 +598,10 @@
                         }
                     ],
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 },
                 {
                     "id": "ldr_rep_rex",
@@ -593,7 +620,10 @@
                         "cost": "simple"
                     },
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 }
             ],
             "units": [
@@ -831,7 +861,10 @@
                         "value": 2
                     },
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 },
                 {
                     "id": "ldr_sep_loathsom",
@@ -851,7 +884,10 @@
                         "value": 1
                     },
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 },
                 {
                     "id": "ldr_sep_oom9",
@@ -872,7 +908,10 @@
                         "filter": "Droid"
                     },
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 }
             ],
             "units": [
@@ -1139,7 +1178,10 @@
                         "value": 1
                     },
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 },
                 {
                     "id": "ldr_gun_tarpals",
@@ -1159,7 +1201,10 @@
                         "value": 1
                     },
                     "tts_image": "",
-                    "tts_card_front": ""
+                    "tts_card_front": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
                 }
             ],
             "units": [
@@ -1524,5 +1569,46 @@
                 "bal_formula": "parseInt(cv) <= 5 ? 0.87 : (parseInt(cv) === 6 ? 0.81 : 0.71)"
             }
         }
+    },
+    "missions": {
+        "aggressive": [
+            {
+                "id": "msn_agg_assault",
+                "name": "Frontal Assault",
+                "desc": "Push forward into the enemy deployment zone.",
+                "setup": "",
+                "blue_victory": "",
+                "red_victory": "",
+                "scoring": "",
+                "special_rules": "",
+                "tts_card_front": "https://i.imgur.com/EuOEeWv.png"
+            }
+        ],
+        "defensive": [
+            {
+                "id": "msn_def_hold",
+                "name": "Hold the Line",
+                "desc": "Maintain control of your home objectives.",
+                "setup": "",
+                "blue_victory": "",
+                "red_victory": "",
+                "scoring": "",
+                "special_rules": "",
+                "tts_card_front": "https://i.imgur.com/EuOEeWv.png"
+            }
+        ],
+        "maneuver": [
+            {
+                "id": "msn_man_flank",
+                "name": "Flanking Maneuver",
+                "desc": "Secure the table edges by round 3.",
+                "setup": "",
+                "blue_victory": "",
+                "red_victory": "",
+                "scoring": "",
+                "special_rules": "",
+                "tts_card_front": "https://i.imgur.com/EuOEeWv.png"
+            }
+        ]
     }
 }
