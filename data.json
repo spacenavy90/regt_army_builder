@@ -1284,7 +1284,7 @@
     ],
     "definitions": {
         "Anti-Armor": {
-            "desc": "Ignores Armor X effects and inflicts a -1 penalty to the defender's Save roll (to a max of 6+).",
+            "desc": "This unit ignores Armor X effects and inflicts a -1 penalty to the defender's Save roll (to a max of 6+).",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.35 + (atk_r * 0.08) + (rng_l / 24 * 0.12)",
@@ -1292,7 +1292,7 @@
             }
         },
         "Armor 1": {
-            "desc": "Automatically save 1 non-Anti-Armor hit.",
+            "desc": "This unit automatically saves 1 non-Anti-Armor hit.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.1 + (om_save * 0.2)",
@@ -1301,7 +1301,7 @@
             }
         },
         "Armor 2": {
-            "desc": "Automatically save 2 non-Anti-Armor hits.",
+            "desc": "This unit automatically saves 2 non-Anti-Armor hits.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.5 + (om_save * 0.5)",
@@ -1310,7 +1310,7 @@
             }
         },
         "Armor 3": {
-            "desc": "Automatically save 3 non-Anti-Armor hits.",
+            "desc": "This unit automatically saves 3 non-Anti-Armor hits.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "2.0 + (om_save * 1.0)",
@@ -1319,7 +1319,7 @@
             }
         },
         "Blast": {
-            "desc": "Attacks ignores cover penalties; except for Aerial units.",
+            "desc": "This unit's attacks ignores cover penalties; except for Aerial units.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.50 + (atk_r * 0.10) + (rng_l / 12 * 0.15)",
@@ -1338,7 +1338,7 @@
             }
         },
         "Droid": {
-            "desc": "When this unit would become Shaken, you may choose to take 1 wound instead. This can result in the loss of a base.",
+            "desc": "When this unit would become Shaken, it may choose to take 1 wound instead.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.05 + ((bases * wnd) * 0.01)",
@@ -1348,7 +1348,7 @@
             }
         },
         "Fearless": {
-            "desc": "This unit gains gains +1 to Courage.",
+            "desc": "This unit gains gains +1 to it's Courage value.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.15 + (om_save * 0.05)",
@@ -1358,7 +1358,7 @@
             }
         },
         "Flak": {
-            "desc": "Attacks made with this keyword ignore Cover bonuses when targeting units with the Aerial subclass.",
+            "desc": "This unit ignores Cover bonuses when targeting units with the Aerial subclass.",
             "logic": {
                 "bal_type": "multiplier",
                 "target_pillar": "action",
@@ -1380,7 +1380,7 @@
             }
         },
         "Indirect": {
-            "desc": "May shoot at targets even if Line of Sight is blocked. Does not suffer penalty for Long Range shooting.",
+            "desc": "This unit may shoot at targets even if Line of Sight is blocked by terrain or other units.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.0 + (rng_l / 24)",
@@ -1388,7 +1388,7 @@
             }
         },
         "Ion": {
-            "desc": "Vehicle or Droid units wounded by this unit, if not already Shaken, must roll 1d6. On a 4+ this unit immediately becomes Shaken.",
+            "desc": "Vehicle or Droid units wounded by this unit, if not already Shaken, must roll 1d6. On a 3+ it immediately becomes Shaken.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.10 + (atk_r * 0.03)",
@@ -1400,7 +1400,7 @@
             }
         },
         "Jetpacks": {
-            "desc": "Ignores all terrain movement penalties and can move over enemy units.",
+            "desc": "This unit ignore all terrain movement penalties and can move over enemy units.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.10 + (pow(om_move, 1.5) * 0.15)",
@@ -1408,7 +1408,7 @@
             }
         },
         "Omnipresent": {
-            "desc": "Cannot be flanked and attacks are not limited by arc facings.",
+            "desc": "This unit cannot be flanked and cannot attacks are not limited by directional facings.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.25 + (om_save * 0.25) + ((bases * wnd) * 0.05)",
@@ -1425,7 +1425,7 @@
             }
         },
         "Shields 1": {
-            "desc": "When rolling defense dice, you may reroll 1 failed save.",
+            "desc": "When rolling defense dice, this unit may reroll 1 failed save.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.10 + (om_save * 0.12)",
@@ -1433,7 +1433,7 @@
             }
         },
         "Shields 2": {
-            "desc": "When rolling defense dice, you may reroll 2 failed saves.",
+            "desc": "When rolling defense dice, this unit may reroll 2 failed saves.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.25 + (om_save * 0.30)",
@@ -1441,7 +1441,7 @@
             }
         },
         "Shields 3": {
-            "desc": "When rolling defense dice, you may reroll 3 failed saves.",
+            "desc": "When rolling defense dice, this unit may reroll 3 failed saves.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.45 + (om_save * 0.55)",
@@ -1449,7 +1449,7 @@
             }
         },
         "Tow-Cable": {
-            "desc": "When this unit performs a Charge against a Walker unit, ignore standard close combat rules and instead roll 4 dice that hit on a 3+ and ignores Armor X. If the Walker suffers 3 or more Unsaved Hits from this attack, it is instantly destroyed. Otherwise, apply Wounds normally.",
+            "desc": "When this unit performs a Charge against a Walker unit, ignore standard close combat rules and instead roll 4 dice. This attack hits on a 3+ and has Anti-Armor. If the Walker suffers 3 or more Unsaved Hits from this attack, it is instantly destroyed. Otherwise, apply Wounds normally.",
             "logic": {
                 "bal_type": "multiplier",
                 "bal_val": 1.15,
@@ -1458,7 +1458,7 @@
             }
         },
         "Towering": {
-            "desc": "Ignores terrain/units for LoS. Opponents also ignore terrain/units when targeting this unit.",
+            "desc": "When tracing Line of Sight to or from this unit, ignore terrain and other units.",
             "logic": {
                 "bal_type": "formula",
                 "bal_formula": "1.05 + (om_range * 0.10)",
