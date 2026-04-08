@@ -56,22 +56,23 @@
                 {
                     "id": "ldr_emp_vader",
                     "name": "Darth Vader",
-                    "cost": 45,
+                    "cost": 50,
                     "restriction_text": "Must be attached to an Infantry unit.",
                     "requires_class": "Infantry",
                     "requires_subclass": null,
                     "requires_unit": null,
-                    "ability": "Attached unit gains +1 Attack die in Close Combat and becomes Fearless.",
-                    "logic": {
-                        "trigger": "on_combat_melee",
-                        "target": "attached",
-                        "effect": "modify_and_grant",
-                        "stat": "atk_melee",
-                        "value": 1,
-                        "keyword": "Fearless"
-                    },
-                    "tts_image": "",
+                    "ability": "When a friendly unit within 6\" fails its Command Roll, it may suffer 1 Wound to instead Pass that Command Roll.",
+                    "logic": [
+                        {
+                            "category": "action_econ",
+                            "potency_tier": 30,
+                            "projection_multiplier": 1.2,
+                            "frequency_multiplier": 0.6,
+                            "risk_discount": 0
+                        }
+                    ],
                     "tts_card_front": "",
+                    "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -1222,7 +1223,7 @@
             "category": "Offensive",
             "cost": 105,
             "availability": "7+",
-            "shape": "Double Card",
+            "shape": "Double Card (Wide)",
             "duration": "Instant / Next Act",
             "details": {
                 "attack_dice": 4,
@@ -1231,7 +1232,8 @@
             "modifier_keywords": [
                 "Blast"
             ],
-            "ability_text": "This is a heavy barrage."
+            "ability_text": "This is a wide heavy barrage.",
+            "tts_card_front": ""
         },
         {
             "id": "ots_mortar",
@@ -1246,7 +1248,8 @@
                 "progressive_mag": 3
             },
             "modifier_keywords": [],
-            "ability_text": "This is a light mortar attack."
+            "ability_text": "This is a light mortar attack.",
+            "tts_card_front": ""
         },
         {
             "id": "ots_orbital",
@@ -1264,7 +1267,8 @@
                 "Anti-Armor",
                 "Blast"
             ],
-            "ability_text": "This is an extreme bombardment from orbit."
+            "ability_text": "This is an extreme bombardment from orbit.",
+            "tts_card_front": ""
         },
         {
             "id": "ots_bombing",
@@ -1272,14 +1276,15 @@
             "category": "Offensive",
             "cost": 65,
             "availability": "6+",
-            "shape": "Double Card",
+            "shape": "Double Card (Long)",
             "duration": "Instant / Next Act",
             "details": {
                 "attack_dice": 4,
                 "progressive_mag": 4.5
             },
             "modifier_keywords": [],
-            "ability_text": "This is heavy bombardment from tactical bombers."
+            "ability_text": "This is long bombardment from tactical bombers.",
+            "tts_card_front": ""
         }
     ],
     "definitions": {
@@ -1379,6 +1384,17 @@
                 "bal_formula": "parseInt(cv) <= 5 ? 0.87 : (parseInt(cv) === 6 ? 0.81 : 0.71)"
             }
         },
+        "Incendiary": {
+            "desc": "Placeholder.",
+            "logic": {
+                "bal_type": "multiplier",
+                "target_pillar": "action",
+                "is_flat": false,
+                "effect": "generic",
+                "trigger": "always",
+                "bal_val": 1
+            }
+        },
         "Indirect": {
             "desc": "This unit may shoot at targets even if Line of Sight is blocked by terrain or other units.",
             "logic": {
@@ -1446,6 +1462,17 @@
                 "bal_type": "formula",
                 "bal_formula": "1.45 + (om_save * 0.55)",
                 "target_pillar": "body"
+            }
+        },
+        "Suppressive": {
+            "desc": "Placeholder.",
+            "logic": {
+                "bal_type": "multiplier",
+                "target_pillar": "action",
+                "is_flat": false,
+                "effect": "generic",
+                "trigger": "always",
+                "bal_val": 1
             }
         },
         "Tow-Cable": {

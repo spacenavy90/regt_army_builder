@@ -1,13 +1,18 @@
 class OTSArchitect {
   constructor() {
     this.availMap = { "3+": 1.0, "4+": 0.95, "5+": 0.85, "6+": 0.75, "7+": 0.6, "8+": 0.45, "9+": 0.3 };
+    this.selectedOtsId = null;
+    this.activeMetadata = {
+      tts_card_front: "",
+    };
 
     // Standard Shape Map (For Sustainment, Defensive, Utility)
     this.shapeMap = {
       "Single Base": 0.6,
       "Single Unit": 0.8,
       "Point (Standard Card)": 1.0,
-      "Double Card": 1.4,
+      "Double Card (Long)": 1.4,
+      "Double Card (Wide)": 1.4,
       'Aura (6" Radius)': 1.75,
       'Aura (8" Radius)': 2.0,
       'Aura (12" Radius)': 2.5,
@@ -20,7 +25,8 @@ class OTSArchitect {
       "Single Base": 0.8,
       "Single Unit": 0.8,
       "Point (Standard Card)": 1.0,
-      "Double Card": 1.8,
+      "Double Card (Long)": 1.8,
+      "Double Card (Wide)": 1.8,
       'Aura (6" Radius)': 2.5,
       'Aura (8" Radius)': 3.0,
       'Aura (12" Radius)': 4.0,
@@ -48,6 +54,8 @@ class OTSArchitect {
   }
 
   reset() {
+    this.activeMetadata = { tts_card_front: "" };
+
     // Global Fields
     document.getElementById("otsName").value = "New Support Request";
     document.getElementById("otsOverrideId").value = "";
@@ -308,17 +316,176 @@ class OTSArchitect {
       details: calcResult.payloadDetails,
       modifier_keywords: calcResult.activeNames,
       ability_text: abilityText,
+      tts_card_front: this.activeMetadata.tts_card_front,
     };
 
     document.getElementById("otsPreview").innerText = JSON.stringify(payload, null, 4);
+  }
+
+  openLibrary() {
+    document.getElementById("otsLibraryModal").style.display = "flex";
+    this.selectedOtsId = null;
+    document.getElementById("otsLibSearch").value = "";
+    document.getElementById("otsLibCategoryFilter").value = "All";
+    this.refreshLibraryTable();
+  }
+
+  closeLibrary() {
+    document.getElementById("otsLibraryModal").style.display = "none";
+  }
+
+  getAllOts() {
+    let otsList = [];
+    const db = dataManager.data;
+    if (!db) return otsList;
+
+    // Support cards might be stored globally or nested in factions depending on your DB structure
+    if (db.ots && Array.isArray(db.ots)) otsList = otsList.concat(db.ots);
+    if (db.support_cards && Array.isArray(db.support_cards)) otsList = otsList.concat(db.support_cards);
+
+    if (db.factions && Array.isArray(db.factions)) {
+      db.factions.forEach((f) => {
+        if (f.ots && Array.isArray(f.ots)) otsList = otsList.concat(f.ots);
+        if (f.support_cards && Array.isArray(f.support_cards)) otsList = otsList.concat(f.support_cards);
+      });
+    }
+    return otsList;
+  }
+
+  refreshLibraryTable() {
+    const search = document.getElementById("otsLibSearch").value.toLowerCase();
+    const catFilter = document.getElementById("otsLibCategoryFilter").value;
+    const tbody = document.getElementById("otsLibTableBody");
+    tbody.innerHTML = "";
+
+    const otsList = this.getAllOts();
+
+    const filtered = otsList.filter((ots) => {
+      const matchesSearch = (ots.name && ots.name.toLowerCase().includes(search)) || (ots.id && ots.id.toLowerCase().includes(search));
+      const matchesCat = catFilter === "All" || ots.category === catFilter;
+      return matchesSearch && matchesCat;
+    });
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 15px; color: var(--text-muted);">No supports found.</td></tr>`;
+      return;
+    }
+
+    filtered.forEach((ots) => {
+      const tr = document.createElement("tr");
+      tr.style.cursor = "pointer";
+      tr.onclick = () => this.selectRow(tr, ots.id);
+      tr.innerHTML = `
+        <td style="padding: 10px; border-bottom: 1px solid var(--border-light);">${ots.name}</td>
+        <td style="padding: 10px; border-bottom: 1px solid var(--border-light); color: var(--text-muted); font-size: 0.9rem;">${ots.category || "Unknown"}</td>
+        <td style="padding: 10px; border-bottom: 1px solid var(--border-light); text-align: center; color: var(--color-orange); font-weight: bold;">${ots.cost || 0}</td>
+        <td style="padding: 10px; border-bottom: 1px solid var(--border-light); color: var(--text-muted); font-size: 0.85rem;">${ots.id}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  selectRow(trElement, otsId) {
+    const rows = document.querySelectorAll("#otsLibTableBody tr");
+    rows.forEach((r) => (r.style.background = "transparent"));
+    trElement.style.background = "rgba(255, 255, 255, 0.1)"; // Standard selected highlight
+    this.selectedOtsId = otsId;
+  }
+
+  loadSelection() {
+    if (!this.selectedOtsId) {
+      alert("Please select a support card from the list first.");
+      return;
+    }
+    const otsList = this.getAllOts();
+    const selectedOts = otsList.find((o) => o.id === this.selectedOtsId);
+
+    if (selectedOts) {
+      this.loadOtsToUI(selectedOts);
+      this.closeLibrary();
+    }
+  }
+
+  loadOtsToUI(otsData) {
+    // 1. Core Data
+    document.getElementById("otsName").value = otsData.name || "Loaded Support";
+    document.getElementById("otsOverrideId").value = otsData.id || "";
+    document.getElementById("otsOverridePts").value = otsData.cost || 0;
+    document.getElementById("otsAbility").value = otsData.ability_text || "";
+
+    // 2. Selects
+    document.getElementById("otsCategory").value = otsData.category || "Offensive";
+    document.getElementById("otsAvail").value = otsData.availability || "4+";
+    document.getElementById("otsShape").value = otsData.shape || "Point (Standard Card)";
+    document.getElementById("otsDuration").value = otsData.duration || "Instant / Next Act";
+
+    // 3. Force Category Switch to show correct panel
+    this.switchCategory();
+
+    // 4. Panel-Specific Data (Checking details object)
+    if (otsData.details) {
+      if (otsData.category === "Offensive") {
+        document.getElementById("offDice").value = otsData.details.attack_dice || 3;
+      } else if (otsData.category === "Sustainment") {
+        document.getElementById("susClass").value = otsData.details.target_class || "Infantry/Emplacement";
+        document.getElementById("susWounds").value = otsData.details.wounds_restored || 0;
+        document.getElementById("susShaken").checked = !!otsData.details.clear_shaken;
+        document.getElementById("susCourage").checked = !!otsData.details.courage_resist;
+      } else if (otsData.category === "Defensive") {
+        document.getElementById("defTerrain").value = otsData.details.terrain_tier || "None";
+        document.getElementById("defEwHit").value = otsData.details.ew_hit_penalty || 0;
+        document.getElementById("defEwCv").value = otsData.details.ew_cv_penalty || 0;
+      } else if (otsData.category === "Utility") {
+        document.getElementById("utiIntelType").value = otsData.details.intel_type || "None";
+        document.getElementById("utiIntelVal").value = otsData.details.intel_value || 0;
+        document.getElementById("utiPsychCourage").value = otsData.details.courage_penalty || 0;
+        document.getElementById("utiShakenPenalty").value = otsData.details.shaken_penalty || 0;
+      }
+    }
+
+    // 5. Modifier Keywords
+    document.querySelectorAll(".ots-kw-checkbox").forEach((cb) => (cb.checked = false));
+    if (otsData.modifier_keywords && Array.isArray(otsData.modifier_keywords)) {
+      otsData.modifier_keywords.forEach((kw) => {
+        const safeId = kw.replace(/ /g, "_");
+        const cb = document.getElementById(`ots_kw_${safeId}`);
+        if (cb) cb.checked = true;
+      });
+    }
+
+    // 6. Hidden Metadata State (Card Fronts)
+    this.activeMetadata.tts_card_front = otsData.tts_card_front || "";
+
+    // 7. Recalculate and update UI
+    this.update();
   }
 
   copyJSON() {
     this.viewMode = "json";
     this.update();
     const content = document.getElementById("otsPreview").innerText;
+
+    try {
+      const payload = JSON.parse(content);
+      const db = dataManager.data;
+
+      // Ensure the global OTS array exists
+      if (!db.ots) {
+        db.ots = [];
+      }
+
+      // Remove older version if overwriting, then push the new payload
+      db.ots = db.ots.filter((o) => o.id !== payload.id);
+      db.ots.push(payload);
+
+      // Save to local session memory
+      dataManager.saveFullDB(db);
+    } catch (e) {
+      console.error("Could not save support to local DB: ", e);
+    }
+
     navigator.clipboard.writeText(content).then(() => {
-      alert("Support JSON copied!");
+      alert("Support JSON copied and saved to session library!");
     });
   }
 }

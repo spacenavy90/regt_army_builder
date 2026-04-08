@@ -1,8 +1,16 @@
 class LeaderArchitect {
   constructor() {
-    this.baseCost = 30; // The fixed "Base Tax" for taking a leader slot
+    this.baseCost = 30;
     this.viewMode = "json";
-    this.selectedLeaderId = null; // Tracks the library selection
+    this.selectedLeaderId = null;
+
+    this.activeMetadata = {
+      tts_card_front: "",
+      tts_image: "",
+      tts_model: "",
+      tts_texture: "",
+      tts_collider: "",
+    };
   }
 
   open() {
@@ -231,11 +239,12 @@ class LeaderArchitect {
       requires_unit: reqUnitValue === "" ? null : reqUnitValue,
       ability: document.getElementById("ldrAbility").value,
       logic: logicStack,
-      tts_card_front: "",
-      tts_image: "",
-      tts_model: "",
-      tts_texture: "",
-      tts_collider: "",
+
+      tts_card_front: this.activeMetadata.tts_card_front,
+      tts_image: this.activeMetadata.tts_image,
+      tts_model: this.activeMetadata.tts_model,
+      tts_texture: this.activeMetadata.tts_texture,
+      tts_collider: this.activeMetadata.tts_collider,
     };
 
     document.getElementById("ldrPreview").innerText = JSON.stringify(payload, null, 4);
@@ -364,6 +373,8 @@ class LeaderArchitect {
   clearLeader() {
     if (!confirm("Are you sure you want to clear all inputs? This will reset the current leader build.")) return;
 
+    this.activeMetadata = { tts_card_front: "", tts_image: "", tts_model: "", tts_texture: "", tts_collider: "" };
+
     // Reset identity and basic stats
     document.getElementById("ldrName").value = "New Leader";
     document.getElementById("ldrOverrideId").value = "";
@@ -388,6 +399,14 @@ class LeaderArchitect {
   }
 
   loadLeaderToUI(leaderData) {
+    this.activeMetadata = {
+      tts_card_front: leaderData.tts_card_front || "",
+      tts_image: leaderData.tts_image || "",
+      tts_model: leaderData.tts_model || "",
+      tts_texture: leaderData.tts_texture || "",
+      tts_collider: leaderData.tts_collider || "",
+    };
+
     document.getElementById("ldrName").value = leaderData.name;
     document.getElementById("ldrOverrideId").value = leaderData.id || "";
     document.getElementById("ldrOverridePts").value = leaderData.cost || 0;

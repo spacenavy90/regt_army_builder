@@ -191,11 +191,9 @@
               <div class="form-col"><label>Keyword Name</label><input type="text" id="kwName" value="NewKeyword" /></div>
               <div class="form-col"><label>Effect Hook</label><input type="text" id="kwEffect" value="generic" /></div>
             </div>
-
             <div class="form-section">
               <div class="form-row"><label>Description</label><input type="text" id="kwDesc" value="Enter rule text here..." /></div>
             </div>
-
             <div class="form-section grid-2">
               <div class="form-col">
                 <label>Target Pillar</label>
@@ -214,7 +212,6 @@
                 </select>
               </div>
             </div>
-
             <div class="form-section">
               <div class="form-row">
                 <label>Trigger Hook</label>
@@ -227,25 +224,21 @@
                 </select>
               </div>
             </div>
-
             <div class="form-section">
               <div class="checkbox-row">
                 <input type="checkbox" id="kwIsFlat" />
                 <label for="kwIsFlat">Treat as Flat Addition (is_flat)</label>
               </div>
             </div>
-
             <div class="form-section">
               <div class="form-row"><label>Value/Formula</label><input type="text" id="kwValue" value="1.0" /></div>
               <p class="helper-text">Variables: bases, wnd, mv, mv_min, rng_s, rng_l, atk_r, atk_m, om_save, om_move, om_range</p>
             </div>
-
             <div class="tool-frame" style="margin-top: auto">
               <button onclick="architect.updatePreview()" class="btn-tool btn-slate">PREVIEW JSON</button>
               <button onclick="architect.copyToClipboard()" class="btn-tool btn-blue">COPY JSON TO CLIPBOARD</button>
             </div>
           </div>
-
           <div class="modal-right">
             <h3 class="section-label" style="margin-top: 0">JSON PREVIEW</h3>
             <pre id="kwPreview" class="code-preview"></pre>
@@ -260,7 +253,6 @@
           <h2>COMBAT SIMULATOR</h2>
           <span class="close-btn" onclick="simulator.close()">&times;</span>
         </div>
-
         <div class="split-layout">
           <div class="modal-left">
             <div class="form-section">
@@ -273,17 +265,14 @@
                 <select id="simUnitB"></select>
               </div>
             </div>
-
             <div class="form-section">
               <div class="form-col">
                 <label>Range (Inches)</label>
                 <input type="number" id="simRange" value="8" min="1" max="36" />
               </div>
             </div>
-
             <button onclick="simulator.run()" class="btn-main btn-red" style="margin-top: auto">RUN 1,000 ITERATIONS</button>
           </div>
-
           <div class="modal-right">
             <h3 class="section-label" style="margin-top: 0">SIMULATION RESULTS</h3>
             <div class="terminal-wrapper">
@@ -359,7 +348,8 @@
                   <option value="Single Base">Single Base</option>
                   <option value="Single Unit">Single Unit</option>
                   <option value="Point (Standard Card)" selected>Point (Card)</option>
-                  <option value="Double Card">Double Card</option>
+                  <option value="Double Card (Long)">Double Card (Long)</option>
+                  <option value="Double Card (Wide)">Double Card (Wide)</option>
                   <option value='Aura (6" Radius)'>Aura (6")</option>
                   <option value='Aura (8" Radius)'>Aura (8")</option>
                   <option value='Aura (12" Radius)'>Aura (12")</option>
@@ -422,8 +412,8 @@
               <div id="panelUtility" style="display: none">
                 <div class="grid-2">
                   <div class="form-col">
-                    <label>Intel Type</label
-                    ><select id="utiIntelType" onchange="otsArchitect.update()">
+                    <label>Intel Type</label>
+                    <select id="utiIntelType" onchange="otsArchitect.update()">
                       <option value="None" selected>None</option>
                       <option value="Reveal Support">Reveal Support</option>
                       <option value="Target Uplink">Target Uplink</option>
@@ -447,9 +437,10 @@
               <button onclick="otsArchitect.generate()" class="btn-main btn-green">GENERATE POINT COST</button>
               <div class="tool-frame">
                 <button onclick="otsArchitect.preview()" class="btn-tool btn-slate">PREVIEW JSON</button>
+                <button onclick="otsArchitect.openLibrary()" class="btn-tool btn-blue">SUPPORT LIBRARY</button>
                 <button onclick="otsArchitect.copyJSON()" class="btn-tool btn-orange">COPY JSON</button>
-                <button onclick="otsArchitect.reset()" class="btn-tool btn-red" style="background: var(--color-red); color: white">RESET</button>
               </div>
+              <button onclick="otsArchitect.reset()" class="btn-main btn-red">RESET SUPPORT</button>
             </div>
           </div>
 
@@ -460,6 +451,45 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div id="otsLibraryModal" class="modal" style="display: none">
+      <div class="modal-content" style="width: 850px">
+        <div class="modal-header">
+          <h2>SUPPORT LIBRARY</h2>
+          <span class="close-btn" onclick="otsArchitect.closeLibrary()">&times;</span>
+        </div>
+        <div class="filter-bar">
+          <div class="form-col" style="flex: 2">
+            <label>Search:</label>
+            <input type="text" id="otsLibSearch" oninput="otsArchitect.refreshLibraryTable()" placeholder="Type support name or ID..." />
+          </div>
+          <div class="form-col" style="flex: 1">
+            <label>Category Filter:</label>
+            <select id="otsLibCategoryFilter" onchange="otsArchitect.refreshLibraryTable()">
+              <option value="All">All Categories</option>
+              <option value="Offensive">Offensive</option>
+              <option value="Sustainment">Sustainment</option>
+              <option value="Defensive">Defensive</option>
+              <option value="Utility">Utility</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-scroll" style="height: 400px">
+          <table id="otsLibTable">
+            <thead>
+              <tr>
+                <th>Support Name</th>
+                <th>Category</th>
+                <th style="text-align: center">Points</th>
+                <th>ID</th>
+              </tr>
+            </thead>
+            <tbody id="otsLibTableBody"></tbody>
+          </table>
+        </div>
+        <button onclick="otsArchitect.loadSelection()" class="btn-main btn-blue" style="margin-top: 15px">LOAD SELECTED SUPPORT</button>
       </div>
     </div>
 
@@ -481,8 +511,8 @@
                 <label>Override ID</label><input type="text" id="ldrOverrideId" placeholder="e.g. ldr_custom_id" oninput="leaderArchitect.update()" />
               </div>
               <div class="form-row">
-                <label>Faction</label
-                ><select id="ldrFaction" onchange="leaderArchitect.update()"></select>
+                <label>Faction</label>
+                <select id="ldrFaction" onchange="leaderArchitect.update()"></select>
               </div>
               <div class="form-row"><label>Override Pts</label><input type="number" id="ldrOverridePts" value="0" oninput="leaderArchitect.update()" /></div>
               <div class="form-row">
