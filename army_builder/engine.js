@@ -47,7 +47,7 @@ function setupEventListeners() {
   document.getElementById("btnCopyDetailed").addEventListener("click", () => copyToClipboard(generateDetailedText(), "btnCopyDetailed"));
   document.getElementById("btnCopyCode").addEventListener("click", () => {
     const cap = document.getElementById("armyCap").value;
-    const listState = { f: selectedFactionId, c: cap, l: currentList };
+    const listState = { f: selectedFactionId, c: cap, l: currentList, m: currentMissions };
     copyToClipboard(btoa(JSON.stringify(listState)), "btnCopyCode");
   });
   document.getElementById("btnCopyTTS").addEventListener("click", () => copyToClipboard(generateTTSJSON(), "btnCopyTTS"));
@@ -524,7 +524,7 @@ function generateSimpleText() {
   return text;
 }
 
-function generateDetailedText() {
+function generateDetailedText(showCode = true) {
   const cap = parseInt(document.getElementById("armyCap").value) || 0;
   const faction = REGIMENT_DATA.factions.find((f) => f.id === selectedFactionId);
   let text = `Faction: ${faction.name}\nCommand Value: ${faction.command_value}\nPoints Cap: ${cap}\n\n`;
@@ -598,10 +598,12 @@ function generateDetailedText() {
   const bid = cap - total > 0 ? cap - total : 0;
   text += `TOTAL SPENT: ${total} | BID: ${bid}\n`;
 
-  // Generate and append the share code
-  const listState = { f: selectedFactionId, c: cap, l: currentList };
-  const shareCode = btoa(JSON.stringify(listState));
-  text += `\nSHARE CODE: ${shareCode}\n`;
+  // Wrap the share code block in this IF statement
+  if (showCode) {
+    const listState = { f: selectedFactionId, c: cap, l: currentList, m: currentMissions };
+    const shareCode = btoa(JSON.stringify(listState));
+    text += `\nSHARE CODE: ${shareCode}\n`;
+  }
 
   return text;
 }
@@ -703,7 +705,6 @@ function generateTTSJSON() {
     }
   }
 
-  // Process Missions for TTS
   ["aggressive", "defensive", "maneuver"].forEach((cat) => {
     const msnId = currentMissions[cat];
     if (msnId && REGIMENT_DATA.missions[cat]) {
@@ -713,6 +714,10 @@ function generateTTSJSON() {
           category: cat,
           id: msn.id,
           name: msn.name,
+          setup: msn.setup,
+          scoring: msn.scoring,
+          victory: msn.victory,
+          special_rules: msn.special_rules,
           tts_card_front: msn.tts_card_front,
         });
       }
@@ -742,12 +747,14 @@ function loadFromShareCode(base64Code) {
     const listState = JSON.parse(jsonStr);
 
     document.getElementById("armyCap").value = listState.c || 1000;
-    currentMissions = listState.m || { aggressive: null, defensive: null, maneuver: null }; // Load missions
+
+    currentMissions = listState.m || { aggressive: null, defensive: null, maneuver: null };
 
     loadBuilderView(listState.f, listState.l);
     document.getElementById("shareCodeInput").value = "";
   } catch (e) {
     alert("Invalid share code. Please check the code and try again.");
+    console.error("Failed to parse share code:", e);
   }
 }
 
@@ -785,7 +792,8 @@ function loadState() {
 }
 
 function printDetailedList() {
-  const text = generateDetailedText();
+  const text = generateDetailedText(false);
+
   const printWindow = window.open("", "", "height=800,width=800");
 
   printWindow.document.write("<html><head><title>Regiment Army Manifest</title>");
@@ -797,7 +805,6 @@ function printDetailedList() {
   printWindow.document.close();
   printWindow.focus();
 
-  // Slight delay ensures the DOM is fully written before invoking the print dialog
   setTimeout(() => {
     printWindow.print();
     printWindow.close();

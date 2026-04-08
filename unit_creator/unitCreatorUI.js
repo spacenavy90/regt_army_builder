@@ -8,6 +8,16 @@ class UnitCreatorUI {
       "Gungan Grand Army (6+)": "6+",
     };
 
+    this.activeMetadata = {
+      min_pct: 0,
+      max_pct: 100,
+      tts_height: 1.0,
+      tts_card_front: "",
+      tts_model: "",
+      tts_texture: "",
+      tts_collider: "",
+    };
+
     this.init();
   }
 
@@ -77,6 +87,7 @@ class UnitCreatorUI {
       rng_s: parseInt(document.getElementById("rng_s").value) || 0,
       rng_l: parseInt(document.getElementById("rng_l").value) || 0,
       atk_m: parseInt(document.getElementById("atk_m").value) || 0,
+      ...this.activeMetadata,
     };
   }
 
@@ -101,7 +112,6 @@ class UnitCreatorUI {
     const factionName = document.getElementById("factionSelect").value;
     const overridePts = parseInt(document.getElementById("override").value) || 0;
     const finalPts = overridePts > 0 ? overridePts : calculatedCost;
-
     const overrideId = document.getElementById("unitOverrideId").value.trim();
 
     const prefixMap = {
@@ -114,7 +124,6 @@ class UnitCreatorUI {
 
     const baseFaction = factionName.split(" (")[0];
     const prefix = prefixMap[baseFaction] || "unk";
-
     const finalId = overrideId || `${prefix}_${stats.name.toLowerCase().replace(/ /g, "_")}`;
 
     return {
@@ -122,8 +131,8 @@ class UnitCreatorUI {
       name: stats.name,
       unit_size: stats.bases,
       cost: finalPts,
-      min_pct: 0,
-      max_pct: 100,
+      min_pct: stats.min_pct,
+      max_pct: stats.max_pct,
       class: stats.type,
       subclass: stats.sub === "null" ? null : stats.sub,
       courage: stats.courage,
@@ -136,10 +145,11 @@ class UnitCreatorUI {
       wnd: stats.wnd,
       sv: stats.sv,
       keywords: Array.from(document.querySelectorAll(".kw-checkbox:checked")).map((cb) => cb.value),
-      tts_height: 1.0,
-      tts_model: "",
-      tts_texture: "",
-      tts_collider: "",
+      tts_height: stats.tts_height,
+      tts_card_front: stats.tts_card_front,
+      tts_model: stats.tts_model,
+      tts_texture: stats.tts_texture,
+      tts_collider: stats.tts_collider,
     };
   }
 
@@ -194,6 +204,17 @@ class UnitCreatorUI {
   }
 
   loadUnitToUI(unitData, factionName) {
+    this.activeMetadata = {
+      min_pct: unitData.min_pct !== undefined ? unitData.min_pct : 0,
+      max_pct: unitData.max_pct !== undefined ? unitData.max_pct : 100,
+      tts_height: Number(parseFloat(unitData.tts_height || 1.0).toFixed(1)),
+      tts_card_front: unitData.tts_card_front || "",
+      tts_model: unitData.tts_model || "",
+      tts_texture: unitData.tts_texture || "",
+      tts_collider: unitData.tts_collider || "",
+    };
+
+    // 2. Load the visible stats into the form
     document.getElementById("unitName").value = unitData.name;
     document.getElementById("unitOverrideId").value = unitData.id || "";
 
