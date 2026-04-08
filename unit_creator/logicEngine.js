@@ -16,9 +16,11 @@ const logicEngine = {
       // TIERED MOVEMENT & MINIMUM MOVE
       const rawMoveMult = (stats.mv + 6) / 12;
       let speedTax = 1.0;
-      if (stats.mv > 12) speedTax = 2.0;
-      else if (stats.mv > 10) speedTax = 1.5;
-      else if (stats.mv > 8) speedTax = 1.2;
+      if (stats.mv > 11) {
+        // The exponent increases by 0.25 for every inch over 11"
+        const dynamicExponent = 1 + (stats.mv - 11) * 0.25;
+        speedTax = Math.pow(stats.mv / 11, dynamicExponent);
+      }
 
       const mvMin = stats.mv_min || 0;
       const minMvDiscount = 1.0 - mvMin / 30;
