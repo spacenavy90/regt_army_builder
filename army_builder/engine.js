@@ -529,10 +529,11 @@ function generateDetailedText(showCode = true) {
     } else if (ots && qty > 0) {
       const cost = qty * ots.cost;
       otsText += `${qty}x ${ots.name} [${ots.cost} ea | ${cost} pts]\n`;
-      otsText += `    Availability: ${ots.availability} | Shape: ${ots.shape}\n`;
+      otsText += `    Avail: ${ots.availability} | Shape: ${ots.shape}\n`;
 
       if (ots.details && ots.details.attack_dice) {
-        otsText += `    Attack Dice: ${ots.details.attack_dice}\n`;
+        const toHit = ots.details.to_hit ? ` | Attack To-Hit: ${ots.details.to_hit}` : "";
+        otsText += `    Attack Dice: ${ots.details.attack_dice}${toHit}\n`;
       }
       otsText += `    Ability: ${ots.ability_text}\n`;
 
@@ -964,7 +965,8 @@ function renderOtsModalList() {
 
     let detailsString = "";
     if (o.details && o.details.attack_dice) {
-      detailsString = ` | Attack Dice: ${o.details.attack_dice}`;
+      const toHit = o.details.to_hit ? ` | Attack To-Hit: ${o.details.to_hit}` : "";
+      detailsString = ` | Attack Dice: ${o.details.attack_dice}${toHit}`;
     }
 
     list.innerHTML += `
@@ -978,7 +980,7 @@ function renderOtsModalList() {
               </div>
               
               <div class="unit-stats" style="margin-bottom: 8px;">
-                  Availability: ${o.availability} | Shape: ${o.shape}${detailsString}
+                  Avail: ${o.availability} | Shape: ${o.shape}${detailsString}
               </div>
               
               <div class="unit-keywords">${o.modifier_keywords && o.modifier_keywords.length > 0 ? o.modifier_keywords.join(", ") : ""}</div>

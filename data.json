@@ -1121,12 +1121,13 @@
             "duration": "Instant / Next Act",
             "details": {
                 "attack_dice": 4,
+                "to_hit": "4+",
                 "progressive_mag": 4.5
             },
             "modifier_keywords": [
                 "Blast"
             ],
-            "ability_text": "This is a wide heavy barrage.",
+            "ability_text": "Place a wide double card template. Roll 4 attack dice against each unit under the template. This attack has a base To-Hit of 4+ and the Blast keyword.",
             "tts_card_front": ""
         },
         {
@@ -1139,10 +1140,11 @@
             "duration": "Instant / Next Act",
             "details": {
                 "attack_dice": 3,
+                "to_hit": "4+",
                 "progressive_mag": 3
             },
             "modifier_keywords": [],
-            "ability_text": "This is a light mortar attack.",
+            "ability_text": "Target 1 enemy unit and roll 3 attack dice against it. This attack has a base To-Hit of 4+ and is subject to standard Cover penalties.",
             "tts_card_front": ""
         },
         {
@@ -1155,13 +1157,14 @@
             "duration": "Instant / Next Act",
             "details": {
                 "attack_dice": 5,
+                "to_hit": "5+",
                 "progressive_mag": 6
             },
             "modifier_keywords": [
                 "Anti-Armor",
                 "Blast"
             ],
-            "ability_text": "This is an extreme bombardment from orbit.",
+            "ability_text": "Place a standard card template. Roll 5 attack dice against each unit under the template. This attack has a base To-Hit of 5+ along with the Blast and Anti-Armor keywords.",
             "tts_card_front": ""
         },
         {
@@ -1174,10 +1177,11 @@
             "duration": "Instant / Next Act",
             "details": {
                 "attack_dice": 4,
+                "to_hit": "4+",
                 "progressive_mag": 4.5
             },
             "modifier_keywords": [],
-            "ability_text": "This is long bombardment from tactical bombers.",
+            "ability_text": "Place a long double card template. Roll 4 attack dice against each unit under the template. This attack has a base To-Hit of 4+ and is subject to standard Cover penalties.",
             "tts_card_front": ""
         },
         {

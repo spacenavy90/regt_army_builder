@@ -70,6 +70,7 @@ class OTSArchitect {
 
     // Offensive Panel
     document.getElementById("offDice").value = "3";
+    document.getElementById("offToHit").value = "4+";
 
     // Sustainment Panel
     document.getElementById("susClass").value = "Infantry/Emplacement";
@@ -151,6 +152,7 @@ class OTSArchitect {
     // --- 1. CORE PAYLOAD MAGNITUDE ---
     if (category === "Offensive") {
       const rawDice = parseInt(document.getElementById("offDice").value) || 0;
+      const toHit = document.getElementById("offToHit").value;
 
       // Progressive Overwhelming Fire Logic
       if (rawDice <= 3) {
@@ -160,7 +162,8 @@ class OTSArchitect {
         baseMag = 3.0 + (rawDice - 3) * 1.5;
         payloadLog = `   - Attack Dice: ${rawDice} (Progressive Mag: 3 + ${(rawDice - 3) * 1.5} = ${baseMag.toFixed(2)})\n`;
       }
-      payloadDetails = { attack_dice: rawDice, progressive_mag: baseMag };
+      payloadLog += `   - To-Hit: ${toHit} (Cost agnostic)\n`;
+      payloadDetails = { attack_dice: rawDice, to_hit: toHit, progressive_mag: baseMag };
     } else if (category === "Sustainment") {
       const wnds = parseInt(document.getElementById("susWounds").value) || 0;
       const shaken = document.getElementById("susShaken").checked ? 2 : 0;
@@ -426,6 +429,7 @@ class OTSArchitect {
     if (otsData.details) {
       if (otsData.category === "Offensive") {
         document.getElementById("offDice").value = otsData.details.attack_dice || 3;
+        document.getElementById("offToHit").value = otsData.details.to_hit || "4+";
       } else if (otsData.category === "Sustainment") {
         document.getElementById("susClass").value = otsData.details.target_class || "Infantry/Emplacement";
         document.getElementById("susWounds").value = otsData.details.wounds_restored || 0;
