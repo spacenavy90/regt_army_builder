@@ -7,56 +7,9 @@
             "command_value": "6+",
             "leaders": [
                 {
-                    "id": "ldr_emp_tarkin",
-                    "name": "Grand Moff Tarkin",
-                    "cost": 30,
-                    "restriction_text": "None.",
-                    "requires_class": null,
-                    "requires_subclass": null,
-                    "requires_unit": null,
-                    "ability": "Any friendly unit within 12\" of Tarkin gains a +1 bonus to their Command Roll.",
-                    "logic": {
-                        "trigger": "on_command",
-                        "target": "aura",
-                        "radius": 12,
-                        "effect": "modify",
-                        "stat": "cv",
-                        "value": 1
-                    },
-                    "tts_image": "",
-                    "tts_card_front": "",
-                    "tts_model": "",
-                    "tts_texture": "",
-                    "tts_collider": ""
-                },
-                {
-                    "id": "ldr_emp_thrawn",
-                    "name": "Grand Admiral Thrawn",
-                    "cost": 75,
-                    "restriction_text": "Must attach to Death Troopers.",
-                    "requires_class": null,
-                    "requires_subclass": null,
-                    "requires_unit": "emp_deatht",
-                    "ability": "At the start of the turn, before the Draw Step, randomly draw 3 initiative tokens from the bag and place them on this card. During the Draw Step, when you would normally draw a token, you may instead play one token from this card. If the initiative bag is empty players must choose a token from this card.",
-                    "logic": [
-                        {
-                            "category": "meta_game",
-                            "potency_tier": 40,
-                            "projection_multiplier": 2,
-                            "frequency_multiplier": 0.8,
-                            "risk_discount": 5
-                        }
-                    ],
-                    "tts_image": "",
-                    "tts_card_front": "",
-                    "tts_model": "",
-                    "tts_texture": "",
-                    "tts_collider": ""
-                },
-                {
                     "id": "ldr_emp_vader",
                     "name": "Darth Vader",
-                    "cost": 50,
+                    "cost": 45,
                     "restriction_text": "Must be attached to an Infantry unit.",
                     "requires_class": "Infantry",
                     "requires_subclass": null,
@@ -68,7 +21,7 @@
                             "potency_tier": 30,
                             "projection_multiplier": 1.2,
                             "frequency_multiplier": 0.6,
-                            "risk_discount": 0
+                            "risk_discount": 5
                         }
                     ],
                     "tts_card_front": "",
@@ -80,22 +33,23 @@
                 {
                     "id": "ldr_emp_veers",
                     "name": "General Veers",
-                    "cost": 40,
+                    "cost": 55,
                     "restriction_text": "Must be attached to a Walker unit.",
                     "requires_class": null,
                     "requires_subclass": "Walker",
                     "requires_unit": null,
-                    "ability": "Any friendly unit within 24\" of General Veers gains a +1 bonus to their Command Roll.",
-                    "logic": {
-                        "trigger": "on_command",
-                        "target": "aura",
-                        "radius": 24,
-                        "effect": "modify",
-                        "stat": "cv",
-                        "value": 1
-                    },
-                    "tts_image": "",
+                    "ability": "The attached unit adds 1 attack dice to its ranged attacks and may pivot once during its activation without taking a move action.",
+                    "logic": [
+                        {
+                            "category": "stat_override",
+                            "potency_tier": 30,
+                            "projection_multiplier": 1,
+                            "frequency_multiplier": 0.9,
+                            "risk_discount": 0
+                        }
+                    ],
                     "tts_card_front": "",
+                    "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -300,66 +254,46 @@
                     "id": "ldr_reb_leia",
                     "name": "Leia Organa",
                     "cost": 75,
-                    "restriction_text": "None.",
+                    "restriction_text": "No attachment restrictions.",
                     "requires_class": null,
                     "requires_subclass": null,
                     "requires_unit": null,
-                    "ability": "Friendly units within 6\" may Regroup as a Simple action.",
+                    "ability": "Friendly units within 8\" of the attached unit may perform the Rally action for free (0 AP).",
                     "logic": [
                         {
-                            "category": "action_econ",
+                            "category": "status_morale",
                             "potency_tier": 30,
                             "projection_multiplier": 1.5,
                             "frequency_multiplier": 1,
                             "risk_discount": 0
                         }
                     ],
-                    "tts_image": "",
                     "tts_card_front": "",
+                    "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
                 },
                 {
-                    "id": "ldr_reb_luke",
-                    "name": "Luke Skywalker",
-                    "cost": 30,
+                    "id": "ldr_reb_rieekan",
+                    "name": "General Rieekan",
+                    "cost": 65,
                     "restriction_text": "None.",
                     "requires_class": null,
                     "requires_subclass": null,
                     "requires_unit": null,
-                    "ability": "Attached unit gains +1 Attack die in Close Combat and +1 to their Save value.",
-                    "logic": {
-                        "trigger": "passive",
-                        "target": "attached",
-                        "effect": "modify_stats",
-                        "atk_melee": 1,
-                        "sv": 1
-                    },
-                    "tts_image": "",
+                    "ability": "Once per game, when any unit activates a Support Card, the availability roll automatically passes.",
+                    "logic": [
+                        {
+                            "category": "stat_override",
+                            "potency_tier": 20,
+                            "projection_multiplier": 2,
+                            "frequency_multiplier": 0.9,
+                            "risk_discount": 0
+                        }
+                    ],
                     "tts_card_front": "",
-                    "tts_model": "",
-                    "tts_texture": "",
-                    "tts_collider": ""
-                },
-                {
-                    "id": "ldr_reb_wedge",
-                    "name": "Wedge Antilles",
-                    "cost": 30,
-                    "restriction_text": "Must be attached to an Aerial Vehicle unit.",
-                    "requires_class": "Vehicle",
-                    "requires_subclass": "Aerial",
-                    "requires_unit": null,
-                    "ability": "When a Snowspeeder unit attempts a Tow-Cable attack, you may force a single die reroll.",
-                    "logic": {
-                        "trigger": "on_attack_modifier",
-                        "target": "attached",
-                        "effect": "reroll_fixed",
-                        "condition": "tow_cable_attack",
-                        "value": 1
-                    },
                     "tts_image": "",
-                    "tts_card_front": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -564,56 +498,25 @@
             "command_value": "5+",
             "leaders": [
                 {
-                    "id": "ldr_rep_anakin",
-                    "name": "Anakin Skywalker",
-                    "cost": 60,
-                    "restriction_text": "Must be attached to an Infantry unit.",
-                    "requires_class": "Infantry",
+                    "id": "ldr_rep_kenobi",
+                    "name": "Obi-Wan Kenobi",
+                    "cost": 75,
+                    "restriction_text": "No attachment restrictions.",
+                    "requires_class": null,
                     "requires_subclass": null,
                     "requires_unit": null,
-                    "ability": "Attached unit may add +2 Attack dice in Close Combat.",
+                    "ability": "Friendly units within 8\" of the attached unit gain Shields 1, or +1 to Shields X if they already have the keyword.",
                     "logic": [
                         {
                             "category": "stat_override",
                             "potency_tier": 30,
-                            "projection_multiplier": 1,
+                            "projection_multiplier": 1.5,
                             "frequency_multiplier": 1,
                             "risk_discount": 0
                         }
                     ],
-                    "tts_image": "",
                     "tts_card_front": "",
-                    "tts_model": "",
-                    "tts_texture": "",
-                    "tts_collider": ""
-                },
-                {
-                    "id": "ldr_rep_kenobi",
-                    "name": "Obi-Wan Kenobi",
-                    "cost": 60,
-                    "restriction_text": "Must be attached to an Infantry unit.",
-                    "requires_class": "Infantry",
-                    "requires_subclass": null,
-                    "requires_unit": null,
-                    "ability": "Attached unit gains +1 bonus to saves (max 3+). Each natural 6 on melee saves inflicts 1 hit back.",
-                    "logic": [
-                        {
-                            "category": "casualty_attrition",
-                            "potency_tier": 20,
-                            "projection_multiplier": 1,
-                            "frequency_multiplier": 0.6,
-                            "risk_discount": 0
-                        },
-                        {
-                            "category": "stat_override",
-                            "potency_tier": 10,
-                            "projection_multiplier": 1,
-                            "frequency_multiplier": 1,
-                            "risk_discount": 0
-                        }
-                    ],
                     "tts_image": "",
-                    "tts_card_front": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -621,21 +524,23 @@
                 {
                     "id": "ldr_rep_rex",
                     "name": "Captain Rex",
-                    "cost": 30,
+                    "cost": 55,
                     "restriction_text": "Must be attached to an Infantry unit.",
                     "requires_class": "Infantry",
                     "requires_subclass": null,
                     "requires_unit": null,
-                    "ability": "The attached unit may perform an Attack as a simple action even if it failed its Command Roll.",
-                    "logic": {
-                        "trigger": "after_failed_command",
-                        "target": "attached",
-                        "effect": "action_grant",
-                        "type": "attack",
-                        "cost": "simple"
-                    },
-                    "tts_image": "",
+                    "ability": "The attached unit does not receive a Dash Token when performing the Dash action.",
+                    "logic": [
+                        {
+                            "category": "movement_maneuver",
+                            "potency_tier": 30,
+                            "projection_multiplier": 1,
+                            "frequency_multiplier": 0.9,
+                            "risk_discount": 0
+                        }
+                    ],
                     "tts_card_front": "",
+                    "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -818,70 +723,49 @@
             "command_value": "7+",
             "leaders": [
                 {
+                    "id": "ldr_sep_tj55",
+                    "name": " TJ-55",
+                    "cost": 75,
+                    "restriction_text": "No attachment restrictions.",
+                    "requires_class": null,
+                    "requires_subclass": null,
+                    "requires_unit": null,
+                    "ability": "Friendly units within 8\" of this leader may add +1 to their Command Roll result if they are within 4\" of at least one other friendly unit.",
+                    "logic": [
+                        {
+                            "category": "action_econ",
+                            "potency_tier": 30,
+                            "projection_multiplier": 1.5,
+                            "frequency_multiplier": 1,
+                            "risk_discount": 0
+                        }
+                    ],
+                    "tts_card_front": "",
+                    "tts_image": "",
+                    "tts_model": "",
+                    "tts_texture": "",
+                    "tts_collider": ""
+                },
+                {
                     "id": "ldr_sep_grievous",
                     "name": "General Grievous",
-                    "cost": 30,
-                    "restriction_text": "None.",
-                    "requires_class": null,
+                    "cost": 80,
+                    "restriction_text": "Must be attached to an Infantry unit.",
+                    "requires_class": "Infantry",
                     "requires_subclass": null,
                     "requires_unit": null,
-                    "ability": "Attached unit gains +2 Attack dice in Close Combat.",
-                    "logic": {
-                        "trigger": "on_combat_melee",
-                        "target": "attached",
-                        "effect": "modify",
-                        "stat": "atk_melee",
-                        "value": 2
-                    },
-                    "tts_image": "",
+                    "ability": "Enemy units within 12\" of Grievous subtract 1 from their Courage value (minimum 1)",
+                    "logic": [
+                        {
+                            "category": "enemy_disruption",
+                            "potency_tier": 30,
+                            "projection_multiplier": 1.8,
+                            "frequency_multiplier": 1,
+                            "risk_discount": 0
+                        }
+                    ],
                     "tts_card_front": "",
-                    "tts_model": "",
-                    "tts_texture": "",
-                    "tts_collider": ""
-                },
-                {
-                    "id": "ldr_sep_loathsom",
-                    "name": "General Loathsom",
-                    "cost": 30,
-                    "restriction_text": "None.",
-                    "requires_class": null,
-                    "requires_subclass": null,
-                    "requires_unit": null,
-                    "ability": "Any friendly unit within 12\" of General Loathsom gains a +1 bonus to their Command Roll.",
-                    "logic": {
-                        "trigger": "on_command",
-                        "target": "aura",
-                        "radius": 12,
-                        "effect": "modify",
-                        "stat": "cv",
-                        "value": 1
-                    },
                     "tts_image": "",
-                    "tts_card_front": "",
-                    "tts_model": "",
-                    "tts_texture": "",
-                    "tts_collider": ""
-                },
-                {
-                    "id": "ldr_sep_oom9",
-                    "name": "OOM-9",
-                    "cost": 30,
-                    "restriction_text": "Must be attached to a Hover Vehicle unit.",
-                    "requires_class": "Vehicle",
-                    "requires_subclass": "Hover",
-                    "requires_unit": null,
-                    "ability": "Units with the Droid keyword within 12\" gain a +1 bonus to their Command rolls.",
-                    "logic": {
-                        "trigger": "on_command",
-                        "target": "aura",
-                        "radius": 12,
-                        "effect": "modify",
-                        "stat": "cv",
-                        "value": 1,
-                        "filter": "Droid"
-                    },
-                    "tts_image": "",
-                    "tts_card_front": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -1060,22 +944,24 @@
             "leaders": [
                 {
                     "id": "ldr_gun_binks",
-                    "name": "General Binks",
-                    "cost": 30,
+                    "name": "Jar-Jar Binks",
+                    "cost": 45,
                     "restriction_text": "Must be attached to an Infantry unit.",
                     "requires_class": "Infantry",
                     "requires_subclass": null,
                     "requires_unit": null,
                     "ability": "When attacking with this unit, decrease the save value of the defender by 1.",
-                    "logic": {
-                        "trigger": "on_attack_modifier",
-                        "target": "defender",
-                        "effect": "modify",
-                        "stat": "sv",
-                        "value": 1
-                    },
-                    "tts_image": "",
+                    "logic": [
+                        {
+                            "category": "enemy_disruption",
+                            "potency_tier": 20,
+                            "projection_multiplier": 1,
+                            "frequency_multiplier": 0.9,
+                            "risk_discount": 5
+                        }
+                    ],
                     "tts_card_front": "",
+                    "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -1083,22 +969,23 @@
                 {
                     "id": "ldr_gun_tarpals",
                     "name": "Captain Tarpals",
-                    "cost": 30,
-                    "restriction_text": "Must be attached to a Ground Vehicle unit.",
+                    "cost": 60,
+                    "restriction_text": "Must be attached to a Kaadu Cavalry unit.",
                     "requires_class": "Vehicle",
                     "requires_subclass": "Ground",
-                    "requires_unit": null,
-                    "ability": "Any friendly unit within 12\" of Captain Tarpals gains a +1 bonus to their Command Rolls.",
-                    "logic": {
-                        "trigger": "on_command",
-                        "target": "aura",
-                        "radius": 12,
-                        "effect": "modify",
-                        "stat": "cv",
-                        "value": 1
-                    },
-                    "tts_image": "",
+                    "requires_unit": "gun_kaadu",
+                    "ability": "Friendly Kaadu Cavalry units within 12\" gain a 4\" bonus to their Movement when performing a Charge action.",
+                    "logic": [
+                        {
+                            "category": "movement_maneuver",
+                            "potency_tier": 20,
+                            "projection_multiplier": 1.8,
+                            "frequency_multiplier": 1,
+                            "risk_discount": 0
+                        }
+                    ],
                     "tts_card_front": "",
+                    "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -1107,27 +994,29 @@
             "units": [
                 {
                     "id": "gun_catapult",
-                    "name": "Catapult",
+                    "name": "Gungan Catapult",
                     "unit_size": 1,
-                    "cost": 150,
+                    "cost": 105,
                     "min_pct": 0,
-                    "max_pct": 25,
+                    "max_pct": 32,
                     "class": "Vehicle",
                     "subclass": "Hover",
-                    "courage": 3,
-                    "mv": 0,
+                    "courage": 4,
+                    "mv": 4,
                     "mv_min": null,
                     "atk_ranged": 5,
-                    "atk_melee": 1,
+                    "atk_melee": 2,
                     "rng_short": 12,
                     "rng_long": 12,
-                    "wnd": 4,
+                    "wnd": 5,
                     "sv": "5+",
                     "keywords": [
-                        "Ion",
-                        "Indirect"
+                        "Blast",
+                        "Indirect",
+                        "Ion"
                     ],
                     "tts_height": 1.5,
+                    "tts_card_front": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -1136,25 +1025,27 @@
                     "id": "gun_fambaa",
                     "name": "Shield Fambaa",
                     "unit_size": 1,
-                    "cost": 200,
+                    "cost": 50,
                     "min_pct": 0,
-                    "max_pct": 35,
+                    "max_pct": 5,
                     "class": "Titan",
                     "subclass": "Ground",
                     "courage": 3,
                     "mv": 0,
                     "mv_min": null,
-                    "atk_ranged": null,
-                    "atk_melee": null,
-                    "rng_short": null,
-                    "rng_long": null,
-                    "wnd": 2,
-                    "sv": "5+",
+                    "atk_ranged": 0,
+                    "atk_melee": 4,
+                    "rng_short": 4,
+                    "rng_long": 4,
+                    "wnd": 6,
+                    "sv": "4+",
                     "keywords": [
-                        "Shield Generator",
+                        "Armor 1",
+                        "Shields 3",
                         "Towering"
                     ],
-                    "tts_height": 2.0,
+                    "tts_height": 2,
+                    "tts_card_front": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -1164,24 +1055,25 @@
                     "name": "Kaadu Cavalry",
                     "unit_size": 2,
                     "cost": 100,
-                    "min_pct": 0,
+                    "min_pct": 10,
                     "max_pct": 50,
                     "class": "Vehicle",
                     "subclass": "Ground",
-                    "courage": 3,
+                    "courage": 4,
                     "mv": 8,
                     "mv_min": null,
-                    "atk_ranged": 3,
-                    "atk_melee": 4,
+                    "atk_ranged": 4,
+                    "atk_melee": 5,
                     "rng_short": 10,
                     "rng_long": 10,
-                    "wnd": 2,
+                    "wnd": 5,
                     "sv": "5+",
                     "keywords": [
-                        "Ion",
-                        "Indirect"
+                        "Indirect",
+                        "Ion"
                     ],
                     "tts_height": 1.2,
+                    "tts_card_front": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -1190,25 +1082,27 @@
                     "id": "gun_militagung",
                     "name": "Militagung",
                     "unit_size": 3,
-                    "cost": 50,
-                    "min_pct": 10,
-                    "max_pct": 50,
+                    "cost": 75,
+                    "min_pct": 30,
+                    "max_pct": 70,
                     "class": "Infantry",
                     "subclass": null,
-                    "courage": 3,
+                    "courage": 4,
                     "mv": 6,
                     "mv_min": null,
                     "atk_ranged": 2,
                     "atk_melee": 3,
                     "rng_short": 6,
                     "rng_long": 6,
-                    "wnd": 3,
+                    "wnd": 4,
                     "sv": "5+",
                     "keywords": [
+                        "Indirect",
                         "Ion",
-                        "Indirect"
+                        "Shields 1"
                     ],
-                    "tts_height": 1.0,
+                    "tts_height": 1,
+                    "tts_card_front": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
