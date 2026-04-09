@@ -676,7 +676,6 @@ function generateTTSJSON() {
         availability: ots.availability,
         shape: ots.shape,
         duration: ots.duration,
-        details: ots.details,
         modifier_keywords: ots.modifier_keywords,
         ability_text: ots.ability_text,
         tts_card_front: ots.tts_card_front || "",
