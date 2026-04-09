@@ -555,7 +555,7 @@ function generateDetailedText(showCode = true) {
     usedKeywords.forEach((kw) => {
       const entry = REGIMENT_DATA.definitions[kw];
       const def = entry ? entry.desc : "[Definition Pending]";
-      text += `${kw}: ${def}\n`;
+      text += `- ${kw.toUpperCase()}: ${def}\n`;
     });
     text += `\n`;
   }

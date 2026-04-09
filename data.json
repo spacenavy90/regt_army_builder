@@ -1164,7 +1164,7 @@
                 "Anti-Armor",
                 "Blast"
             ],
-            "ability_text": "Place a standard card template. Roll 5 attack dice against each unit under the template. This attack has a base To-Hit of 5+ along with the Blast and Anti-Armor keywords.",
+            "ability_text": "Place a standard card template. Roll 5 attack dice against each unit under the template. This attack has a base To-Hit of 5+ along with the Anti-Armor and Blast keywords.",
             "tts_card_front": ""
         },
         {
