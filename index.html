@@ -79,9 +79,6 @@
 
         <h2 class="panel-title" style="margin-top: 30px">Army Leader</h2>
         <div id="leaderList" class="roster-list"></div>
-
-        <h2 class="panel-title" style="margin-top: 30px">Support Cards</h2>
-        <div id="otsList" class="roster-list"></div>
       </main>
 
       <aside class="manifest-panel">
@@ -100,6 +97,11 @@
             </div>
           </div>
 
+          <div class="manifest-header" style="margin-top: 20px; margin-bottom: 8px">
+            <span style="font-weight: bold; color: var(--accent)">SUPPORT ASSETS</span>
+          </div>
+          <button class="btn-export" id="btnManageOts" onclick="openOtsModal()" style="width: 100%; margin-bottom: 15px">Manage Support Cards</button>
+
           <div id="manifestLeaderList" class="manifest-items" style="margin-bottom: 15px"></div>
           <div id="manifestList" class="manifest-items"></div>
           <div id="manifestOtsList" class="manifest-items" style="margin-top: 15px"></div>
@@ -110,7 +112,7 @@
               <span id="totalSpent" class="total-value">0 / 1000</span>
             </div>
             <div class="totals-row" style="font-size: 0.9rem; color: var(--text-muted)">
-              <span>OTS Limits:</span>
+              <span>Support Limits:</span>
               <span id="otsTracker">0 / 150 pts | 0 / 4 cards</span>
             </div>
             <div class="totals-row">
@@ -164,6 +166,52 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div id="otsModal" class="modal-overlay">
+      <div class="modal-content mission-modal-content">
+        <div class="modal-header" style="flex-wrap: wrap; gap: 15px">
+          <h2 style="margin: 0; min-width: 200px">Support Cards</h2>
+
+          <div style="display: flex; gap: 10px; flex: 1; flex-wrap: wrap; align-items: center">
+            <input
+              type="text"
+              id="otsSearch"
+              placeholder="Search name or keyword..."
+              oninput="renderOtsModalList()"
+              style="
+                flex: 1;
+                min-width: 150px;
+                padding: 6px;
+                border-radius: 4px;
+                border: 1px solid var(--border-color);
+                background: var(--bg-base);
+                color: white;
+              "
+            />
+            <select
+              id="otsCategoryFilter"
+              onchange="renderOtsModalList()"
+              style="padding: 6px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-base); color: white"
+            >
+              <option value="All">All Categories</option>
+            </select>
+            <select
+              id="otsSortFilter"
+              onchange="renderOtsModalList()"
+              style="padding: 6px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-base); color: white"
+            >
+              <option value="cost-high">Cost: High - Low</option>
+              <option value="cost-low">Cost: Low - High</option>
+              <option value="alpha">Name: A - Z</option>
+            </select>
+          </div>
+
+          <button class="modal-close" onclick="closeOtsModal()" style="margin-left: auto">&times;</button>
+        </div>
+
+        <div id="otsModalList" class="modal-body"></div>
       </div>
     </div>
 

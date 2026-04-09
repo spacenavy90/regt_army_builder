@@ -239,29 +239,6 @@ function renderRoster() {
     leaderContainer.innerHTML = `<div style="padding: 15px; color: var(--text-muted); font-style: italic;">No leaders available for this faction.</div>`;
   }
 
-  otsContainer.innerHTML = REGIMENT_DATA.ots
-    .map(
-      (o) => `
-        <div class="roster-row" id="row-${o.id}">
-            <div class="row-info">
-                <div class="unit-name">${o.name}</div>
-                <div class="unit-type">Support Asset</div>
-                <div class="unit-stats">Avail: ${o.availability} | Atk: ${o.attack_dice} | Template: ${o.template}</div>
-                <div class="unit-keywords">${o.keywords && o.keywords.length > 0 ? o.keywords.join(", ") : ""}</div>
-            </div>
-            <div class="row-controls">
-                <div class="cost-limit"><span class="cost">${o.cost} pts</span></div>
-                <div class="stepper">
-                    <button class="btn-step" onclick="adjust('${o.id}', -1)">-</button>
-                    <span class="qty" id="qty-${o.id}">0</span>
-                    <button class="btn-step" id="add-${o.id}" onclick="adjust('${o.id}', 1)">+</button>
-                </div>
-            </div>
-        </div>
-    `,
-    )
-    .join("");
-
   updateUI();
 }
 
@@ -384,17 +361,6 @@ function updateUI() {
     }
   });
 
-  // Process OTS UI Locks
-  REGIMENT_DATA.ots.forEach((o) => {
-    const qty = currentList[o.id] || 0;
-    document.getElementById(`qty-${o.id}`).textContent = qty;
-
-    const canAffordPoints = otsSpent + o.cost <= maxOtsPoints;
-    const canAffordCards = otsCards + 1 <= maxOtsCards;
-
-    document.getElementById(`add-${o.id}`).disabled = !isOverride && (!canAffordPoints || !canAffordCards);
-  });
-
   if (hasUnits) manifestContainer.insertAdjacentHTML("afterbegin", '<div style="color:var(--accent); font-weight:bold; margin-bottom:8px;">COMBAT UNITS</div>');
   if (hasOts)
     manifestOtsContainer.insertAdjacentHTML(
@@ -470,6 +436,10 @@ function clearArmy() {
 function removeUnit(id) {
   delete currentList[id];
   updateUI();
+
+  if (document.getElementById("otsModal").classList.contains("active")) {
+    renderOtsModalList();
+  }
 }
 
 function generateSimpleText() {
@@ -549,7 +519,7 @@ function generateDetailedText(showCode = true) {
     } else if (unit && qty > 0) {
       const cost = qty * unit.cost;
       unitsText += `${qty}x ${unit.name} [${unit.cost} ea | ${cost} pts]\n`;
-      unitsText += `    Mv: ${formatStat(unit.mv, unit.mv_min, '"')} | Atk: ${formatStat(unit.atk_ranged, unit.atk_melee)} | Rng: ${formatStat(unit.rng_short, unit.rng_long, '"')} | Wnd: ${unit.wnd} | Sv: ${unit.sv} | Crg: ${unit.courage}\n`;
+      unitsText += `    Mv: ${formatStat(unit.mv, unit.mv_min, '"')} | Attack Dice: ${formatStat(unit.atk_ranged, unit.atk_melee)} | Rng: ${formatStat(unit.rng_short, unit.rng_long, '"')} | Wnd: ${unit.wnd} | Sv: ${unit.sv} | Crg: ${unit.courage}\n`;
       if (unit.keywords && unit.keywords.length > 0) {
         unitsText += `    Keywords: ${unit.keywords.join(", ")}\n`;
         unit.keywords.forEach((kw) => usedKeywords.add(kw));
@@ -559,10 +529,16 @@ function generateDetailedText(showCode = true) {
     } else if (ots && qty > 0) {
       const cost = qty * ots.cost;
       otsText += `${qty}x ${ots.name} [${ots.cost} ea | ${cost} pts]\n`;
-      otsText += `    Avail: ${ots.availability} | Atk: ${ots.attack_dice} | Template: ${ots.template}\n`;
-      if (ots.keywords && ots.keywords.length > 0) {
-        otsText += `    Keywords: ${ots.keywords.join(", ")}\n`;
-        ots.keywords.forEach((kw) => usedKeywords.add(kw));
+      otsText += `    Availability: ${ots.availability} | Shape: ${ots.shape}\n`;
+
+      if (ots.details && ots.details.attack_dice) {
+        otsText += `    Attack Dice: ${ots.details.attack_dice}\n`;
+      }
+      otsText += `    Ability: ${ots.ability_text}\n`;
+
+      if (ots.modifier_keywords && ots.modifier_keywords.length > 0) {
+        otsText += `    Keywords: ${ots.modifier_keywords.join(", ")}\n`;
+        ots.modifier_keywords.forEach((kw) => usedKeywords.add(kw));
       }
       otsText += `\n`;
       total += cost;
@@ -695,11 +671,14 @@ function generateTTSJSON() {
         name: ots.name,
         quantity: qty,
         cost: ots.cost,
+        category: ots.category,
         availability: ots.availability,
-        template: ots.template,
-        attack_dice: ots.attack_dice,
-        keywords: ots.keywords,
-        tts_card_front: ots.tts_card_front,
+        shape: ots.shape,
+        duration: ots.duration,
+        details: ots.details,
+        modifier_keywords: ots.modifier_keywords,
+        ability_text: ots.ability_text,
+        tts_card_front: ots.tts_card_front || "",
       });
       totalSpent += qty * ots.cost;
     }
@@ -919,4 +898,100 @@ function selectMission(category, id) {
   currentMissions[category] = id;
   closeMissionModal();
   updateUI();
+}
+
+function openOtsModal() {
+  const catSelect = document.getElementById("otsCategoryFilter");
+  const categories = new Set(REGIMENT_DATA.ots.map((o) => o.category).filter(Boolean));
+
+  const currentVal = catSelect.value;
+  let catOptions = `<option value="All">All Categories</option>`;
+  categories.forEach((c) => (catOptions += `<option value="${c}">${c}</option>`));
+  catSelect.innerHTML = catOptions;
+  if (categories.has(currentVal)) catSelect.value = currentVal;
+
+  renderOtsModalList();
+  document.getElementById("otsModal").classList.add("active");
+}
+
+function closeOtsModal() {
+  document.getElementById("otsModal").classList.remove("active");
+}
+
+function adjustOts(id, amt) {
+  adjust(id, amt);
+  renderOtsModalList();
+}
+
+function renderOtsModalList() {
+  const list = document.getElementById("otsModalList");
+  const search = document.getElementById("otsSearch").value.toLowerCase();
+  const category = document.getElementById("otsCategoryFilter").value;
+  const sort = document.getElementById("otsSortFilter").value;
+
+  const cap = parseInt(document.getElementById("armyCap").value) || 0;
+  const maxOtsPoints = Math.floor(cap * 0.15);
+  const maxOtsCards = Math.floor(cap / 250);
+  const isOverride = document.getElementById("overrideToggle").checked;
+
+  let otsSpent = 0;
+  let otsCards = 0;
+  REGIMENT_DATA.ots.forEach((o) => {
+    const qty = currentList[o.id] || 0;
+    otsSpent += qty * o.cost;
+    otsCards += qty;
+  });
+
+  let filteredOts = [...REGIMENT_DATA.ots];
+
+  if (category !== "All") filteredOts = filteredOts.filter((o) => o.category === category);
+
+  if (search) {
+    filteredOts = filteredOts.filter(
+      (o) => o.name.toLowerCase().includes(search) || (o.modifier_keywords && o.modifier_keywords.join(" ").toLowerCase().includes(search)),
+    );
+  }
+
+  if (sort === "cost-high") filteredOts.sort((a, b) => b.cost - a.cost);
+  if (sort === "cost-low") filteredOts.sort((a, b) => a.cost - b.cost);
+  if (sort === "alpha") filteredOts.sort((a, b) => a.name.localeCompare(b.name));
+
+  list.innerHTML = "";
+
+  filteredOts.forEach((o) => {
+    const qty = currentList[o.id] || 0;
+    const disableAdd = !isOverride && (otsSpent + o.cost > maxOtsPoints || otsCards + 1 > maxOtsCards);
+
+    let detailsString = "";
+    if (o.details && o.details.attack_dice) {
+      detailsString = ` | Attack Dice: ${o.details.attack_dice}`;
+    }
+
+    list.innerHTML += `
+      <div class="roster-row" style="${qty > 0 ? "border-color: var(--accent);" : ""}">
+          <div class="row-info">
+              <div class="unit-name" style="${qty > 0 ? "color: var(--accent);" : ""}">${o.name}</div>
+              <div class="unit-type" style="margin-bottom: 8px;">${o.category || "Support"}</div>
+              
+              <div style="font-size: 1rem; margin-bottom: 12px; color: var(--text-main); line-height: 1.5; padding-left: 12px; border-left: 3px solid var(--border-color);">
+                  ${o.ability_text}
+              </div>
+              
+              <div class="unit-stats" style="margin-bottom: 8px;">
+                  Availability: ${o.availability} | Shape: ${o.shape}${detailsString}
+              </div>
+              
+              <div class="unit-keywords">${o.modifier_keywords && o.modifier_keywords.length > 0 ? o.modifier_keywords.join(", ") : ""}</div>
+          </div>
+          <div class="row-controls">
+              <div class="cost-limit"><span class="cost">${o.cost} pts</span></div>
+              <div class="stepper">
+                  <button class="btn-step" onclick="adjustOts('${o.id}', -1)">-</button>
+                  <span class="qty">${qty}</span>
+                  <button class="btn-step" onclick="adjustOts('${o.id}', 1)" ${disableAdd ? "disabled" : ""}>+</button>
+              </div>
+          </div>
+      </div>
+    `;
+  });
 }

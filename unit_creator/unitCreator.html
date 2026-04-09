@@ -192,7 +192,25 @@
               <div class="form-col"><label>Effect Hook</label><input type="text" id="kwEffect" value="generic" /></div>
             </div>
             <div class="form-section">
-              <div class="form-row"><label>Description</label><input type="text" id="kwDesc" value="Enter rule text here..." /></div>
+              <div class="form-row">
+                <label>Description</label>
+                <textarea
+                  id="kwDesc"
+                  style="
+                    flex: 1;
+                    background: var(--bg-input);
+                    color: var(--text-main);
+                    border: 1px solid var(--border-light);
+                    border-radius: 4px;
+                    padding: 8px;
+                    font-family: inherit;
+                    min-height: 50px;
+                  "
+                  oninput="architect.updatePreview()"
+                >
+Enter rule text here...</textarea
+                >
+              </div>
             </div>
             <div class="form-section grid-2">
               <div class="form-col">
@@ -516,7 +534,22 @@
               </div>
               <div class="form-row"><label>Override Pts</label><input type="number" id="ldrOverridePts" value="0" oninput="leaderArchitect.update()" /></div>
               <div class="form-row">
-                <label>Flavor Ability</label><input type="text" id="ldrAbility" placeholder="Description for card text..." oninput="leaderArchitect.update()" />
+                <label>Flavor Ability</label>
+                <textarea
+                  id="ldrAbility"
+                  placeholder="Description for card text..."
+                  style="
+                    flex: 1;
+                    background: var(--bg-input);
+                    color: var(--text-main);
+                    border: 1px solid var(--border-light);
+                    border-radius: 4px;
+                    padding: 8px;
+                    font-family: inherit;
+                    min-height: 50px;
+                  "
+                  oninput="leaderArchitect.update()"
+                ></textarea>
               </div>
             </div>
 

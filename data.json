@@ -1146,7 +1146,7 @@
             "tts_card_front": ""
         },
         {
-            "id": "ots_orbital",
+            "id": "ots_orbital_bombardment",
             "name": "Orbital Bombardment",
             "category": "Offensive",
             "cost": 115,
@@ -1165,7 +1165,7 @@
             "tts_card_front": ""
         },
         {
-            "id": "ots_bombing",
+            "id": "ots_bombing_run",
             "name": "Bombing Run",
             "category": "Offensive",
             "cost": 65,
@@ -1178,6 +1178,130 @@
             },
             "modifier_keywords": [],
             "ability_text": "This is long bombardment from tactical bombers.",
+            "tts_card_front": ""
+        },
+        {
+            "id": "ots_field_triage",
+            "name": "Field Triage",
+            "category": "Sustainment",
+            "cost": 35,
+            "availability": "5+",
+            "shape": "Single Unit",
+            "duration": "Instant / Next Act",
+            "details": {
+                "wounds_restored": 3,
+                "clear_shaken": true,
+                "courage_resist": false,
+                "target_class": "Infantry/Emplacement"
+            },
+            "modifier_keywords": [],
+            "ability_text": "Target one friendly Infantry or Emplacement unit and restore up to 3 lost Wounds and immediately remove Shaken status. Replace any lost models as necessary.",
+            "tts_card_front": ""
+        },
+        {
+            "id": "ots_emergency_repairs",
+            "name": "Emergency Repairs",
+            "category": "Sustainment",
+            "cost": 40,
+            "availability": "5+",
+            "shape": "Single Unit",
+            "duration": "Instant / Next Act",
+            "details": {
+                "wounds_restored": 3,
+                "clear_shaken": false,
+                "courage_resist": false,
+                "target_class": "Vehicle/Titan"
+            },
+            "modifier_keywords": [],
+            "ability_text": "Target one friendly Vehicle or Titan and restore up to 3 lost Wounds. Replace any lost models as necessary.",
+            "tts_card_front": ""
+        },
+        {
+            "id": "ots_smoke_screen",
+            "name": "Smoke Screen",
+            "category": "Defensive",
+            "cost": 40,
+            "availability": "5+",
+            "shape": "Double Card (Long)",
+            "duration": "1 Round",
+            "details": {
+                "terrain_tier": "Area",
+                "ew_hit_penalty": 0,
+                "ew_cv_penalty": 0
+            },
+            "modifier_keywords": [],
+            "ability_text": "Place a long double card template. For the duration of the round, this template is treated as being Area terrain. Remove the template at the end of the round.",
+            "tts_card_front": ""
+        },
+        {
+            "id": "ots_ecm",
+            "name": "Electronic Countermeasures",
+            "category": "Defensive",
+            "cost": 30,
+            "availability": "6+",
+            "shape": "Aura (6\" Radius)",
+            "duration": "1 Round",
+            "details": {
+                "terrain_tier": "None",
+                "ew_hit_penalty": 1,
+                "ew_cv_penalty": 0
+            },
+            "modifier_keywords": [],
+            "ability_text": "Place a support token with a 6\" radius aura surrounding it. Any units firing through, into or out of this aura suffer a -1 penalty to their hit rolls. Remove the token at the end of the round.",
+            "tts_card_front": ""
+        },
+        {
+            "id": "ots_comm_jammer",
+            "name": "Comms Jamming",
+            "category": "Utility",
+            "cost": 60,
+            "availability": "6+",
+            "shape": "Aura (8\" Radius)",
+            "duration": "1 Round",
+            "details": {
+                "intel_type": "None",
+                "intel_value": 0,
+                "courage_penalty": 0,
+                "shaken_penalty": 1
+            },
+            "modifier_keywords": [],
+            "ability_text": "Place a support token with a 8\" radius aura surrounding it. Units within this aura treat the penalty for being Shaken as -2 instead of -1 for their Command Rolls. Remove the token at the end of the round.",
+            "tts_card_front": ""
+        },
+        {
+            "id": "ots_recon_sweep",
+            "name": "Recon Sweep",
+            "category": "Utility",
+            "cost": 15,
+            "availability": "4+",
+            "shape": "Off-Board / Meta",
+            "duration": "Instant / Next Act",
+            "details": {
+                "intel_type": "Reveal Support",
+                "intel_value": 1,
+                "courage_penalty": 0,
+                "shaken_penalty": 0
+            },
+            "modifier_keywords": [],
+            "ability_text": "Randomly pick 1 of your opponent's hidden Support Cards and force them to reveal it. That card remains visible for the rest of the game or until discarded.",
+            "tts_card_front": ""
+        },
+        {
+            "id": "ots_propaganda_drop",
+            "name": "Propaganda Drop",
+            "category": "Utility",
+            "cost": 15,
+            "availability": "5+",
+            "shape": "Aura (6\" Radius)",
+            "duration": "1 Round",
+            "details": {
+                "intel_type": "None",
+                "intel_value": 0,
+                "courage_penalty": 1,
+                "shaken_penalty": 0
+            },
+            "modifier_keywords": [],
+            "ability_text": "Place a support token with a 6\" radius aura surrounding it. Enemy Infantry units within this aura subtract 1 from their Courage value (to a minimum of 1). Remove the token at the end of the round.",
             "tts_card_front": ""
         }
     ],
@@ -1267,6 +1391,14 @@
                 "bal_val": 1.15
             }
         },
+        "Flight": {
+            "desc": "This unit ignore all terrain movement penalties and can move over enemy units.",
+            "logic": {
+                "bal_type": "formula",
+                "bal_formula": "1.10 + (pow(om_move, 1.5) * 0.15)",
+                "target_pillar": "body"
+            }
+        },
         "Green": {
             "desc": "This unit has as -1 penalty when making command rolls.",
             "logic": {
@@ -1307,14 +1439,6 @@
                 "target": "defender",
                 "effect": "force_status_check",
                 "condition": "is_vehicle_or_droid"
-            }
-        },
-        "Jetpacks": {
-            "desc": "This unit ignore all terrain movement penalties and can move over enemy units.",
-            "logic": {
-                "bal_type": "formula",
-                "bal_formula": "1.10 + (pow(om_move, 1.5) * 0.15)",
-                "target_pillar": "body"
             }
         },
         "Omnipresent": {
