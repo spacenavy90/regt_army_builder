@@ -24,7 +24,7 @@
                             "risk_discount": 5
                         }
                     ],
-                    "tts_card_front": "",
+                    "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/leader/darth_vader_leader_card.webp",
                     "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
@@ -48,7 +48,7 @@
                             "risk_discount": 0
                         }
                     ],
-                    "tts_card_front": "",
+                    "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/leader/general_veers_leader_card.webp",
                     "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
@@ -160,6 +160,7 @@
                     "sv": "5+",
                     "keywords": [],
                     "tts_height": 1.0,
+                    "tts_card_front": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -213,6 +214,7 @@
                         "Scout"
                     ],
                     "tts_height": 1.2,
+                    "tts_card_front": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -268,7 +270,7 @@
                             "risk_discount": 0
                         }
                     ],
-                    "tts_card_front": "",
+                    "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/leader/leia_organa_leader_card.webp",
                     "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
@@ -292,7 +294,7 @@
                             "risk_discount": 0
                         }
                     ],
-                    "tts_card_front": "",
+                    "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/leader/general_rieekan_leader_card.webp",
                     "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
@@ -515,7 +517,7 @@
                             "risk_discount": 0
                         }
                     ],
-                    "tts_card_front": "",
+                    "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/leader/obi-wan_kenobi_leader_card.webp",
                     "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
@@ -539,7 +541,7 @@
                             "risk_discount": 0
                         }
                     ],
-                    "tts_card_front": "",
+                    "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/leader/captain_rex_leader_card.webp",
                     "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
@@ -724,7 +726,7 @@
             "leaders": [
                 {
                     "id": "ldr_sep_tj55",
-                    "name": " TJ-55",
+                    "name": "TJ-55",
                     "cost": 75,
                     "restriction_text": "No attachment restrictions.",
                     "requires_class": null,
@@ -740,7 +742,7 @@
                             "risk_discount": 0
                         }
                     ],
-                    "tts_card_front": "",
+                    "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/leader/tj-55_leader_card.webp",
                     "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
@@ -764,7 +766,7 @@
                             "risk_discount": 0
                         }
                     ],
-                    "tts_card_front": "",
+                    "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/leader/general_grievous_leader_card.webp",
                     "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
@@ -795,6 +797,7 @@
                         "Armor 1"
                     ],
                     "tts_height": 1.2,
+                    "tts_card_front": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -821,6 +824,7 @@
                         "Droid"
                     ],
                     "tts_height": 1.0,
+                    "tts_card_front": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -847,6 +851,7 @@
                         "Droid"
                     ],
                     "tts_height": 1.0,
+                    "tts_card_front": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -930,6 +935,7 @@
                         "Transport"
                     ],
                     "tts_height": 2.0,
+                    "tts_card_front": "",
                     "tts_model": "",
                     "tts_texture": "",
                     "tts_collider": ""
@@ -960,7 +966,7 @@
                             "risk_discount": 5
                         }
                     ],
-                    "tts_card_front": "",
+                    "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/leader/jar-jar_binks_leader_card.webp",
                     "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
@@ -984,7 +990,7 @@
                             "risk_discount": 0
                         }
                     ],
-                    "tts_card_front": "",
+                    "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/leader/captain_tarpals_leader_card.webp",
                     "tts_image": "",
                     "tts_model": "",
                     "tts_texture": "",
@@ -1128,7 +1134,7 @@
                 "Blast"
             ],
             "ability_text": "Place a wide double card template. Roll 4 attack dice against each unit under the template. This attack has a base To-Hit of 4+ and the Blast keyword.",
-            "tts_card_front": ""
+            "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/support/artillery_barrage_card.webp"
         },
         {
             "id": "ots_mortar",
@@ -1145,7 +1151,7 @@
             },
             "modifier_keywords": [],
             "ability_text": "Target 1 enemy unit and roll 3 attack dice against it. This attack has a base To-Hit of 4+ and is subject to standard Cover penalties.",
-            "tts_card_front": ""
+            "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/support/mortar_shelling_card.webp"
         },
         {
             "id": "ots_orbital_bombardment",
@@ -1165,7 +1171,7 @@
                 "Blast"
             ],
             "ability_text": "Place a standard card template. Roll 5 attack dice against each unit under the template. This attack has a base To-Hit of 5+ along with the Anti-Armor and Blast keywords.",
-            "tts_card_front": ""
+            "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/support/orbital_bombardment_card.webp"
         },
         {
             "id": "ots_bombing_run",
@@ -1182,7 +1188,7 @@
             },
             "modifier_keywords": [],
             "ability_text": "Place a long double card template. Roll 4 attack dice against each unit under the template. This attack has a base To-Hit of 4+ and is subject to standard Cover penalties.",
-            "tts_card_front": ""
+            "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/support/bombing_run_card.webp"
         },
         {
             "id": "ots_field_triage",
@@ -1200,7 +1206,7 @@
             },
             "modifier_keywords": [],
             "ability_text": "Target one friendly Infantry or Emplacement unit and restore up to 3 lost Wounds and immediately remove Shaken status. Replace any lost models as necessary.",
-            "tts_card_front": ""
+            "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/support/field_triage_card.webp"
         },
         {
             "id": "ots_emergency_repairs",
@@ -1218,7 +1224,7 @@
             },
             "modifier_keywords": [],
             "ability_text": "Target one friendly Vehicle or Titan and restore up to 3 lost Wounds. Replace any lost models as necessary.",
-            "tts_card_front": ""
+            "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/support/emergency_repairs_card.webp"
         },
         {
             "id": "ots_smoke_screen",
@@ -1235,7 +1241,7 @@
             },
             "modifier_keywords": [],
             "ability_text": "Place a long double card template. For the duration of the round, this template is treated as being Area terrain. Remove the template at the end of the round.",
-            "tts_card_front": ""
+            "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/support/smoke_screen_card.webp"
         },
         {
             "id": "ots_ecm",
@@ -1252,7 +1258,7 @@
             },
             "modifier_keywords": [],
             "ability_text": "Place a support token with a 6\" radius aura surrounding it. Any units firing through, into or out of this aura suffer a -1 penalty to their hit rolls. Remove the token at the end of the round.",
-            "tts_card_front": ""
+            "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/support/electronic_countermeasures_card.webp"
         },
         {
             "id": "ots_comm_jammer",
@@ -1270,7 +1276,7 @@
             },
             "modifier_keywords": [],
             "ability_text": "Place a support token with a 8\" radius aura surrounding it. Units within this aura treat the penalty for being Shaken as -2 instead of -1 for their Command Rolls. Remove the token at the end of the round.",
-            "tts_card_front": ""
+            "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/support/comms_jamming_card.webp"
         },
         {
             "id": "ots_recon_sweep",
@@ -1288,7 +1294,7 @@
             },
             "modifier_keywords": [],
             "ability_text": "Randomly pick 1 of your opponent's hidden Support Cards and force them to reveal it. That card remains visible for the rest of the game or until discarded.",
-            "tts_card_front": ""
+            "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/support/recon_sweep_card.webp"
         },
         {
             "id": "ots_propaganda_drop",
@@ -1306,7 +1312,7 @@
             },
             "modifier_keywords": [],
             "ability_text": "Place a support token with a 6\" radius aura surrounding it. Enemy Infantry units within this aura subtract 1 from their Courage value (to a minimum of 1). Remove the token at the end of the round.",
-            "tts_card_front": ""
+            "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/support/propaganda_drop_card.webp"
         }
     ],
     "definitions": {
