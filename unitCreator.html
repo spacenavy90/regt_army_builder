@@ -2,20 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Regiment Unit Architect</title>
-    <link rel="icon" type="image/svg+xml" href="../icons/favicon.svg" />
-    <link rel="stylesheet" href="unitCreator_style.css?v=1.05" />
+    <title>Regiment | Unit Architect</title>
+    <link rel="icon" type="image/svg+xml" href="icons/favicon.svg" />
+    <link rel="stylesheet" href="unit_creator/style.css?v=1.05" />
   </head>
   <body>
     <header class="top-nav">
       <div
         class="brand"
-        onclick="window.location.href = '../index.html'"
+        onclick="window.location.href = 'index.html'"
         style="cursor: pointer; display: flex; align-items: center"
         title="Return to Army Builder"
       >
         <img
-          src="../icons/logo.png"
+          src="icons/logo.webp"
           alt="Regiment"
           class="brand-logo"
           onerror="
@@ -28,7 +28,8 @@
 
       <div class="nav-links">
         <button id="btnKeywords" class="nav-btn" onclick="toggleKeywordModal()">Keyword Reference</button>
-        <a href="../index.html" class="nav-btn builder-btn">Army Builder</a>
+        <a href="index.html" class="nav-btn builder-btn">Army Builder</a>
+        <a href="missionMaker.html" class="nav-btn architect-btn">Mission Architect</a>
         <a href="https://github.com/spacenavy90/regt_army_builder" target="_blank" class="nav-btn">GitHub</a>
         <a href="https://www.paypal.com/donate/?hosted_button_id=2YP5AY9JT7T5J" target="_blank" class="nav-btn donate-btn">Donate</a>
       </div>
@@ -679,14 +680,14 @@ Enter rule text here...</textarea
       </div>
     </div>
 
-    <script src="dataManager.js"></script>
-    <script src="logicEngine.js"></script>
-    <script src="combatEngine.js"></script>
-    <script src="unitLibrary.js"></script>
-    <script src="keywordArchitect.js"></script>
-    <script src="simulatorUI.js"></script>
-    <script src="unitCreatorUI.js"></script>
-    <script src="otsArchitect.js"></script>
-    <script src="leaderArchitect.js"></script>
+    <script src="unit_creator/dataManager.js"></script>
+    <script src="unit_creator/logicEngine.js"></script>
+    <script src="unit_creator/combatEngine.js"></script>
+    <script src="unit_creator/unitLibrary.js"></script>
+    <script src="unit_creator/keywordArchitect.js"></script>
+    <script src="unit_creator/simulatorUI.js"></script>
+    <script src="unit_creator/unitCreatorUI.js"></script>
+    <script src="unit_creator/otsArchitect.js"></script>
+    <script src="unit_creator/leaderArchitect.js"></script>
   </body>
 </html>

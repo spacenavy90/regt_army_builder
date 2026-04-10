@@ -1,44 +1,100 @@
+/* BASE VARIABLES FOR NAV & BUTTONS (Imported from main site) */
+:root {
+  --bg-panel: #1e293b;
+  --bg-input: #334155;
+  --bg-input-hover: #475569;
+  --border-light: #475569;
+  --border-focus: #3b82f6;
+  --text-main: #f8fafc;
+
+  /* Button Colors */
+  --color-green: #10b981;
+  --color-green-hover: #059669;
+  --color-grey: #475569;
+  --color-grey-hover: #334155;
+  --color-slate: #64748b;
+  --color-slate-hover: #475569;
+  --color-blue: #3b82f6;
+  --color-blue-hover: #2563eb;
+  --color-red: #ef4444;
+  --color-red-hover: #dc2626;
+  --radius: 6px;
+}
+
+/* ORIGINAL MAP MAKER BASE */
 body {
   font-family: sans-serif;
   background-color: #f4f4f9;
   margin: 0;
-  padding: 20px;
+  padding: 0; /* Changed to 0 so the new navbar is flush with the top */
   color: #333;
 }
-.header {
+
+/* --- NEW TOP NAV STYLES --- */
+.top-nav {
+  background-color: var(--bg-panel);
+  border-bottom: 1px solid var(--border-light);
+  padding: 0.75rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  max-width: 1500px;
-  margin-left: auto;
-  margin-right: auto;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
-.header a {
-  color: #5c7cfa;
+
+.brand-logo {
+  max-height: 32px;
+  width: auto;
+}
+
+.nav-links {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-btn {
+  padding: 6px 16px;
+  background-color: var(--bg-input);
+  color: var(--text-main);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
   text-decoration: none;
-  font-weight: bold;
-}
-.header a:hover {
-  text-decoration: underline;
-}
-.header-actions button {
-  background: #1a73e8;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-weight: bold;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
   cursor: pointer;
+  font-family: inherit;
 }
-.header-actions button:hover {
-  background: #1557b0;
+
+.nav-btn:hover {
+  background-color: var(--bg-input-hover);
+  border-color: var(--border-focus);
 }
+
+.builder-btn:hover {
+  background-color: var(--color-blue) !important;
+  border-color: var(--color-blue) !important;
+  color: white;
+}
+
+.donate-btn {
+  background-color: #ffdd00 !important;
+  color: #000 !important;
+  border-color: #ffdd00 !important;
+}
+
+.donate-btn:hover {
+  background-color: #ffea00 !important;
+}
+
+/* --- ORIGINAL LAYOUT CONTAINERS --- */
 .container {
   display: flex;
   gap: 20px;
   max-width: 1500px;
-  margin: 0 auto;
+  margin: 20px auto; /* Replaces the old body padding */
+  padding: 0 20px;
 }
 .panel {
   background: #fff;
@@ -56,6 +112,7 @@ body {
   gap: 15px;
 }
 
+/* --- ORIGINAL TOOLBAR & INPUTS --- */
 .toolbar-row {
   display: flex;
   gap: 10px;
@@ -85,16 +142,75 @@ button {
     background 0.2s,
     border-color 0.2s;
 }
-button:hover {
-  background: #f0f0f0;
+
+/* --- ADAPTED THEME BUTTONS --- */
+.btn-green {
+  background: var(--color-green);
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: var(--radius);
+}
+.btn-green:hover {
+  background: var(--color-green-hover);
 }
 
+.btn-grey {
+  background: var(--color-grey);
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: var(--radius);
+}
+.btn-grey:hover {
+  background: var(--color-grey-hover);
+}
+
+.btn-blue {
+  background: var(--color-blue);
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: var(--radius);
+}
+.btn-blue:hover {
+  background: var(--color-blue-hover);
+}
+
+.btn-red {
+  background: var(--color-red);
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: var(--radius);
+}
+.btn-red:hover {
+  background: var(--color-red-hover);
+}
+
+.btn-slate {
+  background: var(--color-slate);
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: var(--radius);
+}
+.btn-slate:hover {
+  background: var(--color-slate-hover);
+}
+
+/* --- MAP MAKER SPECIFIC TOOLS --- */
 .tool-btn {
   display: flex;
   align-items: center;
   gap: 6px;
   font-weight: bold;
   color: #555;
+  background: transparent;
+  border-color: transparent;
+}
+.tool-btn:hover {
+  background: #f0f0f0;
 }
 .tool-btn.active {
   background: #e8f0fe;
@@ -153,16 +269,8 @@ textarea {
   gap: 10px;
   margin-top: 10px;
 }
-.export-actions button {
-  background: #333;
-  color: white;
-  border: none;
-  font-weight: bold;
-}
-.export-actions button:hover {
-  background: #555;
-}
 
+/* --- MODALS --- */
 #export-modal,
 #library-modal {
   display: none;
@@ -196,15 +304,8 @@ textarea {
   justify-content: flex-end;
   gap: 10px;
 }
-.btn-copy {
-  background: #4caf50;
-  color: white;
-  border: none;
-}
-.btn-copy:hover {
-  background: #45a049;
-}
-.btn-close {
-  background: #e0e0e0;
-  border: none;
+
+/* Hover effect for the Library items */
+#library-list > div:hover {
+  background: #f0f0f0 !important;
 }

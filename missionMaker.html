@@ -4,17 +4,38 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Regiment Mission Architect</title>
+    <link rel="icon" type="image/svg+xml" href="icons/favicon.svg" />
     <link rel="stylesheet" href="mission_maker/style.css?v=1.02" />
   </head>
   <body>
-    <div class="header">
-      <a href="index.html">&larr; Return to Main Site</a>
-      <div class="header-actions">
-        <button id="btn-library" style="background: #1a73e8; color: white">📂 Mission Library</button>
+    <header class="top-nav">
+      <div
+        class="brand"
+        onclick="window.location.href = 'index.html'"
+        style="cursor: pointer; display: flex; align-items: center"
+        title="Return to Army Builder"
+      >
+        <img
+          src="icons/logo.webp"
+          alt="Regiment"
+          class="brand-logo"
+          onerror="
+            this.style.display = 'none';
+            document.getElementById('brandFallback').style.display = 'block';
+          "
+        />
+        <span id="brandFallback" style="display: none; font-weight: bold; letter-spacing: 2px">REGIMENT</span>
       </div>
-    </div>
 
-    <div id="library-modal">
+      <div class="nav-links">
+        <a href="index.html" class="nav-btn builder-btn">Army Builder</a>
+        <a href="unitCreator.html" class="nav-btn architect-btn">Unit Architect</a>
+        <a href="https://github.com/spacenavy90/regt_army_builder" target="_blank" class="nav-btn">GitHub</a>
+        <a href="https://www.paypal.com/donate/?hosted_button_id=2YP5AY9JT7T5J" target="_blank" class="nav-btn donate-btn">Donate</a>
+      </div>
+    </header>
+
+    <div id="library-modal" class="modal-overlay">
       <div class="modal-content" style="width: 800px; max-height: 80vh">
         <div style="display: flex; justify-content: space-between; align-items: center">
           <h3>Mission Library</h3>
@@ -94,8 +115,11 @@
       <div class="right-panel panel">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px">
           <h3 style="margin: 0">Mission Parameters</h3>
-          <button id="btn-reset" style="background: #ffeeee; color: #c00; border: 1px solid #fcc; padding: 4px 8px; font-size: 12px; border-radius: 4px">
-            Reset Mission
+          <button
+            id="btn-library"
+            style="background: #1a73e8; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer"
+          >
+            📂 Mission Library
           </button>
         </div>
         <div class="form-group">
@@ -149,6 +173,23 @@
           <button id="exp-text">Preview Text</button>
           <button id="exp-map">Save Map Image</button>
           <button id="exp-card">Save Mission Card</button>
+          <button
+            id="btn-reset"
+            style="
+              grid-column: span 2;
+              background: #ffeeee;
+              color: #c00;
+              border: 1px solid #fcc;
+              padding: 8px;
+              font-size: 14px;
+              border-radius: 4px;
+              font-weight: bold;
+              cursor: pointer;
+              margin-top: 5px;
+            "
+          >
+            Reset Mission
+          </button>
         </div>
       </div>
     </div>

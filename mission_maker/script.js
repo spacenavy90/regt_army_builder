@@ -393,14 +393,14 @@ function draw() {
 
   // Draw Tokens
   const tokenRadius = 18;
-  const innerRadius = 6;
+  const innerRadius = 10;
   tokens.forEach((t) => {
     // Outer Circle
     ctx.beginPath();
     ctx.arc(t.x, t.y, tokenRadius, 0, Math.PI * 2);
     ctx.fillStyle = "#1e3a5f";
     ctx.fill();
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 5;
     ctx.strokeStyle = isDark ? "#555" : "#81c7d4";
     ctx.stroke();
 

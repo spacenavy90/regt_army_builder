@@ -693,6 +693,7 @@ function generateTTSJSON() {
           category: cat,
           id: msn.id,
           name: msn.name,
+          type: msn.type || "",
           setup: msn.setup,
           scoring: msn.scoring,
           victory: msn.victory,
@@ -868,13 +869,17 @@ function previewMissionCard(category, missionId) {
   const remoteCardUrl = msn.tts_card_front || "";
   const remoteMapUrl = msn.deployment_map || "";
 
-  const localCardPath = `cards/mission/${missionId}.webp`;
+  const localCardPath = `cards/mission/${missionId}_card.webp`;
   const localMapPath = `cards/map/${missionId}.webp`;
 
   // 1. Build the Text View (Default)
   const textViewHtml = `
     <div id="msnTextView" style="width: 100%; display: flex; flex-direction: column; gap: 15px;">
-      <h3 style="color: var(--accent); margin: 0; font-size: 1.4rem; text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 8px;">${msn.name}</h3>
+      <div style="border-bottom: 2px solid var(--border-color); padding-bottom: 8px;">
+        <h3 style="color: var(--accent); margin: 0; font-size: 1.4rem; text-transform: uppercase;">${msn.name}</h3>
+        ${msn.type ? `<div style="color: var(--text-muted); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;">${msn.type}</div>` : ""}
+      </div>
+      
       <div style="font-style: italic; color: var(--text-muted); font-size: 0.95rem;">${msn.desc}</div>
       
       ${msn.setup ? `<div><strong style="color: var(--text-main);">Setup:</strong><br><span style="color: var(--text-muted); font-size: 0.9rem;">${msn.setup}</span></div>` : ""}
