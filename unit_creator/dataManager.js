@@ -19,7 +19,7 @@ class DataManager {
 
     try {
       // Fetching from the root directory relative to /unit_creator/
-      const response = await fetch("../data.json");
+      const response = await fetch("data.json");
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
