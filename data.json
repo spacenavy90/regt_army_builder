@@ -1549,66 +1549,42 @@
             {
                 "id": "msn_agg_frontline",
                 "name": "Frontline Clash",
-                "desc": "A head-on collision where seizing the center is the only path to victory.",
-                "setup": "Place objectives and deploy units as shown. Red deploys all units first.",
-                "scoring": "At every Status Check, gain 1 Victory Point for each controlled Objective Point. Control is determined by the most non-Shaken bases within the 2\" radius. If base counts are equal, the point is Contested.",
-                "victory": "The player with the most Victory Points after Round 6 wins. Ties are awarded to the player with the most remaining Tactical Points, then the most Army Points destroyed.",
-                "special_rules": "In Round 1, Blue may reroll one failed Command Roll. Any unit using a Charge action into an Objective's radius adds +1 to its Hits Dealt total for that combat.",
-                "tts_card_front": "https://i.imgur.com/wwFpo33.jpeg"
-            },
-            {
-                "id": "msn_agg_ambush",
-                "name": "Ambush",
-                "desc": "Push forward into the enemy deployment zone.",
-                "setup": "",
-                "scoring": "",
+                "type": "Aggressive",
+                "desc": "A pitched battle where two forces meet in open combat to seize a vital line of control.",
+                "setup": "Place 3 objective points (on the centerline) as shown on the deployment map. Red player deploys all units first.",
+                "scoring": "During each End Phase, players score 1 victory point for each objective point they control.",
                 "victory": "",
-                "special_rules": "",
-                "tts_card_front": "https://i.imgur.com/EuOEeWv.png"
+                "special_rules": "The center objective point grants +1 tactical point to the player controlling it during the End Phase.",
+                "deployment_map": "",
+                "tts_card_front": ""
             }
         ],
         "defensive": [
             {
                 "id": "msn_def_trench",
                 "name": "Trench Warfare",
-                "desc": "Maintain control of your home objectives.",
-                "setup": "",
-                "scoring": "",
+                "type": "Defensive",
+                "desc": "A grueling war of attrition where survival is as difficult as the assault itself.",
+                "setup": "Place 6 objective points (three 6\" behind each player's deployment line) as shown on the deployment map. Red player deploys all units first.",
+                "scoring": "Starting at the beginning of Round 3, players score 1 victory point for each objective point they control during the End Phase.",
                 "victory": "",
                 "special_rules": "",
-                "tts_card_front": "https://i.imgur.com/EuOEeWv.png"
-            },
-            {
-                "id": "msn_def_prepared",
-                "name": "Prepared Defenses",
-                "desc": "Maintain control of your home objectives.",
-                "setup": "",
-                "scoring": "",
-                "victory": "",
-                "special_rules": "",
-                "tts_card_front": "https://i.imgur.com/EuOEeWv.png"
+                "deployment_map": "",
+                "tts_card_front": ""
             }
         ],
         "maneuver": [
             {
                 "id": "msn_man_meeting",
                 "name": "Meeting Engagement",
-                "desc": "An unexpected clash where mobility and rapid response dictate the front line.",
-                "setup": "Place objectives and deploy units as shown. Red deploys all units first.",
-                "scoring": "At every Status Check, gain 1 Victory Point for each controlled Objective Point. Control is determined by the most non-Shaken bases within the 2\" radius. If base counts are equal, the point is Contested.",
-                "victory": "The player with the most Victory Points after Round 6 wins. Ties are awarded to the player who destroyed the most Army Points, then the player with the most remaining Tactical Points.",
-                "special_rules": "During Round 1, Blue units gain +2\" to their Move Speed. Any non-Shaken unit within an Objective's 2\" radius may spend 1 AP (Special Action) to gain an Overwatch token, even if they have already moved.",
-                "tts_card_front": ""
-            },
-            {
-                "id": "msn_man_breakthrough",
-                "name": "Breakthrough",
-                "desc": "Secure the table edges by round 3.",
-                "setup": "",
-                "scoring": "",
+                "type": "Maneuver",
+                "desc": "An accidental encounter where two forces must scramble to secure a foothold before the enemy can consolidate.",
+                "setup": "Place 3 objective points on the diagonal line as shown on the deployment map. Players alternate deploying units one at a time, starting with the Red player.",
+                "scoring": "During each End Phase, players score 1 victory point for each objective point they control. If a player controls the objective point closest to the enemy's deployment zone, they score 2 victory points instead of 1.",
                 "victory": "",
-                "special_rules": "",
-                "tts_card_front": "https://i.imgur.com/EuOEeWv.png"
+                "special_rules": "During Round 1, all units increase their Move speed by 2\" but suffer a +1 to-hit penalty to all ranged attacks.",
+                "deployment_map": "",
+                "tts_card_front": ""
             }
         ]
     }

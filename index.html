@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Regiment | Army Builder</title>
     <link rel="icon" type="image/svg+xml" href="icons/favicon.svg" />
-    <link rel="stylesheet" href="army_builder/armybuilder_style.css?v=1.04" />
+    <link rel="stylesheet" href="army_builder/armybuilder_style.css?v=1.05" />
   </head>
   <body>
     <header class="top-nav">
@@ -22,33 +22,9 @@
         <span id="brandFallback" style="display: none; font-weight: bold">REGIMENT</span>
       </div>
 
-      <div class="global-controls" id="builderControls" style="display: none">
-        <div class="control-group">
-          <label for="armyCap">Points Cap</label>
-          <input type="number" id="armyCap" value="1000" step="5" />
-        </div>
-        <div class="control-group">
-          <label for="factionSelect">Faction</label>
-          <select id="factionSelect"></select>
-        </div>
-        <div class="control-group">
-          <label for="sortSelect">Unit Sort</label>
-          <select id="sortSelect">
-            <option value="default">Default</option>
-            <option value="alpha">A-Z</option>
-            <option value="cost-high">Cost: High-Low</option>
-          </select>
-        </div>
-        <div class="control-group toggle">
-          <label><input type="checkbox" id="overrideToggle" /> Override Limits</label>
-        </div>
-      </div>
-
       <div class="nav-links">
         <button id="btnKeywords" class="nav-btn">Keyword Reference</button>
-
         <a href="unit_creator/unitCreator.html" class="nav-btn architect-btn">Unit Architect</a>
-
         <a href="https://github.com/spacenavy90/regt_army_builder" target="_blank" class="nav-btn">GitHub</a>
         <a href="https://www.paypal.com/donate/?hosted_button_id=2YP5AY9JT7T5J" target="_blank" class="nav-btn donate-btn">Donate</a>
       </div>
@@ -73,6 +49,28 @@
     </div>
 
     <div id="builderView" class="app-container" style="display: none">
+      <div class="builder-controls-bar" id="builderControls">
+        <div class="control-group">
+          <label for="armyCap">Points Cap</label>
+          <input type="number" id="armyCap" value="1000" step="5" />
+        </div>
+        <div class="control-group">
+          <label for="factionSelect">Faction</label>
+          <select id="factionSelect"></select>
+        </div>
+        <div class="control-group">
+          <label for="sortSelect">Unit Sort</label>
+          <select id="sortSelect">
+            <option value="default">Default</option>
+            <option value="alpha">A-Z</option>
+            <option value="cost-high">Cost: High-Low</option>
+          </select>
+        </div>
+        <div class="control-group toggle override-group">
+          <label class="override-label"><input type="checkbox" id="overrideToggle" /> Override Limits</label>
+        </div>
+      </div>
+
       <main class="roster-panel">
         <h2 id="rosterTitle" class="panel-title">Unit Roster</h2>
         <div id="unitList" class="roster-list"></div>
@@ -154,17 +152,7 @@
         </div>
         <div class="modal-split-body">
           <div id="missionModalList" class="modal-list-side"></div>
-
-          <div class="modal-preview-side">
-            <img id="missionPreviewImage" src="" alt="Mission Card Preview" class="mission-card-img" style="display: none" />
-            <div id="missionPreviewPlaceholder" class="mission-card-placeholder">
-              <div class="placeholder-content">
-                <span class="placeholder-icon">🎴</span>
-                <h3 id="placeholderTitle">Mission Preview</h3>
-                <p id="placeholderText">Select a mission or click the 👁️ icon to view the deployment map and objective details.</p>
-              </div>
-            </div>
-          </div>
+          <div class="modal-preview-side" id="missionPreviewContainer"></div>
         </div>
       </div>
     </div>

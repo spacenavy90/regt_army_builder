@@ -800,7 +800,6 @@ function openMissionModal(category) {
 
   if (!REGIMENT_DATA || !REGIMENT_DATA.missions || !REGIMENT_DATA.missions[category]) return;
 
-  // Track currently selected mission for the initial preview
   let selectedMissionData = null;
 
   list.innerHTML += `
@@ -821,13 +820,21 @@ function openMissionModal(category) {
               </div>
               <div class="row-controls">
                   <button class="btn-step btn-preview-eye" title="Preview Card" 
-                          onclick="event.stopPropagation(); previewMissionCard('${msn.tts_card_front || ""}', '${msn.id}')">
+                          onclick="event.stopPropagation(); previewMissionCard('${category}', '${msn.id}')">
                       👁️
                   </button>
               </div>
           </div>
       `;
   });
+
+  if (selectedMissionData) {
+    previewMissionCard(category, selectedMissionData.id);
+  } else {
+    previewMissionCard(null, null); // Show placeholder
+  }
+
+  modal.classList.add("active");
 
   // Load the initial preview of the currently selected mission
   if (selectedMissionData) {
@@ -839,55 +846,107 @@ function openMissionModal(category) {
   modal.classList.add("active");
 }
 
-function previewMissionCard(remoteUrl, missionId) {
-  const imgEl = document.getElementById("missionPreviewImage");
-  const placeholder = document.getElementById("missionPreviewPlaceholder");
-  const pTitle = document.getElementById("placeholderTitle");
-  const pText = document.getElementById("placeholderText");
+function previewMissionCard(category, missionId) {
+  const container = document.getElementById("missionPreviewContainer");
 
-  // If no missionId is passed, show the "Welcome" instruction state
-  if (!missionId) {
-    imgEl.style.display = "none";
-    placeholder.style.display = "flex";
-    pTitle.textContent = "Mission Preview";
-    pText.textContent = "Select a mission or click the 👁️ icon to view the deployment map and objective details.";
+  if (!missionId || !category) {
+    container.innerHTML = `
+      <div class="mission-card-placeholder" style="flex: 1;">
+        <div class="placeholder-content">
+          <span class="placeholder-icon">🎴</span>
+          <h3>Mission Preview</h3>
+          <p>Select a mission or click the 👁️ icon to view the details and deployment map.</p>
+        </div>
+      </div>
+    `;
     return;
   }
 
-  const localPath = `cards/${missionId}.png`;
-  imgEl.onerror = null;
-  imgEl.removeAttribute("referrerpolicy");
+  const msn = REGIMENT_DATA.missions[category].find((m) => m.id === missionId);
+  if (!msn) return;
 
-  // Start attempt to load local
-  imgEl.src = localPath;
-  imgEl.style.display = "block";
-  placeholder.style.display = "none";
+  const remoteCardUrl = msn.tts_card_front || "";
+  const remoteMapUrl = msn.deployment_map || "";
+
+  const localCardPath = `cards/mission/${missionId}.webp`;
+  const localMapPath = `cards/map/${missionId}.webp`;
+
+  // 1. Build the Text View (Default)
+  const textViewHtml = `
+    <div id="msnTextView" style="width: 100%; display: flex; flex-direction: column; gap: 15px;">
+      <h3 style="color: var(--accent); margin: 0; font-size: 1.4rem; text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 8px;">${msn.name}</h3>
+      <div style="font-style: italic; color: var(--text-muted); font-size: 0.95rem;">${msn.desc}</div>
+      
+      ${msn.setup ? `<div><strong style="color: var(--text-main);">Setup:</strong><br><span style="color: var(--text-muted); font-size: 0.9rem;">${msn.setup}</span></div>` : ""}
+      ${msn.scoring ? `<div><strong style="color: var(--text-main);">Scoring:</strong><br><span style="color: var(--text-muted); font-size: 0.9rem;">${msn.scoring}</span></div>` : ""}
+      ${msn.victory ? `<div><strong style="color: var(--text-main);">Victory:</strong><br><span style="color: var(--text-muted); font-size: 0.9rem;">${msn.victory}</span></div>` : ""}
+      ${msn.special_rules ? `<div><strong style="color: var(--text-main);">Special Rules:</strong><br><span style="color: var(--text-muted); font-size: 0.9rem;">${msn.special_rules}</span></div>` : ""}
+      
+      <img src="${localMapPath}" 
+           class="deployment-map-img" 
+           alt="Deployment Map" 
+           onerror="this.onerror=null; this.referrerPolicy='no-referrer'; this.src='${remoteMapUrl}'; this.onerror=function(){this.style.display='none';};">
+    </div>
+  `;
+
+  // 2. Build the Card View (Hidden by default)
+  const cardViewHtml = `
+    <div id="msnCardView" style="display: none; width: 100%; flex-direction: column; align-items: center;">
+      <img id="dynamicCardImg" src="${localCardPath}" class="mission-card-img" style="display: block;" alt="Mission Card">
+      <div id="dynamicCardPlaceholder" class="mission-card-placeholder" style="display: none;">
+        <div class="placeholder-content">
+          <span class="placeholder-icon">🎴</span>
+          <h3>Image Not Found</h3>
+          <p>Could not load card preview for ${missionId}.</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = `
+    <div class="mission-preview-header">
+      <button class="btn-toggle-view" id="btnToggleMissionView" onclick="toggleMissionView()">Switch to Card View</button>
+    </div>
+    ${textViewHtml}
+    ${cardViewHtml}
+  `;
+
+  // 3. Handle Failover for the Card View Image
+  const imgEl = document.getElementById("dynamicCardImg");
+  const placeholder = document.getElementById("dynamicCardPlaceholder");
 
   imgEl.onerror = () => {
-    if (remoteUrl && remoteUrl.trim() !== "") {
+    if (remoteCardUrl.trim() !== "") {
       imgEl.referrerPolicy = "no-referrer";
-
       imgEl.onerror = () => {
-        // ACTUAL ERROR STATE: Both sources failed
         imgEl.style.display = "none";
         placeholder.style.display = "flex";
-        pTitle.textContent = "Image Not Found";
-        pText.textContent = `Could not load preview for ${missionId}.`;
       };
-
-      imgEl.src = remoteUrl;
+      imgEl.src = remoteCardUrl;
     } else {
-      // NO REMOTE URL: Local failed and nothing else to try
       imgEl.style.display = "none";
       placeholder.style.display = "flex";
-      pTitle.textContent = "No Image Available";
-      pText.textContent = "This mission does not have a preview card assigned yet.";
+      placeholder.querySelector("h3").textContent = "No Image Available";
+      placeholder.querySelector("p").textContent = "This mission does not have a preview card assigned yet.";
     }
   };
+}
 
-  // Ensure the image element is visible while attempting to load sources
-  imgEl.style.display = "block";
-  placeholder.style.display = "none";
+// Global Toggle Function for the Button
+function toggleMissionView() {
+  const btn = document.getElementById("btnToggleMissionView");
+  const textView = document.getElementById("msnTextView");
+  const cardView = document.getElementById("msnCardView");
+
+  if (textView.style.display === "none") {
+    textView.style.display = "flex";
+    cardView.style.display = "none";
+    btn.textContent = "Switch to Card View";
+  } else {
+    textView.style.display = "none";
+    cardView.style.display = "flex";
+    btn.textContent = "Switch to Text View";
+  }
 }
 
 function closeMissionModal() {
