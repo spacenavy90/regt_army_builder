@@ -469,6 +469,158 @@ class LeaderArchitect {
     this.update();
   }
 
+  async exportImage(mimeType) {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = 750;
+    canvas.height = 1050;
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#f4f5f6";
+    ctx.fillRect(12, 175, 726, 735);
+
+    ctx.strokeStyle = "#111111";
+    ctx.lineWidth = 12;
+    ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
+
+    const name = document.getElementById("ldrName").value || "Unnamed Leader";
+    const factionSelect = document.getElementById("ldrFaction");
+    const factionPrefix = factionSelect.value;
+    const factionName = factionSelect.options[factionSelect.selectedIndex].text;
+    const cost = document.getElementById("ldrPointBadge").innerText.replace(" PTS", "");
+    const restrictions = document.getElementById("ldrRestrText").value;
+    const abilityText = document.getElementById("ldrAbility").value;
+
+    ctx.fillStyle = "#111111";
+    let titleFontSize = 44;
+    ctx.font = `bold ${titleFontSize}px sans-serif`;
+
+    const maxTitleWidth = 550;
+    const titleText = name.toUpperCase();
+
+    while (ctx.measureText(titleText).width > maxTitleWidth && titleFontSize > 18) {
+      titleFontSize -= 2;
+      ctx.font = `bold ${titleFontSize}px sans-serif`;
+    }
+
+    ctx.fillText(titleText, 40, 75);
+
+    ctx.font = "italic 24px sans-serif";
+    ctx.fillStyle = "#444444";
+    ctx.fillText(factionName, 40, 115);
+
+    const validFactions = ["emp", "reb", "rep", "sep"];
+    if (validFactions.includes(factionPrefix)) {
+      await new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          ctx.drawImage(img, 615, 45, 90, 90);
+          resolve();
+        };
+        img.onerror = () => {
+          console.warn(`Could not load faction icon: icons/${factionPrefix}_all.svg`);
+          resolve();
+        };
+        img.src = `icons/${factionPrefix}_all.svg`;
+      });
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(30, 175);
+    ctx.lineTo(720, 175);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "#cccccc";
+    ctx.stroke();
+
+    ctx.font = "28px sans-serif";
+    const maxWidth = 650;
+    const lineHeight = 40;
+
+    const restrLines = this.getLines(ctx, restrictions, maxWidth);
+    const abilityLines = this.getLines(ctx, abilityText, maxWidth);
+
+    const totalLines = 1 + restrLines.length + 1 + abilityLines.length;
+    const totalTextHeight = totalLines * lineHeight;
+
+    let currentY = 175 + (735 - totalTextHeight) / 2 + lineHeight / 2;
+
+    ctx.font = "bold 28px sans-serif";
+    ctx.fillStyle = "#111111";
+    ctx.fillText("Restrictions:", 50, currentY);
+    currentY += lineHeight;
+
+    ctx.font = "28px sans-serif";
+    restrLines.forEach((line) => {
+      ctx.fillText(line, 50, currentY);
+      currentY += lineHeight;
+    });
+
+    currentY += lineHeight;
+
+    abilityLines.forEach((line) => {
+      ctx.fillText(line, 50, currentY);
+      currentY += lineHeight;
+    });
+
+    ctx.beginPath();
+    ctx.moveTo(30, 910);
+    ctx.lineTo(720, 910);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "#cccccc";
+    ctx.stroke();
+
+    ctx.fillStyle = "#111111";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "alphabetic";
+    ctx.font = "bold 26px sans-serif";
+    ctx.fillText("ARMY LEADER", 40, 980);
+
+    ctx.textAlign = "right";
+    ctx.font = "bold 36px sans-serif";
+    ctx.fillText(`${cost} PTS`, 710, 980);
+
+    const ext = mimeType.split("/")[1].replace("jpeg", "jpg");
+    const fileName = `${name.toLowerCase().replace(/ /g, "_")}_leader_card.${ext}`;
+
+    const link = document.createElement("a");
+    link.download = fileName;
+    link.href = canvas.toDataURL(mimeType, 0.95);
+    link.click();
+  }
+
+  getLines(ctx, text, maxWidth) {
+    if (!text) return [];
+
+    const paragraphs = text.split("\n");
+    const allLines = [];
+
+    for (let p = 0; p < paragraphs.length; p++) {
+      const words = paragraphs[p].split(" ");
+      let line = "";
+
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + " ";
+        const metrics = ctx.measureText(testLine);
+
+        if (metrics.width > maxWidth && n > 0) {
+          allLines.push(line.trim());
+          line = words[n] + " ";
+        } else {
+          line = testLine;
+        }
+      }
+      allLines.push(line.trim());
+
+      if (p < paragraphs.length - 1) {
+        allLines.push("");
+      }
+    }
+    return allLines;
+  }
+
   copyJSON() {
     this.viewMode = "json";
     this.update();

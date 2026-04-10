@@ -10,7 +10,7 @@
     <header class="top-nav">
       <div
         class="brand"
-        onclick="window.location.href = 'index.html'"
+        onclick="window.location.href = 'armyBuilder.html'"
         style="cursor: pointer; display: flex; align-items: center"
         title="Return to Army Builder"
       >
@@ -28,7 +28,7 @@
 
       <div class="nav-links">
         <button id="btnKeywords" class="nav-btn" onclick="toggleKeywordModal()">Keyword Reference</button>
-        <a href="index.html" class="nav-btn builder-btn">Army Builder</a>
+        <a href="armyBuilder.html" class="nav-btn builder-btn">Army Builder</a>
         <a href="missionMaker.html" class="nav-btn architect-btn">Mission Architect</a>
         <a href="https://github.com/spacenavy90/regt_army_builder" target="_blank" class="nav-btn">GitHub</a>
         <a href="https://www.paypal.com/donate/?hosted_button_id=2YP5AY9JT7T5J" target="_blank" class="nav-btn donate-btn">Donate</a>
@@ -472,6 +472,36 @@ Enter rule text here...</textarea
                 <button onclick="otsArchitect.preview()" class="btn-tool btn-slate">PREVIEW JSON</button>
                 <button onclick="otsArchitect.openLibrary()" class="btn-tool btn-blue">SUPPORT LIBRARY</button>
                 <button onclick="otsArchitect.copyJSON()" class="btn-tool btn-orange">COPY JSON</button>
+
+                <div class="export-dropdown">
+                  <button class="btn-tool btn-slate" style="cursor: pointer">EXPORT CARD ▼</button>
+                  <div class="export-dropdown-content">
+                    <a
+                      href="#"
+                      onclick="
+                        otsArchitect.exportImage('image/webp');
+                        return false;
+                      "
+                      >Save as WebP</a
+                    >
+                    <a
+                      href="#"
+                      onclick="
+                        otsArchitect.exportImage('image/png');
+                        return false;
+                      "
+                      >Save as PNG</a
+                    >
+                    <a
+                      href="#"
+                      onclick="
+                        otsArchitect.exportImage('image/jpeg');
+                        return false;
+                      "
+                      >Save as JPG</a
+                    >
+                  </div>
+                </div>
               </div>
               <button onclick="otsArchitect.reset()" class="btn-main btn-red">RESET SUPPORT</button>
             </div>
@@ -613,6 +643,36 @@ Enter rule text here...</textarea
                 <button onclick="leaderArchitect.preview()" class="btn-tool btn-slate">PREVIEW JSON</button>
                 <button onclick="leaderArchitect.openLibrary()" class="btn-tool btn-blue">LEADER LIBRARY</button>
                 <button onclick="leaderArchitect.copyJSON()" class="btn-tool btn-orange">COPY JSON</button>
+
+                <div class="export-dropdown">
+                  <button class="btn-tool btn-slate" style="cursor: pointer">EXPORT CARD ▼</button>
+                  <div class="export-dropdown-content">
+                    <a
+                      href="#"
+                      onclick="
+                        leaderArchitect.exportImage('image/webp');
+                        return false;
+                      "
+                      >Save as WebP</a
+                    >
+                    <a
+                      href="#"
+                      onclick="
+                        leaderArchitect.exportImage('image/png');
+                        return false;
+                      "
+                      >Save as PNG</a
+                    >
+                    <a
+                      href="#"
+                      onclick="
+                        leaderArchitect.exportImage('image/jpeg');
+                        return false;
+                      "
+                      >Save as JPG</a
+                    >
+                  </div>
+                </div>
               </div>
               <button onclick="leaderArchitect.clearLeader()" class="btn-main btn-red">CLEAR LEADER</button>
             </div>

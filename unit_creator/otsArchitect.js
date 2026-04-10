@@ -464,6 +464,182 @@ class OTSArchitect {
     this.update();
   }
 
+  exportImage(mimeType) {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    // Standard Poker Card dimensions
+    canvas.width = 750;
+    canvas.height = 1050;
+
+    // 1. Draw Base Card Background (White)
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 2. Draw Subtle Gray Background for the Main Text Area
+    // Fits right below the header divider and stops above the footer
+    ctx.fillStyle = "#f4f5f6";
+    ctx.fillRect(12, 175, 726, 735);
+
+    // 3. Draw Outer Border
+    ctx.strokeStyle = "#111111";
+    ctx.lineWidth = 12;
+    ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
+
+    // Fetch current data from the UI state
+    const name = document.getElementById("otsName").value || "Unnamed Support";
+    const category = document.getElementById("otsCategory").value;
+    const cost = document.getElementById("otsPointBadge").innerText.replace(" PTS", "");
+    const avail = document.getElementById("otsAvail").value;
+    const shape = document.getElementById("otsShape").value;
+    const abilityText = document.getElementById("otsAbility").value;
+
+    const activeKws = Array.from(document.querySelectorAll(".ots-kw-checkbox:checked")).map((cb) => cb.value);
+    const keywordsStr = activeKws.length > 0 ? activeKws.join(", ") : "None";
+
+    // --- HEADER SECTION ---
+
+    // Name
+    ctx.fillStyle = "#111111";
+    let titleFontSize = 44;
+    ctx.font = `bold ${titleFontSize}px sans-serif`;
+
+    const maxTitleWidth = 550; // Leaves a buffer between text and the circle
+    const titleText = name.toUpperCase();
+
+    // Iteratively reduce font size until the text fits or hits a minimum size
+    while (ctx.measureText(titleText).width > maxTitleWidth && titleFontSize > 18) {
+      titleFontSize -= 2;
+      ctx.font = `bold ${titleFontSize}px sans-serif`;
+    }
+
+    ctx.fillText(titleText, 40, 75);
+
+    // Category (No prefix)
+    ctx.font = "italic 24px sans-serif";
+    ctx.fillStyle = "#444444";
+    ctx.fillText(category, 40, 115);
+
+    // Target Shape (No prefix)
+    ctx.fillText(shape, 40, 150);
+
+    // Availability Badge (Top Right Circle - Dark Slate)
+    ctx.fillStyle = "#334155";
+    ctx.beginPath();
+    ctx.arc(660, 90, 45, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.strokeStyle = "#111111";
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 34px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(avail, 660, 92);
+
+    // Reset alignment
+    ctx.textAlign = "left";
+    ctx.textBaseline = "alphabetic";
+
+    // Header Divider Line
+    ctx.beginPath();
+    ctx.moveTo(30, 175);
+    ctx.lineTo(720, 175);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "#cccccc";
+    ctx.stroke();
+
+    // --- MIDDLE SECTION (VERTICALLY CENTERED ABILITY TEXT) ---
+
+    ctx.font = "28px sans-serif"; // Increased font size
+    ctx.fillStyle = "#111111";
+    const lineHeight = 40;
+    const maxWidth = 650;
+
+    // Break text into lines
+    const textLines = this.getLines(ctx, abilityText, maxWidth);
+
+    // Calculate vertical centering
+    const totalTextHeight = textLines.length * lineHeight;
+    const middleSectionTop = 175;
+    const middleSectionBottom = 910;
+    const availableHeight = middleSectionBottom - middleSectionTop;
+
+    // Starting Y coordinate to perfectly center the block of text
+    let currentY = middleSectionTop + (availableHeight - totalTextHeight) / 2 + lineHeight / 2;
+
+    // Draw the wrapped lines
+    textLines.forEach((line) => {
+      ctx.fillText(line, 50, currentY);
+      currentY += lineHeight;
+    });
+
+    // --- FOOTER SECTION ---
+
+    // Footer Divider Line
+    ctx.beginPath();
+    ctx.moveTo(30, 910);
+    ctx.lineTo(720, 910);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "#cccccc";
+    ctx.stroke();
+
+    // Keywords (Pinned to bottom left)
+    ctx.fillStyle = "#111111";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "alphabetic";
+    ctx.font = "bold 26px sans-serif";
+    ctx.fillText(`Keywords: ${keywordsStr}`, 40, 980);
+
+    // Points Text (Pinned to bottom right)
+    ctx.fillStyle = "#111111";
+    ctx.textAlign = "right";
+    ctx.font = "bold 36px sans-serif";
+    ctx.fillText(`${cost} pts`, 710, 980);
+
+    // Execute Download
+    const ext = mimeType.split("/")[1].replace("jpeg", "jpg");
+    const fileName = `${name.toLowerCase().replace(/ /g, "_")}_card.${ext}`;
+
+    const link = document.createElement("a");
+    link.download = fileName;
+    link.href = canvas.toDataURL(mimeType, 0.95);
+    link.click();
+  }
+
+  // Helper method to measure and break text into an array of lines
+  getLines(ctx, text, maxWidth) {
+    if (!text) return [];
+
+    const paragraphs = text.split("\n");
+    const allLines = [];
+
+    for (let p = 0; p < paragraphs.length; p++) {
+      const words = paragraphs[p].split(" ");
+      let line = "";
+
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + " ";
+        const metrics = ctx.measureText(testLine);
+
+        if (metrics.width > maxWidth && n > 0) {
+          allLines.push(line.trim());
+          line = words[n] + " ";
+        } else {
+          line = testLine;
+        }
+      }
+      allLines.push(line.trim());
+
+      // Add an empty line to simulate paragraph breaks if there are multiple paragraphs
+      if (p < paragraphs.length - 1) {
+        allLines.push("");
+      }
+    }
+    return allLines;
+  }
+
   copyJSON() {
     this.viewMode = "json";
     this.update();

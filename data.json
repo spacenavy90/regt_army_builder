@@ -1557,7 +1557,7 @@
                 "special_rules": "The center objective point grants +1 tactical point to the player controlling it during the End Phase.",
                 "map_code": "eyJib2FyZCI6IjZ4NCIsIm1hcCI6W1siIzVjN2NmYSIsIiM1YzdjZmEiLG51bGwsbnVsbCxudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIl0sWyIjNWM3Y2ZhIiwiIzVjN2NmYSIsbnVsbCxudWxsLG51bGwsbnVsbCwiI2ZmNmI2YiIsIiNmZjZiNmIiXSxbIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsbnVsbCxudWxsLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLG51bGwsbnVsbCxudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIl0sWyIjNWM3Y2ZhIiwiIzVjN2NmYSIsbnVsbCxudWxsLG51bGwsbnVsbCwiI2ZmNmI2YiIsIiNmZjZiNmIiXSxbIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsbnVsbCxudWxsLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLG51bGwsbnVsbCxudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIl0sWyIjNWM3Y2ZhIiwiIzVjN2NmYSIsbnVsbCxudWxsLG51bGwsbnVsbCwiI2ZmNmI2YiIsIiNmZjZiNmIiXSxbIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsbnVsbCxudWxsLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLG51bGwsbnVsbCxudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIl0sWyIjNWM3Y2ZhIiwiIzVjN2NmYSIsbnVsbCxudWxsLG51bGwsbnVsbCwiI2ZmNmI2YiIsIiNmZjZiNmIiXSxbIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsbnVsbCxudWxsLCIjZmY2YjZiIiwiI2ZmNmI2YiJdXSwidG9rZW5zIjpbeyJ4Ijo0ODAsInkiOjMyMH0seyJ4Ijo4MDAsInkiOjMyMH0seyJ4IjoxNjAsInkiOjMyMH1dfQ==",
                 "deployment_map": "",
-                "tts_card_front": ""
+                "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/mission/msn_agg_frontline_card.webp"
             },
             {
                 "id": "msn_agg_ambush",
@@ -1570,7 +1570,7 @@
                 "special_rules": "During Round 1, all Red player units suffer a -1 penalty to their Command rolls.",
                 "map_code": "eyJib2FyZCI6IjZ4NCIsIm1hcCI6W1siIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiXSxbIiM1YzdjZmEiLCIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIl0sW251bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbF0sW251bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbF0sWyIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiXSxbIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIl0sWyIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFtudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGxdLFtudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGxdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiXSxbIiM1YzdjZmEiLCIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIl1dLCJ0b2tlbnMiOlt7IngiOjQ4MCwieSI6ODB9LHsieCI6NDgwLCJ5IjozMjB9LHsieCI6NDgwLCJ5Ijo1NjB9XX0=",
                 "deployment_map": "",
-                "tts_card_front": ""
+                "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/mission/msn_agg_ambush_card.webp"
             }
         ],
         "defensive": [
@@ -1585,7 +1585,7 @@
                 "special_rules": "",
                 "map_code": "eyJib2FyZCI6IjZ4NCIsIm1hcCI6W1siIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdXSwidG9rZW5zIjpbeyJ4IjoxNjAsInkiOjE2MH0seyJ4Ijo0ODAsInkiOjE2MH0seyJ4Ijo4MDAsInkiOjE2MH0seyJ4Ijo4MDAsInkiOjQ4MH0seyJ4Ijo0ODAsInkiOjQ4MH0seyJ4IjoxNjAsInkiOjQ4MH1dfQ==",
                 "deployment_map": "",
-                "tts_card_front": ""
+                "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/mission/msn_def_trench_card.webp"
             },
             {
                 "id": "msn_def_prepared",
@@ -1598,7 +1598,7 @@
                 "special_rules": "All Blue player infantry units gain a Dug-In token after being deployed.",
                 "map_code": "eyJib2FyZCI6IjZ4NCIsIm1hcCI6W1siIzVjN2NmYSIsIiM1YzdjZmEiLG51bGwsbnVsbCwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLG51bGwsbnVsbCwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLG51bGwsbnVsbCxudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIl0sWyIjNWM3Y2ZhIiwiIzVjN2NmYSIsbnVsbCxudWxsLG51bGwsbnVsbCwiI2ZmNmI2YiIsIiNmZjZiNmIiXSxbIiM1YzdjZmEiLCIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiLG51bGwsbnVsbCxudWxsLG51bGxdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIiwiIzVjN2NmYSIsbnVsbCxudWxsLG51bGwsbnVsbF0sWyIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsbnVsbCxudWxsXSxbIiM1YzdjZmEiLCIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiLG51bGwsbnVsbCxudWxsLG51bGxdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLG51bGwsbnVsbCxudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIl0sWyIjNWM3Y2ZhIiwiIzVjN2NmYSIsbnVsbCxudWxsLG51bGwsbnVsbCwiI2ZmNmI2YiIsIiNmZjZiNmIiXSxbIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiXSxbIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiXV0sInRva2VucyI6W3sieCI6NDgwLCJ5IjozMjB9LHsieCI6ODAwLCJ5IjoxNjB9LHsieCI6MTYwLCJ5IjoxNjB9XX0=",
                 "deployment_map": "",
-                "tts_card_front": ""
+                "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/mission/msn_def_prepared_card.webp"
             }
         ],
         "maneuver": [
@@ -1613,7 +1613,7 @@
                 "special_rules": "During Round 1, all units increase their Move speed by 2\" but suffer a +1 to-hit penalty to all ranged attacks.",
                 "map_code": "eyJib2FyZCI6IjZ4NCIsIm1hcCI6W1tudWxsLG51bGwsbnVsbCxudWxsLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIl0sW251bGwsbnVsbCxudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiXSxbbnVsbCxudWxsLG51bGwsbnVsbCwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdLFtudWxsLG51bGwsbnVsbCxudWxsLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIl0sW251bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbF0sW251bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbF0sW251bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbF0sW251bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbF0sWyIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsbnVsbCxudWxsXSxbIiM1YzdjZmEiLCIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiLG51bGwsbnVsbCxudWxsLG51bGxdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIiwiIzVjN2NmYSIsbnVsbCxudWxsLG51bGwsbnVsbF0sWyIjNWM3Y2ZhIiwiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsbnVsbCxudWxsXV0sInRva2VucyI6W3sieCI6MzIwLCJ5IjoxNjB9LHsieCI6NDgwLCJ5IjozMjB9LHsieCI6NjQwLCJ5Ijo0ODB9XX0=",
                 "deployment_map": "",
-                "tts_card_front": ""
+                "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/mission/msn_man_meeting_card.webp"
             },
             {
                 "id": "msn_man_breakthrough",
@@ -1626,7 +1626,7 @@
                 "special_rules": "The furthest middle objective point grants +1 tactical point to the player controlling it during the End Phase.",
                 "map_code": "eyJib2FyZCI6IjZ4NCIsIm1hcCI6W1tudWxsLG51bGwsbnVsbCxudWxsLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIl0sW251bGwsbnVsbCxudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiXSxbIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbF0sWyIjNWM3Y2ZhIiwiIzVjN2NmYSIsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGxdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsbnVsbCxudWxsLG51bGxdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsbnVsbCxudWxsLG51bGxdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsbnVsbCxudWxsLG51bGxdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsbnVsbCxudWxsLG51bGxdLFsiIzVjN2NmYSIsIiM1YzdjZmEiLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsXSxbIiM1YzdjZmEiLCIjNWM3Y2ZhIixudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbF0sW251bGwsbnVsbCxudWxsLG51bGwsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiIsIiNmZjZiNmIiXSxbbnVsbCxudWxsLG51bGwsbnVsbCwiI2ZmNmI2YiIsIiNmZjZiNmIiLCIjZmY2YjZiIiwiI2ZmNmI2YiJdXSwidG9rZW5zIjpbeyJ4Ijo0ODAsInkiOjU2MH0seyJ4IjozMjAsInkiOjQwMH0seyJ4Ijo2NDAsInkiOjQwMH1dfQ==",
                 "deployment_map": "",
-                "tts_card_front": ""
+                "tts_card_front": "https://raw.githubusercontent.com/spacenavy90/regt_army_builder/refs/heads/main/cards/mission/msn_man_breakthrough_card.webp"
             }
         ],
         "scenario": [
