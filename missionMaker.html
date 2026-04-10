@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regiment Mission Architect</title>
+    <link rel="stylesheet" href="mission_maker/style.css?v=1.02" />
+  </head>
+  <body>
+    <div class="header">
+      <a href="index.html">&larr; Return to Main Site</a>
+      <div class="header-actions">
+        <button id="btn-library" style="background: #1a73e8; color: white">📂 Mission Library</button>
+      </div>
+    </div>
+
+    <div id="library-modal">
+      <div class="modal-content" style="width: 800px; max-height: 80vh">
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <h3>Mission Library</h3>
+          <button id="btn-refresh-db" style="background: #4caf50; color: white; border: none; padding: 5px 10px; border-radius: 4px">Refresh Database</button>
+        </div>
+
+        <div class="toolbar-row" style="margin-top: 10px">
+          <input type="text" id="lib-search" placeholder="Search by name or ID..." style="flex: 1" />
+          <select id="lib-filter-type">
+            <option value="All">All Types</option>
+            <option value="Aggressive">Aggressive</option>
+            <option value="Defensive">Defensive</option>
+            <option value="Maneuver">Maneuver</option>
+            <option value="Scenario">Scenario</option>
+          </select>
+        </div>
+
+        <div id="library-list" style="overflow-y: auto; margin-top: 15px; border: 1px solid #ccc; border-radius: 4px; height: 400px; background: #fafafa"></div>
+
+        <div class="modal-actions" style="margin-top: 15px">
+          <button class="btn-close" id="lib-close">Close</button>
+          <button id="lib-load-selected" style="background: #1a73e8; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold">
+            Load Selected Mission
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="left-panel panel">
+        <div class="toolbar-row">
+          <select id="board-size">
+            <option value="6x4">6' x 4' Table</option>
+            <option value="4x4">4' x 4' Table</option>
+          </select>
+          <div class="divider"></div>
+          <select id="brush-size">
+            <option value="large">Brush: 12" Block</option>
+            <option value="small">Brush: 6" Cell</option>
+          </select>
+          <div class="divider"></div>
+          <label style="font-size: 14px; display: flex; align-items: center; gap: 5px"> <input type="checkbox" id="show-scale" checked /> 12" Scale </label>
+          <select id="scale-pos">
+            <option value="tl">Top Left</option>
+            <option value="tr">Top Right</option>
+            <option value="bl">Bottom Left</option>
+            <option value="br">Bottom Right</option>
+          </select>
+          <div class="divider"></div>
+          <select id="bg-theme">
+            <option value="white">White BG</option>
+            <option value="transparent">Transparent BG</option>
+            <option value="black">Black BG</option>
+          </select>
+        </div>
+        <div class="toolbar-row">
+          <button class="tool-btn active" data-tool="blue">
+            <div class="color-dot bg-blue"></div>
+            Blue Zone
+          </button>
+          <button class="tool-btn" data-tool="red">
+            <div class="color-dot bg-red"></div>
+            Red Zone
+          </button>
+          <button class="tool-btn" data-tool="eraser">
+            <div class="color-dot bg-white"></div>
+            Eraser
+          </button>
+          <div class="divider"></div>
+          <button class="tool-btn" data-tool="token">📍 Place Token</button>
+          <div class="divider"></div>
+          <button id="btn-clear" style="background: #ffeeee; color: #c00; border-color: #fcc">Clear Map</button>
+        </div>
+        <canvas id="mapCanvas"></canvas>
+      </div>
+
+      <div class="right-panel panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px">
+          <h3 style="margin: 0">Mission Parameters</h3>
+          <button id="btn-reset" style="background: #ffeeee; color: #c00; border: 1px solid #fcc; padding: 4px 8px; font-size: 12px; border-radius: 4px">
+            Reset Mission
+          </button>
+        </div>
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="msn-name" placeholder="e.g., Frontline Clash" />
+        </div>
+        <div class="form-group">
+          <label>Type</label>
+          <select id="msn-type">
+            <option value="Aggressive">Aggressive</option>
+            <option value="Defensive">Defensive</option>
+            <option value="Maneuver">Maneuver</option>
+            <option value="Scenario">Scenario</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mission ID (Auto-generated)</label>
+          <input type="text" id="msn-id" placeholder="msn_agg_frontline" />
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="msn-desc"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Setup</label>
+          <textarea id="msn-setup"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Scoring</label>
+          <textarea id="msn-scoring"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Victory</label>
+          <textarea id="msn-victory"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Special Rules</label>
+          <textarea id="msn-special"></textarea>
+        </div>
+
+        <div class="export-actions">
+          <div class="form-group" style="grid-column: span 2">
+            <label>Export Format</label>
+            <select id="export-format">
+              <option value="image/webp">WebP</option>
+              <option value="image/png">PNG</option>
+              <option value="image/jpeg">JPG</option>
+            </select>
+          </div>
+          <button id="exp-json">Preview JSON</button>
+          <button id="exp-text">Preview Text</button>
+          <button id="exp-map">Save Map Image</button>
+          <button id="exp-card">Save Mission Card</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="export-modal">
+      <div class="modal-content">
+        <h3 id="modal-title" style="margin: 0">Export Preview</h3>
+        <textarea id="modal-textarea" readonly></textarea>
+        <div class="modal-actions">
+          <button class="btn-close" id="modal-close">Close</button>
+          <button class="btn-copy" id="modal-copy">Copy to Clipboard</button>
+        </div>
+      </div>
+    </div>
+    <script src="mission_maker/script.js"></script>
+  </body>
+</html>
